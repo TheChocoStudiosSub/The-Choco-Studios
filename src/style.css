@@ -57,3 +57,20 @@
 .ecosystem-copy p{color:var(--muted);font-size:12px;line-height:1.8}
 @media(max-width:1000px){.catalog-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:520px){.catalog-grid{grid-template-columns:1fr}.catalog-card{min-height:190px}.ecosystem-copy{width:100%}}
+
+/* Sheeblink profile presentation */
+.ecosystem-heading{margin-bottom:22px}
+.ecosystem-card{position:relative;display:flex;align-items:center;gap:24px;max-width:760px;min-height:166px;padding:24px 62px 24px 24px;border:1px solid var(--border);border-radius:20px;background:linear-gradient(120deg,rgba(255,255,255,.045),rgba(255,255,255,.012));transition:border-color .18s,background .18s}
+.ecosystem-card:hover{border-color:rgba(160,179,255,.36);background:linear-gradient(120deg,rgba(130,165,255,.08),rgba(255,255,255,.015))}
+.ecosystem-card .partner-logo{flex:0 0 auto;width:112px;height:112px;object-fit:contain;border-radius:18px;padding:7px;background:#fff;box-shadow:0 8px 28px rgba(0,0,0,.2)}
+.ecosystem-card-copy h3{margin:0 0 8px;font-size:23px;letter-spacing:-.6px}
+.ecosystem-card-copy p{margin:0;color:var(--muted);font-size:12px;line-height:1.8}
+.ecosystem-card-copy .underlined{margin-top:12px}
+.ecosystem-card-arrow{position:absolute;right:25px;top:50%;transform:translateY(-50%);color:#bac8fa;font-size:20px}
+.sheeblink-hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(260px,.8fr);align-items:center;gap:7%;padding:clamp(54px,7vw,90px) max(28px,calc((100% - 1160px)/2));border-bottom:1px solid var(--border);background:radial-gradient(ellipse at 85% 20%,rgba(120,100,175,.16),transparent 34rem)}
+.sheeblink-hero-copy{max-width:650px}
+.sheeblink-hero h1{margin-top:22px}
+.sheeblink-logo-stage{display:grid;place-items:center;min-height:330px;padding:26px;border:1px solid rgba(192,204,229,.13);border-radius:26px;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015));box-shadow:0 20px 65px rgba(0,0,0,.18)}
+.sheeblink-logo-stage img{display:block;width:min(100%,310px);height:310px;object-fit:contain;border-radius:18px}
+@media(max-width:850px){.ecosystem-card{max-width:none}.sheeblink-hero{grid-template-columns:1fr;gap:28px;padding:60px 8%}.sheeblink-logo-stage{min-height:260px}.sheeblink-logo-stage img{width:min(100%,250px);height:250px}}
+@media(max-width:520px){.ecosystem-card{align-items:flex-start;gap:15px;padding:18px 42px 18px 16px}.ecosystem-card .partner-logo{width:82px;height:82px}.ecosystem-card-copy h3{font-size:19px}.ecosystem-card-arrow{right:15px}.sheeblink-hero{padding:52px 7%}.sheeblink-logo-stage{min-height:220px;padding:18px}.sheeblink-logo-stage img{height:205px}}
