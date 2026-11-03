@@ -27,3 +27,10 @@
 .social-links svg{width:18px;height:18px;fill:currentColor}
 @media(max-width:850px){.ecosystem-heading{align-items:start;flex-direction:column;gap:10px}.partner-grid{grid-template-columns:1fr}.social-links{margin-left:0;order:2}.footer>span{order:3;width:auto}}
 @media(max-width:480px){.choco-card{min-height:320px}.partner-card{padding:16px}.footer{align-items:center}}
+
+/* Footer alignment and non-interactive partner mark */
+.footer{position:relative;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.footer .copyright{position:absolute;left:50%;transform:translateX(-50%);white-space:nowrap;text-align:center}
+.partner-card{cursor:default;transition:none}
+.partner-card:hover{border-color:var(--border);transform:none}
+@media(max-width:850px){.footer{flex-wrap:wrap;justify-content:space-between}.footer .copyright{position:static;transform:none;order:3;width:100%;text-align:center;white-space:normal}.social-links{order:1}.footer>a{order:2}}
