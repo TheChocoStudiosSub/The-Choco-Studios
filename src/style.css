@@ -34,3 +34,7 @@
 .partner-card{cursor:default;transition:none}
 .partner-card:hover{border-color:var(--border);transform:none}
 @media(max-width:850px){.footer{flex-wrap:wrap;justify-content:space-between}.footer .copyright{position:static;transform:none;order:3;width:100%;text-align:center;white-space:normal}.social-links{order:1}.footer>a{order:2}}
+
+/* Partner logos are displayed directly, without cards or captions */
+.partner-grid{display:flex;align-items:center;justify-content:flex-start;gap:28px}
+.partner-logo{display:block;width:min(190px,42vw);height:auto;max-height:150px;object-fit:contain;border:0;border-radius:0;padding:0;background:transparent;box-shadow:none}
