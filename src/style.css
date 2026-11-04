@@ -131,3 +131,5 @@ img{max-width:100%}
 .portfolio-kicker{margin:0 0 14px}
 @media(max-width:850px){.ecosystem-domains{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:480px){.ecosystem-domains{grid-template-columns:1fr}.ecosystem-domains article{padding:16px}.ecosystem-domains article>span{margin-bottom:14px}}
+
+.portfolio-logo-img{display:block;width:62px;height:62px;flex:0 0 62px;object-fit:contain;border:1px solid rgba(151,174,255,.2);border-radius:17px;background:#111827;padding:3px}
