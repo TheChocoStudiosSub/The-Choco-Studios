@@ -10,7 +10,6 @@ nav?.querySelectorAll("a").forEach((link) => link.addEventListener("click", () =
   toggle?.setAttribute("aria-expanded", "false");
 }));
 document.querySelector("#year").textContent = new Date().getFullYear();
-const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const revealTargets = document.querySelectorAll('.hero-content, .hero-side, .hero-bottom, .section, .work-card, .portfolio-card, .principle-list article, .ecosystem-card, .contact-inner');
 if (reduceMotion || !('IntersectionObserver' in window)) {
