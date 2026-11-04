@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 150" role="img" aria-labelledby="title desc">
+<title id="title">TCS LinkGuard emblem</title><desc id="desc">A protective shield bearing TCS, with a massive armored fist on the left and a long katana on the right.</desc>
+<defs>
+ <linearGradient id="steel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f3fbff"/><stop offset=".35" stop-color="#8ba8bc"/><stop offset=".68" stop-color="#d8e6ed"/><stop offset="1" stop-color="#58758b"/></linearGradient>
+ <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff0b0"/><stop offset=".45" stop-color="#d8ad55"/><stop offset="1" stop-color="#8c5d27"/></linearGradient>
+ <linearGradient id="shield" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1e4054"/><stop offset=".5" stop-color="#0d2233"/><stop offset="1" stop-color="#07131f"/></linearGradient>
+ <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ffb39a"/><stop offset=".5" stop-color="#b94c42"/><stop offset="1" stop-color="#60272d"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
+</defs>
+<!-- restrained emblem backplate -->
+<path d="M18 75 L46 45 L103 45 L123 75 L103 105 L46 105 Z" fill="#0a1724" stroke="#35566b" stroke-width="2"/>
+<!-- armored fist, left of shield -->
+<g stroke="#172a37" stroke-width="3" stroke-linejoin="round">
+ <path d="M18 76 L30 61 Q35 54 42 59 L47 48 Q53 42 60 49 L64 44 Q72 42 76 51 L81 49 Q89 51 88 61 L85 83 L76 99 L40 103 L25 92 Z" fill="url(#red)"/>
+ <path d="M30 62 Q38 57 45 65 L43 79 L31 82 Z" fill="#e18a73"/>
+ <path d="M46 51 Q54 47 60 55 L58 78 L45 78 Z" fill="#d77a66"/>
+ <path d="M62 47 Q71 46 75 55 L72 78 L59 77 Z" fill="#c96759"/>
+ <path d="M77 54 Q86 54 86 64 L81 82 L70 80 Z" fill="#a94a46"/>
+ <path d="M28 83 L41 79 L56 84 L67 96 L57 107 L35 103 L22 94 Z" fill="#9e4543"/>
+ <path d="M39 60 L43 76 M55 53 L57 75 M70 55 L69 76" fill="none" stroke="#f2b09a" stroke-width="2" opacity=".8"/>
+ <path d="M25 91 L37 97 L58 99" fill="none" stroke="#ef9b83" stroke-width="2"/>
+</g>
+<!-- central shield -->
+<path d="M180 12 L244 31 L239 88 Q233 119 180 141 Q127 119 121 88 L116 31 Z" fill="#050d16" opacity=".6" filter="url(#shadow)"/>
+<path d="M180 7 L246 27 L241 87 Q235 122 180 145 Q125 122 119 87 L114 27 Z" fill="url(#gold)" stroke="#f6d98e" stroke-width="2.5"/>
+<path d="M180 14 L238 32 L233 86 Q227 116 180 136 Q133 116 127 86 L122 32 Z" fill="url(#shield)" stroke="#102b3b" stroke-width="3"/>
+<path d="M180 21 L231 37 L226 84 Q221 109 180 128 Q139 109 134 84 L129 37 Z" fill="none" stroke="#6e9aab" stroke-width="1.5" opacity=".75"/>
+<path d="M180 24 L180 126" stroke="#7ca5b3" stroke-width="1" opacity=".24"/>
+<text x="180" y="84" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="37" font-weight="900" letter-spacing="1.5" fill="#f1f7f8" stroke="#102b3b" stroke-width="1">TCS</text>
+<path d="M151 97 Q180 108 209 97" fill="none" stroke="url(#gold)" stroke-width="3" stroke-linecap="round"/>
+<!-- katana on the right, long blade angled upward -->
+<g transform="rotate(24 294 72)" stroke-linejoin="round">
+ <path d="M292 20 L300 20 L305 112 L296 112 Z" fill="url(#steel)" stroke="#263d4b" stroke-width="2"/>
+ <path d="M296 22 L298 22 L301 108 L298 108 Z" fill="#fff" opacity=".8"/>
+ <path d="M287 109 L307 109 L308 116 L286 116 Z" fill="url(#gold)" stroke="#553e22" stroke-width="2"/>
+ <path d="M292 116 L302 116 L302 137 Q297 145 292 137 Z" fill="#162b3a" stroke="#0a1722" stroke-width="2"/>
+ <path d="M293 120 L301 126 M293 128 L301 134" stroke="#d5b36a" stroke-width="2"/>
+ <path d="M295 15 L299 5 L303 15 Z" fill="#dce8ed" stroke="#526b7c" stroke-width="1"/>
+</g>
+<!-- connecting accent -->
+<path d="M92 75 L112 75 M248 75 L274 75" stroke="#d8ad55" stroke-width="2" stroke-linecap="round" opacity=".85"/>
+</svg>
