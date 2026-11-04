@@ -122,3 +122,12 @@ img{max-width:100%}
 @media(max-width:850px){.portfolio-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.catalog-heading{grid-template-columns:1fr;gap:14px}}
 @media(max-width:560px){.portfolio-grid{grid-template-columns:1fr}.portfolio-card{min-height:250px}.catalog-heading h2{font-size:36px}}
 @media(prefers-reduced-motion:reduce){.hero-grid{animation:none!important}.portfolio-card,.ecosystem-card{transition:none!important}}
+
+.ecosystem-domains{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:0 0 38px}
+.ecosystem-domains article{min-width:0;padding:18px;border:1px solid var(--border);border-radius:15px;background:rgba(255,255,255,.018)}
+.ecosystem-domains article>span{display:block;margin-bottom:24px;color:#9eafe0;font-size:9px;font-weight:750;letter-spacing:1.1px}
+.ecosystem-domains h3{font-size:13px;line-height:1.45}
+.ecosystem-domains p{margin:8px 0 0;color:var(--muted);font-size:10px;line-height:1.75}
+.portfolio-kicker{margin:0 0 14px}
+@media(max-width:850px){.ecosystem-domains{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:480px){.ecosystem-domains{grid-template-columns:1fr}.ecosystem-domains article{padding:16px}.ecosystem-domains article>span{margin-bottom:14px}}
