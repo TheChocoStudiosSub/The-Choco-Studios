@@ -1,6 +1,19 @@
 # The Choco Studios — Official Website
 
-Official website for The Choco Studios (TCS), maintained as a separate project from **The Choco Studios Information**.
+Repository for the official public website of **The Choco Studios (TCS)**.
+
+## Public identity
+The Choco Studios is an independent, multisector creative studio founded, owned, and independently managed by **Hasby Prasetya Saprudin**. TCS is not a creator collective or marketplace. Its current strategic focus is open-source, applied technology, documentation, project stewardship, and structured collaboration.
+
+Sheeblink is an integrated handmade initiative within the TCS ecosystem that broadens its activities beyond technology while retaining its creative identity. **TCS LinkGuard** is the initial TCS project, formerly named Chocobot Guardian.
+
+## Public sites
+- Official website: https://the-choco-studios-official.vercel.app/
+- Information site: https://tcs-information-hub.vercel.app/
+- Contribution guide: https://the-choco-studios-official.vercel.app/bergabung/
+- Contact: thechocostudio@gmail.com
+
+The historical catalog of 16 apps/kits is no longer the public portfolio. Apps may still be developed, but they are not the center of the current strategy.
 
 ## Stack
 - Vite
@@ -15,8 +28,8 @@ npm run build
 npm run preview
 ```
 
-## Project boundaries
-This repository contains the official TCS brand website. It is not the TCS Information site and does not share its content-management surface.
+## Contribution governance
+Public contributions are accepted only for repositories explicitly marked open for contribution and follow their license, contribution guide, security requirements, and review process. Contribution does not grant ownership, employment, partnership, or release authority within TCS. Code licensing and TCS trademark protection are handled separately.
 
-## Contact
-thechocostudio@gmail.com
+## Project boundaries
+This repository contains the official TCS brand website. It is distinct from the TCS Information website and does not share its content-management surface.
