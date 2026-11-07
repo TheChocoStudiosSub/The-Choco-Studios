@@ -1,5 +1,5 @@
-# Public pages are available to all compliant search-engine crawlers.
+# Public identity pages are available to compliant search-engine crawlers.
 User-agent: *
 Allow: /
 
-Sitemap: https://the-choco-studios-official.vercel.app/sitemap.xml
+Sitemap: https://the-choco-studios-official-lime.vercel.app/sitemap.xml
