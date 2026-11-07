@@ -133,3 +133,11 @@ img{max-width:100%}
 @media(max-width:480px){.ecosystem-domains{grid-template-columns:1fr}.ecosystem-domains article{padding:16px}.ecosystem-domains article>span{margin-bottom:14px}}
 
 .portfolio-logo-img{display:block;width:62px;height:62px;flex:0 0 62px;object-fit:contain;border:1px solid rgba(151,174,255,.2);border-radius:17px;background:#111827;padding:3px}
+
+/* Visual identity refinement */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(230px,340px);align-items:center;column-gap:clamp(28px,6vw,90px)}
+.hero-content{grid-column:1;grid-row:1}
+.hero-identity{grid-column:2;grid-row:1;display:grid;place-items:center;min-height:300px;position:relative}
+.hero-identity:before{content:"";position:absolute;width:min(100%,290px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,rgba(125,153,230,.17),rgba(125,153,230,.035) 58%,transparent 72%);border:1px solid rgba(160,179,255,.12)}
+.hero-identity img{position:relative;width:min(76%,230px);height:auto;object-fit:contain;filter:drop-shadow(0 18px 36px rgba(0,0,0,.25))}
+@media(max-width:760px){.hero{display:flex;flex-direction:column;align-items:stretch}.hero-identity{order:-1;min-height:210px;margin-bottom:24px}.hero-identity:before{width:190px}.hero-identity img{width:145px}.hero-side{display:none}}
