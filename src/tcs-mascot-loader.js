@@ -39,7 +39,7 @@ const CSS = `
 .tcs-ml.in-left .tcs-ml-walker{animation:tcs-ml-in-left 1s cubic-bezier(.2,.8,.3,1),tcs-ml-pace 7s ease-in-out 1s infinite}
 .tcs-ml.in-right .tcs-ml-walker{animation:tcs-ml-in-right 1s cubic-bezier(.2,.8,.3,1),tcs-ml-pace 7s ease-in-out 1s infinite}
 .tcs-ml.in-none .tcs-ml-walker{animation:tcs-ml-pace 7s ease-in-out infinite}
-.tcs-ml-svg{width:100%;height:100%;overflow:visible;display:block}.tcs-ml-reference{object-fit:contain;transform-origin:50% 100%;animation:tcs-ml-waddle 1.4s ease-in-out infinite alternate}
+.tcs-ml-svg{width:100%;height:100%;overflow:visible;display:block}.tcs-ml-reference{object-fit:contain;transform-origin:50% 100%;animation:tcs-ml-waddle 1.4s ease-in-out infinite alternate}.tcs-ml-reference{object-fit:contain;transform-origin:50% 100%;animation:tcs-ml-waddle 1.4s ease-in-out infinite alternate}
 .tcs-ml-body{transform-origin:110px 226px;animation:tcs-ml-waddle 1.4s ease-in-out infinite alternate}
 .tcs-ml-breath{transform-origin:110px 212px;animation:tcs-ml-breath 3s ease-in-out infinite}
 .tcs-ml-head{transform-origin:110px 150px;animation:tcs-ml-tilt 7s ease-in-out infinite}
