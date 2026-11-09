@@ -17,8 +17,9 @@
  *
  * Opsi show():
  *   direction : 'left' | 'right' | null   sisi tempat maskot masuk (null = fade biasa)
- *   delay     : ms, default 350            loading baru tampil kalau proses masih jalan
- *                                          setelah waktu ini (biar gak kedip di koneksi cepat)
+ *   delay     : ms, default 0              kalau diisi, loading baru tampil kalau proses masih jalan
+ *                                          setelah waktu ini
+ *   (loading tampil minimal 2200 ms biar maskotnya sempat keliatan, ubah lewat TCSLoader.config.minVisible)
  *   onRetry   : fungsi                     dipanggil saat tombol "Coba lagi" ditekan
  *                                          (default: location.reload())
  * Opsi hide():
@@ -26,7 +27,8 @@
  */
 
 const STYLE_ID = 'tcs-ml-style';
-const MIN_VISIBLE = 600; // ms, setelah tampil minimal segini biar gak kedip
+// Bisa diubah dari luar: TCSLoader.config.minVisible = 3000;
+const config = { minVisible: 2200, delay: 0 }; // ms
 
 const CSS = `
 .tcs-ml-lock{overflow:hidden!important}
@@ -34,19 +36,19 @@ const CSS = `
 .tcs-ml.is-on{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .25s ease}
 .tcs-ml-stage{width:min(240px,58vw);aspect-ratio:220/240;position:relative}
 .tcs-ml-walker{width:100%;height:100%;will-change:transform}
-.tcs-ml.in-left .tcs-ml-walker{animation:tcs-ml-in-left .55s cubic-bezier(.2,.8,.3,1),tcs-ml-pace 4.4s ease-in-out .55s infinite}
-.tcs-ml.in-right .tcs-ml-walker{animation:tcs-ml-in-right .55s cubic-bezier(.2,.8,.3,1),tcs-ml-pace 4.4s ease-in-out .55s infinite}
-.tcs-ml.in-none .tcs-ml-walker{animation:tcs-ml-pace 4.4s ease-in-out infinite}
+.tcs-ml.in-left .tcs-ml-walker{animation:tcs-ml-in-left 1s cubic-bezier(.2,.8,.3,1),tcs-ml-pace 7s ease-in-out 1s infinite}
+.tcs-ml.in-right .tcs-ml-walker{animation:tcs-ml-in-right 1s cubic-bezier(.2,.8,.3,1),tcs-ml-pace 7s ease-in-out 1s infinite}
+.tcs-ml.in-none .tcs-ml-walker{animation:tcs-ml-pace 7s ease-in-out infinite}
 .tcs-ml-svg{width:100%;height:100%;overflow:visible;display:block}
-.tcs-ml-body{transform-origin:110px 226px;animation:tcs-ml-waddle .9s ease-in-out infinite alternate}
+.tcs-ml-body{transform-origin:110px 226px;animation:tcs-ml-waddle 1.4s ease-in-out infinite alternate}
 .tcs-ml-breath{transform-origin:110px 212px;animation:tcs-ml-breath 3s ease-in-out infinite}
-.tcs-ml-head{transform-origin:110px 150px;animation:tcs-ml-tilt 4.4s ease-in-out infinite}
-.tcs-ml-look{animation:tcs-ml-look 4.4s ease-in-out infinite}
+.tcs-ml-head{transform-origin:110px 150px;animation:tcs-ml-tilt 7s ease-in-out infinite}
+.tcs-ml-look{animation:tcs-ml-look 7s ease-in-out infinite}
 .tcs-ml-blink{transform-origin:110px 102px;animation:tcs-ml-blink 3s linear infinite}
 .tcs-ml-tail{transform-origin:146px 182px;animation:tcs-ml-wag 1.2s ease-in-out infinite alternate}
-.tcs-ml-leg-l{animation:tcs-ml-step .45s ease-in-out infinite alternate}
-.tcs-ml-leg-r{animation:tcs-ml-step .45s ease-in-out infinite alternate-reverse}
-.tcs-ml-q{transform-origin:176px 52px;animation:tcs-ml-q 1.6s ease-in-out infinite}
+.tcs-ml-leg-l{animation:tcs-ml-step .7s ease-in-out infinite alternate}
+.tcs-ml-leg-r{animation:tcs-ml-step .7s ease-in-out infinite alternate-reverse}
+.tcs-ml-q{transform-origin:204px 40px;animation:tcs-ml-q 1.6s ease-in-out infinite}
 .tcs-ml-shadow{fill:rgba(0,0,0,.35)}
 .tcs-ml-title{margin:0;font-size:clamp(17px,4.6vw,22px);font-weight:700;letter-spacing:.01em}
 .tcs-ml-sub{margin:0;max-width:min(360px,86vw);font-size:clamp(13px,3.6vw,15px);line-height:1.5;color:#b9b8e6}
@@ -114,10 +116,12 @@ const MASCOT_SVG = `
    <path d="M90 196 Q112 205 134 191" stroke="#2b8cff" stroke-width="3" fill="none" stroke-linecap="round"/>
   </g>
   <g class="tcs-ml-head">
-   <path d="M58 66 Q48 20 86 28 Q102 40 102 64 Z" fill="#1d1747"/>
-   <path d="M67 60 Q62 36 83 38 Q94 46 94 60 Z" fill="#7c5cff"/>
-   <path d="M162 66 Q172 20 134 28 Q118 40 118 64 Z" fill="#1d1747"/>
-   <path d="M153 60 Q158 36 137 38 Q126 46 126 60 Z" fill="#7c5cff"/>
+   <path d="M52 86 C36 58 38 30 46 14 C72 20 94 36 106 58 Z" fill="#1d1747"/>
+   <path d="M58 78 C48 58 49 38 53 28 C70 34 86 46 95 60 Z" fill="#8b6cff"/>
+   <path d="M58 76 C52 60 53 44 56 36 C66 42 78 52 86 62 Z" fill="#a98cff" opacity=".55"/>
+   <path d="M168 86 C184 58 182 30 174 14 C148 20 126 36 114 58 Z" fill="#1d1747"/>
+   <path d="M162 78 C172 58 171 38 167 28 C150 34 134 46 125 60 Z" fill="#8b6cff"/>
+   <path d="M162 76 C168 60 167 44 164 36 C154 42 142 52 134 62 Z" fill="#a98cff" opacity=".55"/>
    <ellipse cx="110" cy="100" rx="62" ry="52" fill="#f6f5ff"/>
    <circle cx="52" cy="114" r="14" fill="#f6f5ff"/>
    <circle cx="168" cy="114" r="14" fill="#f6f5ff"/>
@@ -138,7 +142,7 @@ const MASCOT_SVG = `
     <ellipse cx="110" cy="124" rx="5" ry="4.5" fill="#ff6fae"/>
    </g>
   </g>
-  <g class="tcs-ml-q"><text x="176" y="62" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="800" fill="#7c5cff">?</text></g>
+  <g class="tcs-ml-q"><text x="204" y="50" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="800" fill="#7c5cff">?</text></g>
  </g>
 </svg>`;
 
@@ -245,7 +249,7 @@ function display(opts) {
 }
 
 function show(opts = {}) {
-  const delay = typeof opts.delay === 'number' ? opts.delay : 350;
+  const delay = typeof opts.delay === 'number' ? opts.delay : config.delay;
   if (visible || showTimer) return;
   if (delay <= 0) {
     display(opts);
@@ -265,14 +269,14 @@ function hide(opts = {}) {
   if (!visible) return Promise.resolve();
 
   const token = ++hideToken;
-  const wait = Math.max(0, MIN_VISIBLE - (performance.now() - shownAt));
+  const wait = Math.max(0, config.minVisible - (performance.now() - shownAt));
 
   return new Promise((resolve) => {
     setTimeout(() => {
       if (token !== hideToken) return resolve(); // ada show() baru, batalkan
       clearStateTimers();
       const exit = opts.exit === 'left' || opts.exit === 'right' ? opts.exit : null;
-      let finishDelay = 380;
+      let finishDelay = 450;
 
       if (exit) {
         // maskot jalan keluar lewat sisi arah geser
@@ -280,9 +284,9 @@ function hide(opts = {}) {
         els.walker.style.animation = 'none';
         els.walker.style.transform = current === 'none' ? '' : current;
         void els.walker.offsetWidth;
-        els.walker.style.transition = 'transform .55s cubic-bezier(.5,0,.9,.5)';
+        els.walker.style.transition = 'transform .9s cubic-bezier(.5,0,.9,.5)';
         els.walker.style.transform = 'translateX(' + (exit === 'left' ? '-' : '') + '120vw)';
-        finishDelay = 520;
+        finishDelay = 880;
       }
 
       setTimeout(() => {
@@ -324,5 +328,5 @@ function watchNetwork() {
   });
 }
 
-export const TCSLoader = { show, hide, during, watchNetwork };
+export const TCSLoader = { show, hide, during, watchNetwork, config };
 export default TCSLoader;
