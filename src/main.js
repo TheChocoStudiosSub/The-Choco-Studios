@@ -1,4 +1,5 @@
 import { TCSLoader } from './tcs-mascot-loader.js';
+import './tcs-mascot-walker.js';
 
 TCSLoader.watchNetwork();
 
