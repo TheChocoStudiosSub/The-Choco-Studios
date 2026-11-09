@@ -48,8 +48,8 @@
   <title>TCS Mascot</title>
   <style>
     /* Walk cycle: front-facing pose, limbs swing in opposite pairs. */
-    #leg-right,#arm-left{transform-box:fill-box;transform-origin:50% 12%;animation:tcs-step-a .62s ease-in-out infinite alternate}
-    #leg-left,#arm-right{transform-box:fill-box;transform-origin:50% 12%;animation:tcs-step-b .62s ease-in-out infinite alternate}
+    #leg-right,#arm-left,#hand-left{transform-box:fill-box;transform-origin:50% 12%;animation:tcs-step-a .62s ease-in-out infinite alternate}
+    #leg-left,#arm-right,#hand-right{transform-box:fill-box;transform-origin:50% 12%;animation:tcs-step-b .62s ease-in-out infinite alternate}
     #leg-left,#leg-right{transform-origin:50% 0%}
     #hand-left,#hand-right{transform-box:fill-box;transform-origin:50% 0%}
     #head{transform-box:fill-box;transform-origin:50% 100%;animation:tcs-head-bob .31s ease-in-out infinite alternate}
