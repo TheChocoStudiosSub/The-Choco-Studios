@@ -19,11 +19,12 @@ async function navigatePanel(id,{focus=false}={}){
  const currentIndex=panels.findIndex(panel=>panel.classList.contains("is-active"));
  if(targetIndex<0)return;
  if(targetIndex===currentIndex){activatePanel(id,{focus});return;}
- const direction=targetIndex>currentIndex?"right":"left";
- TCSLoader.show({direction,delay:0});
+ const travelDirection=targetIndex>currentIndex?"right":"left";
+ // direction pada loader adalah sisi masuk, bukan arah tujuan gerak.
+ TCSLoader.show({direction:travelDirection==="right"?"left":"right",delay:0});
  activatePanel(id,{focus});
  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
- await TCSLoader.hide({exit:direction==="right"?"left":"right"});
+ await TCSLoader.hide({exit:travelDirection});
 }
 
 links.forEach(link=>link.addEventListener("click",event=>{event.preventDefault();void navigatePanel(link.dataset.panelLink,{focus:true});}));
