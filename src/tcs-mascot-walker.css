@@ -1,0 +1,74 @@
+#tcs-mascot-wanderer{
+  position:fixed;left:0;bottom:max(2px,env(safe-area-inset-bottom));
+  width:clamp(86px,12vw,142px);aspect-ratio:440/560;
+  z-index:18;pointer-events:none;user-select:none;
+  opacity:0;transform:translate3d(12px,0,0);
+  transition:opacity .45s ease;
+  contain:layout style;will-change:transform;
+}
+#tcs-mascot-wanderer.is-ready{opacity:.98}
+#tcs-mascot-wanderer .tcs-mascot-wanderer__art,
+#tcs-mascot-wanderer svg{display:block;width:100%;height:100%;overflow:visible}
+#tcs-mascot-wanderer svg{filter:drop-shadow(0 5px 8px rgba(0,0,0,.22))}
+#tcs-mascot-wanderer:not(.is-paused) svg{animation:tcs-mascot-step-bob .52s ease-in-out infinite}
+#tcs-mascot-wanderer.is-paused svg{animation:tcs-mascot-idle-breathe 2.8s ease-in-out infinite}
+#tcs-mascot-wanderer #tail{
+  transform-box:view-box;transform-origin:350px 405px;
+  animation:tcs-mascot-tail 1.05s ease-in-out infinite alternate;
+}
+#tcs-mascot-wanderer #body{
+  transform-box:view-box;transform-origin:220px 420px;
+  animation:tcs-mascot-body 0.52s ease-in-out infinite alternate;
+}
+#tcs-mascot-wanderer .tcs-walk-head{
+  transform-box:view-box;transform-origin:220px 300px;
+  animation:tcs-mascot-head 2.7s ease-in-out infinite;
+}
+#tcs-mascot-wanderer .tcs-walk-leg-left,
+#tcs-mascot-wanderer .tcs-walk-leg-right,
+#tcs-mascot-wanderer .tcs-walk-arm-left,
+#tcs-mascot-wanderer .tcs-walk-arm-right,
+#tcs-mascot-wanderer .tcs-walk-hand-left,
+#tcs-mascot-wanderer .tcs-walk-hand-right{
+  transform-box:view-box;
+}
+#tcs-mascot-wanderer .tcs-walk-leg-left{
+  transform-origin:180px 515px;animation:tcs-mascot-leg-left .52s ease-in-out infinite;
+}
+#tcs-mascot-wanderer .tcs-walk-leg-right{
+  transform-origin:260px 515px;animation:tcs-mascot-leg-right .52s ease-in-out infinite;
+}
+#tcs-mascot-wanderer .tcs-walk-arm-left{
+  transform-origin:140px 355px;animation:tcs-mascot-arm-left .52s ease-in-out infinite;
+}
+#tcs-mascot-wanderer .tcs-walk-arm-right{
+  transform-origin:300px 355px;animation:tcs-mascot-arm-right .52s ease-in-out infinite;
+}
+#tcs-mascot-wanderer .tcs-walk-hand-left{transform-origin:118px 462px}
+#tcs-mascot-wanderer .tcs-walk-hand-right{transform-origin:322px 462px}
+#tcs-mascot-wanderer .tcs-walk-leg-lines-left,
+#tcs-mascot-wanderer .tcs-walk-leg-lines-right{transform-box:view-box}
+#tcs-mascot-wanderer.is-paused .tcs-walk-leg-left,
+#tcs-mascot-wanderer.is-paused .tcs-walk-leg-right,
+#tcs-mascot-wanderer.is-paused .tcs-walk-arm-left,
+#tcs-mascot-wanderer.is-paused .tcs-walk-arm-right{animation-play-state:paused}
+#tcs-mascot-wanderer.is-paused #tail{animation-duration:1.8s}
+@keyframes tcs-mascot-step-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes tcs-mascot-idle-breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2px) scale(1.008)}}
+@keyframes tcs-mascot-tail{from{transform:rotate(-5deg)}to{transform:rotate(8deg)}}
+@keyframes tcs-mascot-body{from{transform:rotate(-1.1deg)}to{transform:rotate(1.1deg)}}
+@keyframes tcs-mascot-head{0%,100%{transform:rotate(0)}35%{transform:rotate(-1.5deg)}70%{transform:rotate(1.2deg)}}
+@keyframes tcs-mascot-leg-left{0%,100%{transform:rotate(20deg)}50%{transform:rotate(-20deg)}}
+@keyframes tcs-mascot-leg-right{0%,100%{transform:rotate(-20deg)}50%{transform:rotate(20deg)}}
+@keyframes tcs-mascot-arm-left{0%,100%{transform:rotate(-13deg)}50%{transform:rotate(13deg)}}
+@keyframes tcs-mascot-arm-right{0%,100%{transform:rotate(13deg)}50%{transform:rotate(-13deg)}}
+@media(max-width:600px){
+  #tcs-mascot-wanderer{width:clamp(78px,21vw,108px);bottom:max(1px,env(safe-area-inset-bottom))}
+}
+@media(prefers-reduced-motion:reduce){
+  #tcs-mascot-wanderer{transition:none}
+  #tcs-mascot-wanderer svg,#tcs-mascot-wanderer #tail,
+  #tcs-mascot-wanderer #body,#tcs-mascot-wanderer .tcs-walk-head,
+  #tcs-mascot-wanderer .tcs-walk-leg-left,#tcs-mascot-wanderer .tcs-walk-leg-right,
+  #tcs-mascot-wanderer .tcs-walk-arm-left,#tcs-mascot-wanderer .tcs-walk-arm-right{animation:none!important}
+}
