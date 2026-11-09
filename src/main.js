@@ -1,3 +1,7 @@
+import { TCSLoader } from './tcs-mascot-loader.js';
+
+TCSLoader.watchNetwork();
+
 const panels=[...document.querySelectorAll("[data-panel]")];
 const links=[...document.querySelectorAll("[data-panel-link]")];
 const year=document.querySelector("#year");
@@ -9,7 +13,20 @@ function activatePanel(id,{updateHash=true,focus=false}={}){
  if(updateHash&&location.hash!=="#"+id)history.replaceState(null,"","#"+id);
  if(focus){target.setAttribute("tabindex","-1");target.focus({preventScroll:true});}
 }
-links.forEach(link=>link.addEventListener("click",event=>{event.preventDefault();activatePanel(link.dataset.panelLink,{focus:true});}));
-document.querySelectorAll('a[href^="#"]').forEach(link=>{if(link.dataset.panelLink)return;link.addEventListener("click",event=>{const id=link.getAttribute("href").slice(1);if(panels.some(panel=>panel.dataset.panel===id)){event.preventDefault();activatePanel(id,{focus:true});}});});
+
+async function navigatePanel(id,{focus=false}={}){
+ const targetIndex=panels.findIndex(panel=>panel.dataset.panel===id);
+ const currentIndex=panels.findIndex(panel=>panel.classList.contains("is-active"));
+ if(targetIndex<0)return;
+ if(targetIndex===currentIndex){activatePanel(id,{focus});return;}
+ const direction=targetIndex>currentIndex?"right":"left";
+ TCSLoader.show({direction,delay:0});
+ activatePanel(id,{focus});
+ await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+ await TCSLoader.hide({exit:direction==="right"?"left":"right"});
+}
+
+links.forEach(link=>link.addEventListener("click",event=>{event.preventDefault();void navigatePanel(link.dataset.panelLink,{focus:true});}));
+document.querySelectorAll('a[href^="#"]').forEach(link=>{if(link.dataset.panelLink)return;link.addEventListener("click",event=>{const id=link.getAttribute("href").slice(1);if(panels.some(panel=>panel.dataset.panel===id)){event.preventDefault();void navigatePanel(id,{focus:true});}});});
 const initial=location.hash.slice(1);activatePanel(panels.some(panel=>panel.dataset.panel===initial)?initial:"home",{updateHash:false});
 document.addEventListener("keydown",event=>{if(event.altKey||event.ctrlKey||event.metaKey)return;const index=links.findIndex(link=>link.classList.contains("is-current"));const active=document.activeElement;if((event.key==="ArrowDown"||event.key==="ArrowUp")&&active?.tagName!=="INPUT"&&active?.tagName!=="TEXTAREA"){event.preventDefault();const next=(index+(event.key==="ArrowDown"?1:-1)+links.length)%links.length;links[next].focus();}if(event.key==="Enter"&&document.activeElement?.dataset?.panelLink)activatePanel(document.activeElement.dataset.panelLink,{focus:true});});
