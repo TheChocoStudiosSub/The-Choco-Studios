@@ -36,18 +36,16 @@ const CSS = `
 .tcs-ml.is-on{opacity:1;visibility:visible;pointer-events:auto;transition:opacity .25s ease}
 .tcs-ml-stage{width:min(240px,58vw);aspect-ratio:220/240;position:relative}
 .tcs-ml-walker{width:100%;height:100%;will-change:transform}
-.tcs-ml.in-left .tcs-ml-walker{animation:tcs-ml-in-left 1s cubic-bezier(.2,.8,.3,1),tcs-ml-pace 7s ease-in-out 1s infinite}
-.tcs-ml.in-right .tcs-ml-walker{animation:tcs-ml-in-right 1s cubic-bezier(.2,.8,.3,1),tcs-ml-pace 7s ease-in-out 1s infinite}
-.tcs-ml.in-none .tcs-ml-walker{animation:tcs-ml-pace 7s ease-in-out infinite}
-.tcs-ml-svg{width:100%;height:100%;overflow:visible;display:block}.tcs-ml-reference{object-fit:contain;transform-origin:50% 100%;animation:tcs-ml-waddle 1.4s ease-in-out infinite alternate}.tcs-ml-reference{object-fit:contain;transform-origin:50% 100%;animation:tcs-ml-waddle 1.4s ease-in-out infinite alternate}
-.tcs-ml-body{transform-origin:110px 226px;animation:tcs-ml-waddle 1.4s ease-in-out infinite alternate}
-.tcs-ml-breath{transform-origin:110px 212px;animation:tcs-ml-breath 3s ease-in-out infinite}
-.tcs-ml-head{transform-origin:110px 150px;animation:tcs-ml-tilt 7s ease-in-out infinite}
-.tcs-ml-look{animation:tcs-ml-look 7s ease-in-out infinite}
-.tcs-ml-blink{transform-origin:110px 102px;animation:tcs-ml-blink 3s linear infinite}
-.tcs-ml-tail{transform-origin:146px 182px;animation:tcs-ml-wag 1.2s ease-in-out infinite alternate}
-.tcs-ml-leg-l{animation:tcs-ml-step .7s ease-in-out infinite alternate}
-.tcs-ml-leg-r{animation:tcs-ml-step .7s ease-in-out infinite alternate-reverse}
+.tcs-ml.in-left .tcs-ml-walker{animation:tcs-ml-in-left 1s cubic-bezier(.2,.8,.3,1),tcs-ml-pace 7s ease-in-out 1s infinite;transform:scaleX(1)}
+.tcs-ml.in-right .tcs-ml-walker{animation:tcs-ml-in-right 1s cubic-bezier(.2,.8,.3,1),tcs-ml-pace 7s ease-in-out 1s infinite;transform:scaleX(-1)}
+.tcs-ml.in-none .tcs-ml-walker{animation:tcs-ml-pace 7s ease-in-out infinite;transform:scaleX(1)}
+.tcs-ml-svg{width:100%;height:100%;overflow:visible;display:block}
+.tcs-ml-walker{transform-origin:50% 50%}
+.tcs-ml.in-right .tcs-ml-walker{transform:scaleX(-1)}
+.tcs-ml.in-left .tcs-ml-walker{transform:scaleX(1)}
+.tcs-ml.in-none .tcs-ml-walker{transform:scaleX(1)}
+.tcs-ml-svg{animation:tcs-ml-bob .31s ease-in-out infinite alternate}
+@keyframes tcs-ml-bob{from{translate:0 0}to{translate:0 3px}}
 .tcs-ml-q{transform-origin:204px 40px;animation:tcs-ml-q 1.6s ease-in-out infinite}
 .tcs-ml-shadow{fill:rgba(0,0,0,.35)}
 .tcs-ml-title{margin:0;font-size:clamp(17px,4.6vw,22px);font-weight:700;letter-spacing:.01em}
