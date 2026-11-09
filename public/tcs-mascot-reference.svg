@@ -46,6 +46,23 @@
 -->
 <svg xmlns="http://www.w3.org/2000/svg" id="tcs-mascot" viewBox="0 0 440 560" width="440" height="560" role="img" aria-label="TCS Mascot, maskot resmi The Choco Studios" xmlns:c2pa="http://c2pa.org/manifest">
   <title>TCS Mascot</title>
+  <style>
+    /* Walk cycle: front-facing pose, limbs swing in opposite pairs. */
+    #leg-right,#arm-left{transform-box:fill-box;transform-origin:50% 12%;animation:tcs-step-a .62s ease-in-out infinite alternate}
+    #leg-left,#arm-right{transform-box:fill-box;transform-origin:50% 12%;animation:tcs-step-b .62s ease-in-out infinite alternate}
+    #leg-left,#leg-right{transform-origin:50% 0%}
+    #hand-left,#hand-right{transform-box:fill-box;transform-origin:50% 0%}
+    #head{transform-box:fill-box;transform-origin:50% 100%;animation:tcs-head-bob .31s ease-in-out infinite alternate}
+    #tail{transform-box:fill-box;transform-origin:0% 65%;animation:tcs-tail-wag .62s ease-in-out infinite alternate}
+    #eye-left,#eye-right{transform-box:fill-box;transform-origin:50% 50%;animation:tcs-blink 4.2s linear infinite}
+    @keyframes tcs-step-a{from{transform:rotate(-19deg)}to{transform:rotate(19deg)}}
+    @keyframes tcs-step-b{from{transform:rotate(19deg)}to{transform:rotate(-19deg)}}
+    @keyframes tcs-head-bob{from{transform:translateY(0)}to{transform:translateY(3px)}}
+    @keyframes tcs-tail-wag{from{transform:rotate(-5deg)}to{transform:rotate(7deg)}}
+    @keyframes tcs-blink{0%,91%,100%{transform:scaleY(1)}94%,97%{transform:scaleY(.08)}}
+    @media(prefers-reduced-motion:reduce){#leg-right,#arm-left,#leg-left,#arm-right,#head,#tail,#eye-left,#eye-right{animation:none!important}}
+  </style>
+
   <defs>
     <!-- Bulu putih: terang di tengah, lavender di tepi -->
     <radialGradient id="furGrad" cx="0.5" cy="0.35" r="0.8">
@@ -119,15 +136,20 @@
     <!-- perut bawah (putih, kelihatan di bawah hoodie) -->
     <ellipse cx="220" cy="468" rx="72" ry="14" fill="url(#furGrad)"/>
     <!-- kaki kiri -->
-    <path d="M158 456 C150 480 150 502 156 516 L206 516 C212 500 210 478 206 456 Z" fill="url(#furGrad)"/>
+    <g id="leg-left">
+      <path d="M158 456 C150 480 150 502 156 516 L206 516 C212 500 210 478 206 456 Z" fill="url(#furGrad)"/>
+      <ellipse cx="180" cy="520" rx="33" ry="14" fill="url(#furGrad)"/>
+      <g stroke="#B9B3F5" stroke-width="2.5" stroke-linecap="round" fill="none">
+        <path d="M170 513 L168 525"/><path d="M190 513 L192 525"/>
+      </g>
+    </g>
     <!-- kaki kanan -->
-    <path d="M234 456 C230 478 228 500 234 516 L284 516 C290 502 290 480 282 456 Z" fill="url(#furGrad)"/>
-    <!-- telapak kaki: 3 ruas jari per kaki, tanpa kuku -->
-    <ellipse cx="180" cy="520" rx="33" ry="14" fill="url(#furGrad)"/>
-    <ellipse cx="260" cy="520" rx="33" ry="14" fill="url(#furGrad)"/>
-    <g stroke="#B9B3F5" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <path d="M170 513 L168 525"/><path d="M190 513 L192 525"/>
-      <path d="M250 513 L248 525"/><path d="M270 513 L272 525"/>
+    <g id="leg-right">
+      <path d="M234 456 C230 478 228 500 234 516 L284 516 C290 502 290 480 282 456 Z" fill="url(#furGrad)"/>
+      <ellipse cx="260" cy="520" rx="33" ry="14" fill="url(#furGrad)"/>
+      <g stroke="#B9B3F5" stroke-width="2.5" stroke-linecap="round" fill="none">
+        <path d="M250 513 L248 525"/><path d="M270 513 L272 525"/>
+      </g>
     </g>
   </g>
 
@@ -161,22 +183,32 @@
   <!-- ===================== SLEEVES ===================== -->
   <g id="sleeves">
     <!-- lengan kiri -->
-    <path d="M140 338 C108 348 92 388 98 428 C98 434 104 438 112 438 L144 440 C150 410 152 372 150 344 Z" fill="url(#hoodGrad)"/>
-    <path d="M96 424 Q120 436 146 434 L148 448 Q120 452 98 440 Z" fill="#0E0C26"/>
-    <path d="M112 366 L132 352 L134 384 L114 396 Z" fill="url(#blueGlow)" opacity="0.95"/>
+    <g id="arm-left">
+      <path d="M140 338 C108 348 92 388 98 428 C98 434 104 438 112 438 L144 440 C150 410 152 372 150 344 Z" fill="url(#hoodGrad)"/>
+      <path d="M96 424 Q120 436 146 434 L148 448 Q120 452 98 440 Z" fill="#0E0C26"/>
+      <path d="M112 366 L132 352 L134 384 L114 396 Z" fill="url(#blueGlow)" opacity="0.95"/>
+    </g>
     <!-- lengan kanan -->
-    <path d="M300 338 C332 348 348 388 342 428 C342 434 336 438 328 438 L296 440 C290 410 288 372 290 344 Z" fill="url(#hoodGrad)"/>
-    <path d="M344 424 Q320 436 294 434 L292 448 Q320 452 342 440 Z" fill="#0E0C26"/>
-    <path d="M328 366 L308 352 L306 384 L326 396 Z" fill="url(#blueGlow)" opacity="0.95"/>
+    <g id="arm-right">
+      <path d="M300 338 C332 348 348 388 342 428 C342 434 336 438 328 438 L296 440 C290 410 288 372 290 344 Z" fill="url(#hoodGrad)"/>
+      <path d="M344 424 Q320 436 294 434 L292 448 Q320 452 342 440 Z" fill="#0E0C26"/>
+      <path d="M328 366 L308 352 L306 384 L326 396 Z" fill="url(#blueGlow)" opacity="0.95"/>
+    </g>
   </g>
 
   <!-- ===================== HANDS (tanpa kuku) ===================== -->
   <g id="hands">
-    <ellipse cx="118" cy="462" rx="20" ry="16" fill="url(#furGrad)"/>
-    <ellipse cx="322" cy="462" rx="20" ry="16" fill="url(#furGrad)"/>
-    <g stroke="#B9B3F5" stroke-width="2" stroke-linecap="round" fill="none">
-      <path d="M112 466 L110 474"/><path d="M124 466 L126 474"/>
-      <path d="M316 466 L314 474"/><path d="M328 466 L330 474"/>
+    <g id="hand-left">
+      <ellipse cx="118" cy="462" rx="20" ry="16" fill="url(#furGrad)"/>
+      <g stroke="#B9B3F5" stroke-width="2" stroke-linecap="round" fill="none">
+        <path d="M112 466 L110 474"/><path d="M124 466 L126 474"/>
+      </g>
+    </g>
+    <g id="hand-right">
+      <ellipse cx="322" cy="462" rx="20" ry="16" fill="url(#furGrad)"/>
+      <g stroke="#B9B3F5" stroke-width="2" stroke-linecap="round" fill="none">
+        <path d="M316 466 L314 474"/><path d="M328 466 L330 474"/>
+      </g>
     </g>
   </g>
 
