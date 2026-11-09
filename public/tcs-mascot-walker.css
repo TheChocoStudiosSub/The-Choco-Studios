@@ -44,14 +44,39 @@
 #tcs-mascot-wanderer .tcs-walk-arm-right{
   transform-origin:300px 355px;animation:tcs-mascot-arm-right .52s ease-in-out infinite;
 }
-#tcs-mascot-wanderer .tcs-walk-hand-left{transform-origin:118px 462px}
-#tcs-mascot-wanderer .tcs-walk-hand-right{transform-origin:322px 462px}
-#tcs-mascot-wanderer .tcs-walk-leg-lines-left,
-#tcs-mascot-wanderer .tcs-walk-leg-lines-right{transform-box:view-box}
+#tcs-mascot-wanderer .tcs-walk-hand-left{
+  transform-origin:118px 462px;animation:tcs-mascot-arm-left .52s ease-in-out infinite;
+}
+#tcs-mascot-wanderer .tcs-walk-hand-right{
+  transform-origin:322px 462px;animation:tcs-mascot-arm-right .52s ease-in-out infinite;
+}
+#tcs-mascot-wanderer .tcs-walk-leg-lines-left{
+  transform-box:view-box;transform-origin:180px 515px;
+  animation:tcs-mascot-leg-left .52s ease-in-out infinite;
+}
+#tcs-mascot-wanderer .tcs-walk-leg-lines-right{
+  transform-box:view-box;transform-origin:260px 515px;
+  animation:tcs-mascot-leg-right .52s ease-in-out infinite;
+}
+#tcs-mascot-wanderer #eye-left,#tcs-mascot-wanderer #eye-right{
+  transform-box:view-box;animation:tcs-mascot-blink 5.2s linear infinite;
+}
+#tcs-mascot-wanderer #eye-left{transform-origin:160px 208px}
+#tcs-mascot-wanderer #eye-right{transform-origin:280px 208px;animation-delay:.08s}
+#tcs-mascot-wanderer #shadow{
+  transform-box:view-box;transform-origin:220px 534px;
+  animation:tcs-mascot-shadow .52s ease-in-out infinite;
+}
 #tcs-mascot-wanderer.is-paused .tcs-walk-leg-left,
 #tcs-mascot-wanderer.is-paused .tcs-walk-leg-right,
 #tcs-mascot-wanderer.is-paused .tcs-walk-arm-left,
-#tcs-mascot-wanderer.is-paused .tcs-walk-arm-right{animation-play-state:paused}
+#tcs-mascot-wanderer.is-paused .tcs-walk-arm-right,
+#tcs-mascot-wanderer.is-paused .tcs-walk-hand-left,
+#tcs-mascot-wanderer.is-paused .tcs-walk-hand-right,
+#tcs-mascot-wanderer.is-paused .tcs-walk-leg-lines-left,
+#tcs-mascot-wanderer.is-paused .tcs-walk-leg-lines-right,
+#tcs-mascot-wanderer.is-paused #shadow{animation-play-state:paused}
+#tcs-mascot-wanderer.is-paused #body{animation-duration:2.8s}
 #tcs-mascot-wanderer.is-paused #tail{animation-duration:1.8s}
 @keyframes tcs-mascot-step-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @keyframes tcs-mascot-idle-breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2px) scale(1.008)}}
@@ -62,6 +87,8 @@
 @keyframes tcs-mascot-leg-right{0%,100%{transform:rotate(-20deg)}50%{transform:rotate(20deg)}}
 @keyframes tcs-mascot-arm-left{0%,100%{transform:rotate(-13deg)}50%{transform:rotate(13deg)}}
 @keyframes tcs-mascot-arm-right{0%,100%{transform:rotate(13deg)}50%{transform:rotate(-13deg)}}
+@keyframes tcs-mascot-blink{0%,91%,94%,100%{transform:scaleY(1)}92.5%,93%{transform:scaleY(.08)}}
+@keyframes tcs-mascot-shadow{0%,100%{transform:scaleX(1);opacity:.9}50%{transform:scaleX(.88);opacity:.62}}
 @media(max-width:600px){
   #tcs-mascot-wanderer{width:clamp(78px,21vw,108px);bottom:max(1px,env(safe-area-inset-bottom))}
 }
@@ -70,5 +97,8 @@
   #tcs-mascot-wanderer svg,#tcs-mascot-wanderer #tail,
   #tcs-mascot-wanderer #body,#tcs-mascot-wanderer .tcs-walk-head,
   #tcs-mascot-wanderer .tcs-walk-leg-left,#tcs-mascot-wanderer .tcs-walk-leg-right,
-  #tcs-mascot-wanderer .tcs-walk-arm-left,#tcs-mascot-wanderer .tcs-walk-arm-right{animation:none!important}
+  #tcs-mascot-wanderer .tcs-walk-arm-left,#tcs-mascot-wanderer .tcs-walk-arm-right,
+  #tcs-mascot-wanderer .tcs-walk-hand-left,#tcs-mascot-wanderer .tcs-walk-hand-right,
+  #tcs-mascot-wanderer .tcs-walk-leg-lines-left,#tcs-mascot-wanderer .tcs-walk-leg-lines-right,
+  #tcs-mascot-wanderer #eye-left,#tcs-mascot-wanderer #eye-right,#tcs-mascot-wanderer #shadow{animation:none!important}
 }
