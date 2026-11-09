@@ -41,9 +41,9 @@ const CSS = `
 .tcs-ml.in-none .tcs-ml-walker{animation:tcs-ml-pace 7s ease-in-out infinite;transform:scaleX(1)}
 .tcs-ml-svg{width:100%;height:100%;overflow:visible;display:block}
 .tcs-ml-walker{transform-origin:50% 50%}
-.tcs-ml.in-right .tcs-ml-walker{transform:scaleX(-1)}
-.tcs-ml.in-left .tcs-ml-walker{transform:scaleX(1)}
-.tcs-ml.in-none .tcs-ml-walker{transform:scaleX(1)}
+.tcs-ml.in-right .tcs-ml-svg{transform:scaleX(-1)}
+.tcs-ml.in-left .tcs-ml-svg{transform:scaleX(1)}
+.tcs-ml.in-none .tcs-ml-svg{transform:scaleX(1)}
 .tcs-ml-svg{animation:tcs-ml-bob .31s ease-in-out infinite alternate}
 @keyframes tcs-ml-bob{from{translate:0 0}to{translate:0 3px}}
 .tcs-ml-q{transform-origin:204px 40px;animation:tcs-ml-q 1.6s ease-in-out infinite}
