@@ -39,7 +39,7 @@ const CSS = `
 .tcs-ml.in-left .tcs-ml-walker{animation:tcs-ml-in-left 1s cubic-bezier(.2,.8,.3,1),tcs-ml-pace 7s ease-in-out 1s infinite}
 .tcs-ml.in-right .tcs-ml-walker{animation:tcs-ml-in-right 1s cubic-bezier(.2,.8,.3,1),tcs-ml-pace 7s ease-in-out 1s infinite}
 .tcs-ml.in-none .tcs-ml-walker{animation:tcs-ml-pace 7s ease-in-out infinite}
-.tcs-ml-svg{width:100%;height:100%;overflow:visible;display:block}
+.tcs-ml-svg{width:100%;height:100%;overflow:visible;display:block}.tcs-ml-reference{object-fit:contain;transform-origin:50% 100%;animation:tcs-ml-waddle 1.4s ease-in-out infinite alternate}
 .tcs-ml-body{transform-origin:110px 226px;animation:tcs-ml-waddle 1.4s ease-in-out infinite alternate}
 .tcs-ml-breath{transform-origin:110px 212px;animation:tcs-ml-breath 3s ease-in-out infinite}
 .tcs-ml-head{transform-origin:110px 150px;animation:tcs-ml-tilt 7s ease-in-out infinite}
@@ -92,59 +92,7 @@ const CSS = `
 }
 `;
 
-const MASCOT_SVG = `
-<svg class="tcs-ml-svg" viewBox="0 0 220 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
- <ellipse class="tcs-ml-shadow" cx="110" cy="228" rx="54" ry="8"/>
- <g class="tcs-ml-body">
-  <g class="tcs-ml-tail">
-   <path d="M146 192 C184 198 216 172 208 138 C202 114 176 112 160 128 C170 150 160 172 140 178 Z" fill="#f2f0ff"/>
-   <path d="M160 134 C186 128 204 150 192 172 C196 150 182 140 160 134 Z" fill="#dcd8ff"/>
-  </g>
-  <g class="tcs-ml-leg-l"><ellipse cx="92" cy="216" rx="15" ry="12" fill="#f6f5ff"/><path d="M86 222v-4M92 223v-5M98 222v-4" stroke="#cfc9ff" stroke-width="1.6" stroke-linecap="round"/></g>
-  <g class="tcs-ml-leg-r"><ellipse cx="128" cy="216" rx="15" ry="12" fill="#f6f5ff"/><path d="M122 222v-4M128 223v-5M134 222v-4" stroke="#cfc9ff" stroke-width="1.6" stroke-linecap="round"/></g>
-  <g class="tcs-ml-breath">
-   <ellipse cx="110" cy="152" rx="42" ry="14" fill="#0f0d2b"/>
-   <rect x="66" y="150" width="88" height="64" rx="28" fill="#17143a"/>
-   <path d="M94 156 Q94 172 90 180 M126 156 Q126 172 130 180" stroke="#7c5cff" stroke-width="2" fill="none" stroke-linecap="round" opacity=".7"/>
-   <ellipse cx="62" cy="184" rx="12" ry="20" fill="#17143a" transform="rotate(8 62 184)"/>
-   <ellipse cx="158" cy="184" rx="12" ry="20" fill="#17143a" transform="rotate(-8 158 184)"/>
-   <rect x="55" y="176" width="4" height="14" rx="2" fill="#2b8cff" transform="rotate(8 57 183)"/>
-   <rect x="161" y="176" width="4" height="14" rx="2" fill="#2b8cff" transform="rotate(-8 163 183)"/>
-   <circle cx="58" cy="204" r="8.5" fill="#f6f5ff"/>
-   <circle cx="162" cy="204" r="8.5" fill="#f6f5ff"/>
-   <text x="110" y="188" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="20" font-weight="800" font-style="italic" fill="#ffffff">TCS</text>
-   <path d="M90 196 Q112 205 134 191" stroke="#2b8cff" stroke-width="3" fill="none" stroke-linecap="round"/>
-  </g>
-  <g class="tcs-ml-head">
-   <path d="M52 86 C36 58 38 30 46 14 C72 20 94 36 106 58 Z" fill="#1d1747"/>
-   <path d="M58 78 C48 58 49 38 53 28 C70 34 86 46 95 60 Z" fill="#8b6cff"/>
-   <path d="M58 76 C52 60 53 44 56 36 C66 42 78 52 86 62 Z" fill="#a98cff" opacity=".55"/>
-   <path d="M168 86 C184 58 182 30 174 14 C148 20 126 36 114 58 Z" fill="#1d1747"/>
-   <path d="M162 78 C172 58 171 38 167 28 C150 34 134 46 125 60 Z" fill="#8b6cff"/>
-   <path d="M162 76 C168 60 167 44 164 36 C154 42 142 52 134 62 Z" fill="#a98cff" opacity=".55"/>
-   <ellipse cx="110" cy="100" rx="62" ry="52" fill="#f6f5ff"/>
-   <circle cx="52" cy="114" r="14" fill="#f6f5ff"/>
-   <circle cx="168" cy="114" r="14" fill="#f6f5ff"/>
-   <path d="M100 52 Q106 28 112 48 Q117 34 126 54 Z" fill="#f6f5ff"/>
-   <g class="tcs-ml-look">
-    <g class="tcs-ml-blink">
-     <ellipse cx="86" cy="102" rx="11" ry="14" fill="#1b2a6b"/>
-     <ellipse cx="134" cy="102" rx="11" ry="14" fill="#1b2a6b"/>
-     <circle cx="82" cy="96" r="4.2" fill="#fff"/>
-     <circle cx="130" cy="96" r="4.2" fill="#fff"/>
-     <circle cx="89" cy="108" r="2" fill="#fff" opacity=".8"/>
-     <circle cx="137" cy="108" r="2" fill="#fff" opacity=".8"/>
-    </g>
-    <path d="M76 86 Q86 82 96 86" stroke="#cfc9ff" stroke-width="3" fill="none" stroke-linecap="round"/>
-    <path d="M124 78 Q134 72 144 78" stroke="#cfc9ff" stroke-width="3" fill="none" stroke-linecap="round"/>
-    <ellipse cx="70" cy="119" rx="8" ry="4.5" fill="#ff9ec7" opacity=".6"/>
-    <ellipse cx="150" cy="119" rx="8" ry="4.5" fill="#ff9ec7" opacity=".6"/>
-    <ellipse cx="110" cy="124" rx="5" ry="4.5" fill="#ff6fae"/>
-   </g>
-  </g>
-  <g class="tcs-ml-q"><text x="204" y="50" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="38" font-weight="800" fill="#7c5cff">?</text></g>
- </g>
-</svg>`;
+const MASCOT_SVG = '<img class="tcs-ml-svg tcs-ml-reference" src="/tcs-mascot-reference.svg" alt="">';
 
 const MSG = {
   loading: ['Memuat halaman…', 'Mohon tunggu sebentar.'],
