@@ -2,6 +2,9 @@
   'use strict';
 
   const ID = 'tcs-mascot-wanderer';
+  // Dinonaktifkan sementara. Set true untuk mengaktifkan kembali tanpa menghapus aset/kode.
+  const ENABLED = false;
+  if (!ENABLED) return;
   const ASSETS = {
     1: '/jalan-kanan-normal.svg',
     '-1': '/jalan-kiri-normal.svg'
