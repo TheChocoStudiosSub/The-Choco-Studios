@@ -1,6 +1,8 @@
 import { TCSLoader } from './tcs-mascot-loader.js';
 
-TCSLoader.watchNetwork();
+// Fitur maskot dan animasi dinonaktifkan sementara; kode loader tetap dipertahankan.
+const TCS_MASCOT_ENABLED = false;
+if (TCS_MASCOT_ENABLED) TCSLoader.watchNetwork();
 
 const panels=[...document.querySelectorAll("[data-panel]")];
 const links=[...document.querySelectorAll("[data-panel-link]")];
@@ -19,6 +21,7 @@ async function navigatePanel(id,{focus=false}={}){
  const currentIndex=panels.findIndex(panel=>panel.classList.contains("is-active"));
  if(targetIndex<0)return;
  if(targetIndex===currentIndex){activatePanel(id,{focus});return;}
+ if(!TCS_MASCOT_ENABLED){activatePanel(id,{focus});return;}
  const travelDirection=targetIndex>currentIndex?"right":"left";
  // direction pada loader adalah sisi masuk, bukan arah tujuan gerak.
  TCSLoader.show({direction:travelDirection==="right"?"left":"right",delay:0});
