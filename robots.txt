@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://the-choco-studios-officials.vercel.app/sitemap.xml
+Sitemap: https://the-choco-studios-official.vercel.app/sitemap.xml
