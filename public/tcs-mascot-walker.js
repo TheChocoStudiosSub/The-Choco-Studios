@@ -1,8 +1,15 @@
-const SVG_URL = '/tcs-mascot-reference.svg';
-const NS = 'http://www.w3.org/2000/svg';
-const ID = 'tcs-mascot-wanderer';
+(() => {
+  'use strict';
 
-if (!document.getElementById(ID)) {
+  const ID = 'tcs-mascot-wanderer';
+  const ASSETS = {
+    1: '/jalan-kanan-normal.svg',
+    '-1': '/jalan-kiri-normal.svg'
+  };
+  const NS = 'http://www.w3.org/2000/svg';
+
+  if (document.getElementById(ID)) return;
+
   const walker = document.createElement('div');
   walker.id = ID;
   walker.className = 'tcs-mascot-wanderer is-paused';
@@ -11,79 +18,69 @@ if (!document.getElementById(ID)) {
   document.body.appendChild(walker);
 
   const artHost = walker.firstElementChild;
-  const styleLink = document.createElement('link');
-  styleLink.rel = 'stylesheet';
-  styleLink.href = '/tcs-mascot-walker.css';
-  document.head.appendChild(styleLink);
+  const poseCache = new Map();
+  let activeSvg = null;
   let x = 12;
   let direction = 1;
   let pauseRemaining = 0.8;
   let previousTime = 0;
   let frameId = 0;
   let lastPauseAt = 0;
+  let paused = true;
   let reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  function wrapNodes(parent, nodes, className) {
-    if (!parent || !nodes.length) return null;
-    const group = document.createElementNS(NS, 'g');
-    group.classList.add(className);
-    parent.insertBefore(group, nodes[0]);
-    nodes.forEach(node => group.appendChild(node));
-    return group;
+  async function fetchPose(dir) {
+    if (poseCache.has(dir)) return poseCache.get(dir);
+    const response = await fetch(ASSETS[dir], { credentials: 'same-origin', cache: 'force-cache' });
+    if (!response.ok) throw new Error('HTTP ' + response.status + ' saat memuat pose ' + (dir > 0 ? 'kanan' : 'kiri'));
+    const source = await response.text();
+    const parsed = new DOMParser().parseFromString(source, 'image/svg+xml');
+    if (parsed.querySelector('parsererror')) throw new Error('SVG pose tidak valid: ' + ASSETS[dir]);
+    const template = parsed.documentElement;
+    if (template.localName !== 'svg' || !template.getAttribute('viewBox')) {
+      throw new Error('Aset pose tidak memiliki elemen SVG/viewBox yang valid: ' + ASSETS[dir]);
+    }
+    poseCache.set(dir, template);
+    return template;
   }
 
-  function prepareArt(svg) {
+  async function installPose(dir) {
+    const template = await fetchPose(dir);
+    const svg = document.importNode(template, true);
     svg.classList.add('tcs-mascot-art');
     svg.setAttribute('focusable', 'false');
     svg.setAttribute('aria-hidden', 'true');
     svg.removeAttribute('width');
     svg.removeAttribute('height');
-
-    const legs = svg.querySelector('#legs');
-    if (legs) {
-      const nodes = [...legs.children];
-      const details = nodes[5] && nodes[5].tagName.toLowerCase() === 'g' ? nodes[5] : null;
-      wrapNodes(legs, [nodes[1], nodes[3]].filter(Boolean), 'tcs-walk-leg-left');
-      wrapNodes(legs, [nodes[2], nodes[4]].filter(Boolean), 'tcs-walk-leg-right');
-      if (details) {
-        const lines = [...details.children];
-        wrapNodes(details, lines.slice(0, 2), 'tcs-walk-leg-lines-left');
-        wrapNodes(details, lines.slice(2, 4), 'tcs-walk-leg-lines-right');
-      }
-    }
-
-    const sleeves = svg.querySelector('#sleeves');
-    if (sleeves) {
-      const arms = [...sleeves.children];
-      wrapNodes(sleeves, arms.slice(0, 3), 'tcs-walk-arm-left');
-      wrapNodes(sleeves, arms.slice(3, 6), 'tcs-walk-arm-right');
-    }
-
-    const hands = svg.querySelector('#hands');
-    if (hands) {
-      const parts = [...hands.children];
-      wrapNodes(hands, [parts[0]].filter(Boolean), 'tcs-walk-hand-left');
-      wrapNodes(hands, [parts[1]].filter(Boolean), 'tcs-walk-hand-right');
-    }
-
-    const headLayers = ['#ears', '#head-tufts', '#head', '#ear-tufts', '#face']
-      .map(selector => svg.querySelector(selector)).filter(Boolean);
-    if (headLayers.length) wrapNodes(svg, headLayers, 'tcs-walk-head');
-
     artHost.replaceChildren(svg);
+    activeSvg = svg;
+    if (paused || reducedMotion || document.hidden) activeSvg.pauseAnimations?.();
+    else activeSvg.unpauseAnimations?.();
+  }
+
+  function setPaused(value) {
+    if (paused === value) return;
+    paused = value;
+    walker.classList.toggle('is-paused', value);
+    if (!activeSvg) return;
+    if (value) activeSvg.pauseAnimations?.();
+    else activeSvg.unpauseAnimations?.();
   }
 
   function setPosition() {
     const width = walker.getBoundingClientRect().width || 118;
     const maxX = Math.max(8, window.innerWidth - width - 8);
     x = Math.max(8, Math.min(x, maxX));
-    walker.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0) scaleX(' + direction + ')';
+    // Aset kanan/kiri sudah memiliki siluet dan orientasi masing-masing.
+    // Jangan scaleX: itu justru membalik pose yang sudah digambar.
+    walker.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0)';
   }
 
   function stopFrame() {
     if (frameId) cancelAnimationFrame(frameId);
     frameId = 0;
     previousTime = 0;
+    setPaused(true);
   }
 
   function tick(timestamp) {
@@ -97,9 +94,9 @@ if (!document.getElementById(ID)) {
 
     if (pauseRemaining > 0) {
       pauseRemaining -= dt;
-      walker.classList.add('is-paused');
+      setPaused(true);
     } else {
-      walker.classList.remove('is-paused');
+      setPaused(false);
       const width = walker.getBoundingClientRect().width || 118;
       const maxX = Math.max(8, window.innerWidth - width - 8);
       const speed = window.innerWidth < 600 ? 22 : 34;
@@ -109,40 +106,51 @@ if (!document.getElementById(ID)) {
         x = maxX;
         direction = -1;
         pauseRemaining = 1.25;
+        void installPose(direction).catch(fail);
+        setPaused(true);
       } else if (x <= 8) {
         x = 8;
         direction = 1;
         pauseRemaining = 1.25;
+        void installPose(direction).catch(fail);
+        setPaused(true);
       } else if (timestamp - lastPauseAt > 26000) {
         lastPauseAt = timestamp;
         pauseRemaining = 1.6;
+        setPaused(true);
       }
     }
     setPosition();
   }
 
-  async function loadMascot() {
+  function fail(error) {
+    console.error('[TCS Mascot] Gagal memuat pose resmi:', error);
+    stopFrame();
+    walker.remove();
+  }
+
+  async function start() {
     try {
-      const response = await fetch(SVG_URL, { credentials: 'same-origin', cache: 'force-cache' });
-      if (!response.ok) throw new Error('HTTP ' + response.status);
-      const source = await response.text();
-      const parsed = new DOMParser().parseFromString(source, 'image/svg+xml');
-      if (parsed.querySelector('parsererror')) throw new Error('SVG referensi tidak valid');
-      const svg = document.importNode(parsed.documentElement, true);
-      prepareArt(svg);
+      // Kedua pose resmi dimuat sebelum animasi dimulai agar pergantian arah instan.
+      await Promise.all([fetchPose(1), fetchPose(-1)]);
+      await installPose(direction);
       walker.classList.add('is-ready');
       setPosition();
-      if (!reducedMotion && !document.hidden) frameId = requestAnimationFrame(tick);
+      if (!reducedMotion && !document.hidden) {
+        frameId = requestAnimationFrame(tick);
+      } else {
+        setPaused(true);
+      }
     } catch (error) {
-      walker.remove();
-      console.warn('[TCS Mascot] Maskot tidak dapat dimuat:', error);
+      fail(error);
     }
   }
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) stopFrame();
-    else if (!reducedMotion && artHost.firstElementChild && !frameId) {
+    else if (!reducedMotion && activeSvg && !frameId) {
       previousTime = 0;
+      setPaused(pauseRemaining > 0);
       frameId = requestAnimationFrame(tick);
     }
   });
@@ -153,13 +161,13 @@ if (!document.getElementById(ID)) {
     reducedMotion = event.matches;
     if (reducedMotion) {
       stopFrame();
-      walker.classList.add('is-paused');
       setPosition();
-    } else if (!document.hidden && artHost.firstElementChild && !frameId) {
+    } else if (!document.hidden && activeSvg && !frameId) {
       previousTime = 0;
+      setPaused(pauseRemaining > 0);
       frameId = requestAnimationFrame(tick);
     }
   });
 
-  loadMascot();
-}
+  void start();
+})();
