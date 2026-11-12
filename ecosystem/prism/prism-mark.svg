@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+<title id="title">Prism Gaming Studios</title><desc id="desc">Prisma geometris dengan spektrum cahaya cyan dan violet.</desc>
+<defs><linearGradient id="g1" x1="32" y1="20" x2="220" y2="236" gradientUnits="userSpaceOnUse"><stop stop-color="#8ce8ee"/><stop offset=".48" stop-color="#a9b4ff"/><stop offset="1" stop-color="#b18cff"/></linearGradient><linearGradient id="g2" x1="72" y1="70" x2="194" y2="190" gradientUnits="userSpaceOnUse"><stop stop-color="#d5ffff" stop-opacity=".95"/><stop offset="1" stop-color="#a68cff" stop-opacity=".18"/></linearGradient></defs>
+<path d="M128 20 235 211H21L128 20Z" fill="none" stroke="url(#g1)" stroke-width="7" stroke-linejoin="round"/>
+<path d="m128 20 0 191M21 211l107-91 107 91" fill="none" stroke="url(#g1)" stroke-width="4" stroke-linejoin="round" opacity=".8"/>
+<path d="m128 20 42 75-42 25-42-25 42-75Z" fill="url(#g2)" opacity=".8"/>
+<path d="m128 120 0 91 52-91-52-0Z" fill="#9d8cff" opacity=".22"/>
+<path d="m128 120-52 91h52" fill="#8ce8ee" opacity=".2"/>
+<circle cx="128" cy="120" r="6" fill="#efffff"/>
+</svg>
