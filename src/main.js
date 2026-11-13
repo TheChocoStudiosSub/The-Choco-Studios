@@ -33,4 +33,15 @@ async function navigatePanel(id,{focus=false}={}){
 links.forEach(link=>link.addEventListener("click",event=>{event.preventDefault();void navigatePanel(link.dataset.panelLink,{focus:true});}));
 document.querySelectorAll('a[href^="#"]').forEach(link=>{if(link.dataset.panelLink)return;link.addEventListener("click",event=>{const id=link.getAttribute("href").slice(1);if(panels.some(panel=>panel.dataset.panel===id)){event.preventDefault();void navigatePanel(id,{focus:true});}});});
 const initial=location.hash.slice(1);activatePanel(panels.some(panel=>panel.dataset.panel===initial)?initial:"home",{updateHash:false});
+
+// Founder background photo rotation: 100 ms per image for the requested visual test.
+const founderSlides=[...document.querySelectorAll(".founder-backdrop img")];
+if(founderSlides.length>1){
+ let founderSlideIndex=0;
+ window.setInterval(()=>{
+  founderSlides[founderSlideIndex].classList.remove("is-visible");
+  founderSlideIndex=(founderSlideIndex+1)%founderSlides.length;
+  founderSlides[founderSlideIndex].classList.add("is-visible");
+ },100);
+}
 document.addEventListener("keydown",event=>{if(event.altKey||event.ctrlKey||event.metaKey)return;const index=links.findIndex(link=>link.classList.contains("is-current"));const active=document.activeElement;if((event.key==="ArrowDown"||event.key==="ArrowUp")&&active?.tagName!=="INPUT"&&active?.tagName!=="TEXTAREA"){event.preventDefault();const next=(index+(event.key==="ArrowDown"?1:-1)+links.length)%links.length;links[next].focus();}if(event.key==="Enter"&&document.activeElement?.dataset?.panelLink)void navigatePanel(document.activeElement.dataset.panelLink,{focus:true});});
