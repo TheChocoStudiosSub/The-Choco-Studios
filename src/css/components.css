@@ -301,3 +301,98 @@ html.motion-ready .hero-title-line>span{transform:translateY(110%)}
   .hero-guilloche path{stroke-dashoffset:0!important}
   .hero-cta,.side-nav a::after{transition:none!important}
 }
+
+#home>.intro.section.view-panel{
+  display:flex;
+  min-height:100%;
+  height:auto;
+  max-height:none;
+  align-items:center;
+  justify-content:center;
+  padding-block:calc(var(--space-quiet) + 40px);
+  padding-inline:clamp(28px,8vw,148px);
+  border:0;
+  background:var(--ink);
+  overflow:visible;
+}
+
+#home>.intro .statement{
+  width:min(100%,900px);
+  max-width:900px;
+  margin:0;
+  color:var(--paper);
+  font-family:var(--font-display);
+  font-size:clamp(2.15rem,4.7vw,4.5rem);
+  font-weight:500;
+  line-height:1.2;
+  letter-spacing:.02em;
+  text-transform:none;
+  text-wrap:balance;
+  transition:letter-spacing 1200ms var(--ease-expo);
+}
+
+#home>.intro .statement em{
+  color:var(--gold-text);
+  font-style:normal;
+  font-weight:500;
+}
+
+.statement-mask{
+  display:block;
+  overflow:hidden;
+  clip-path:inset(0 0 100% 0);
+}
+
+.statement-mask>span{
+  display:block;
+  transform:translateY(110%);
+}
+
+#home>.intro .statement.is-entered{
+  letter-spacing:0;
+}
+
+#home>.intro .statement.is-entered .statement-mask{
+  animation:statement-mask-reveal var(--dur-reveal) var(--ease-expo) both;
+}
+
+#home>.intro .statement.is-entered .statement-mask>span{
+  animation:statement-line-reveal var(--dur-reveal) var(--ease-expo) both;
+}
+
+@keyframes statement-mask-reveal{
+  from{clip-path:inset(0 0 100% 0)}
+  to{clip-path:inset(0)}
+}
+
+@keyframes statement-line-reveal{
+  from{transform:translateY(110%)}
+  to{transform:translateY(0)}
+}
+
+@media(max-width:650px){
+  #home>.intro.section.view-panel{
+    padding-inline:24px;
+  }
+  #home>.intro .statement{
+    font-size:clamp(2rem,8.3vw,3.1rem);
+    line-height:1.22;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  #home>.intro .statement,
+  #home>.intro .statement .statement-mask,
+  #home>.intro .statement .statement-mask>span{
+    animation:none!important;
+    clip-path:none!important;
+    transform:none!important;
+    transition:opacity 150ms ease!important;
+  }
+  #home>.intro .statement.is-reveal-armed:not(.is-entered){
+    opacity:0;
+  }
+  #home>.intro .statement.is-entered{
+    opacity:1;
+  }
+}
