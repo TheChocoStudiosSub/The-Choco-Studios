@@ -1,0 +1,26 @@
+:root{
+  color-scheme:dark;
+  --ink:#0A0908;
+  --ink-2:#12100E;
+  --ink-3:#1A1713;
+  --rule:#26221C;
+  --brass:#9A7B4F;
+  --brass-soft:#6E5836;
+  --gold-text:#C9AE7E;
+  --gold-hot:#E4CE9E;
+  --paper:#EDE7DC;
+  --muted:#8C8478;
+  --font-display:"Manrope",sans-serif;
+  --font-body:"Manrope",sans-serif;
+  --font-mono:"IBM Plex Mono",monospace;
+  --track-display:.18em;
+  --track-meta:.14em;
+  --space-quiet:clamp(160px,18vw,280px);
+  --space-dense:clamp(72px,8vw,120px);
+  --ease-expo:cubic-bezier(.16,1,.3,1);
+  --ease-quint:cubic-bezier(.22,.72,.25,1);
+  --ease-luxury:cubic-bezier(.76,0,.24,1);
+  --dur-reveal:1000ms;
+  --content:1160px;
+  --radius-card:0px;
+}
