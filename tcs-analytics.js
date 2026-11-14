@@ -12,7 +12,7 @@
   const visitorId = sessionId("tcs_analytics_visitor_v1");
   const session = sessionId("tcs_analytics_session_v1");
   const send = (payload) => {
-    const data = JSON.stringify({ siteKey: site, visitorId, sessionId: session, ...payload });
+    const data = JSON.stringify({ action: "track", siteKey: site, visitorId, sessionId: session, ...payload });
     try {
       if (navigator.sendBeacon && navigator.sendBeacon(endpoint, new Blob([data], { type: "application/json" }))) return;
     } catch {}
