@@ -44,4 +44,22 @@ if(hero){
  }else enterHero();
 }
 
+const statement=document.querySelector("#studio .statement");
+if(statement){
+ const reveal=()=>{
+  if(statement.classList.contains("is-entered"))return;
+  requestAnimationFrame(()=>statement.classList.add("is-entered"));
+ };
+ statement.classList.add("is-reveal-armed");
+ if("IntersectionObserver" in window){
+  const statementObserver=new IntersectionObserver(entries=>{
+   if(entries.some(entry=>entry.isIntersecting)){
+    reveal();
+    statementObserver.disconnect();
+   }
+  },{root:document.querySelector("#home"),threshold:.12});
+  statementObserver.observe(statement);
+ }else reveal();
+}
+
 document.addEventListener("keydown",event=>{if(event.altKey||event.ctrlKey||event.metaKey)return;const index=links.findIndex(link=>link.classList.contains("is-current"));const active=document.activeElement;if((event.key==="ArrowDown"||event.key==="ArrowUp")&&active?.tagName!=="INPUT"&&active?.tagName!=="TEXTAREA"){event.preventDefault();const next=(index+(event.key==="ArrowDown"?1:-1)+links.length)%links.length;links[next].focus();}if(event.key==="Enter"&&document.activeElement?.dataset?.panelLink)void navigatePanel(document.activeElement.dataset.panelLink,{focus:true});});
