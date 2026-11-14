@@ -2,6 +2,8 @@ const panels=[...document.querySelectorAll("[data-panel]")];
 const links=[...document.querySelectorAll("[data-panel-link]")];
 const year=document.querySelector("#year");
 if(year) year.textContent=new Date().getFullYear();
+const footerYear=document.querySelector("#footer-year");
+if(footerYear) footerYear.textContent=new Date().getFullYear();
 function activatePanel(id,{updateHash=true,focus=false}={}){
  const target=panels.find(panel=>panel.dataset.panel===id);if(!target)return;
  panels.forEach(panel=>{const active=panel===target;panel.classList.toggle("is-active",active);panel.setAttribute("aria-hidden",String(!active));if("inert" in panel)panel.inert=!active;});
