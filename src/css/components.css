@@ -197,8 +197,10 @@ html.motion-ready .hero-title-line>span{transform:translateY(110%)}
   stroke-linecap:round;
   stroke-linejoin:round;
   stroke-dasharray:1000;
-  stroke-dashoffset:1000;
+  stroke-dashoffset:0;
 }
+
+.hero.motion-armed .hero-guilloche path{stroke-dashoffset:1000}
 
 .hero.is-entered .hero-guilloche path{
   animation:hero-guilloche-draw 10s linear 1 forwards;
