@@ -29,7 +29,8 @@ if(hero){
   if(hero.classList.contains("is-entered"))return;
   requestAnimationFrame(()=>{
    document.documentElement.classList.add("motion-ready");
-   hero.classList.add("is-entered");
+   hero.classList.add("motion-armed");
+   requestAnimationFrame(()=>hero.classList.add("is-entered"));
   });
  };
  if("IntersectionObserver" in window){
