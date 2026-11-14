@@ -63,3 +63,56 @@ if(statement){
 }
 
 document.addEventListener("keydown",event=>{if(event.altKey||event.ctrlKey||event.metaKey)return;const index=links.findIndex(link=>link.classList.contains("is-current"));const active=document.activeElement;if((event.key==="ArrowDown"||event.key==="ArrowUp")&&active?.tagName!=="INPUT"&&active?.tagName!=="TEXTAREA"){event.preventDefault();const next=(index+(event.key==="ArrowDown"?1:-1)+links.length)%links.length;links[next].focus();}if(event.key==="Enter"&&document.activeElement?.dataset?.panelLink)void navigatePanel(document.activeElement.dataset.panelLink,{focus:true});});
+
+const workIndex=document.querySelector("#work .work-index");
+const workPreview=document.querySelector("#work .work-preview");
+if(workIndex&&workPreview&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches&&window.matchMedia("(hover: hover) and (pointer: fine)").matches){
+ const previewImage=workPreview.querySelector("img");
+ const rows=[...workIndex.querySelectorAll(".work-index-row[data-preview]")];
+ let pointerX=0,pointerY=0,renderX=0,renderY=0,rafId=0,showTimer=0,hideTimer=0,active=false;
+ const animatePreview=()=>{
+  if(!active){rafId=0;return;}
+  renderX+=(pointerX-renderX)*.08;
+  renderY+=(pointerY-renderY)*.08;
+  workPreview.style.transform=`translate3d(${renderX}px,${renderY}px,0)`;
+  rafId=requestAnimationFrame(animatePreview);
+ };
+ const startFrame=()=>{
+  if(!rafId){renderX=pointerX;renderY=pointerY;rafId=requestAnimationFrame(animatePreview);}
+ };
+ const enterRow=row=>{
+  clearTimeout(showTimer);clearTimeout(hideTimer);
+  previewImage.src=row.dataset.preview;
+  previewImage.alt=row.dataset.previewAlt||"";
+  workPreview.classList.remove("is-leaving");
+  showTimer=setTimeout(()=>{
+   active=true;
+   workPreview.classList.add("is-visible");
+   startFrame();
+  },120);
+ };
+ const leaveRow=()=>{
+  clearTimeout(showTimer);
+  active=false;
+  workPreview.classList.remove("is-visible");
+  workPreview.classList.add("is-leaving");
+  hideTimer=setTimeout(()=>{
+   workPreview.classList.remove("is-leaving");
+   previewImage.removeAttribute("src");
+   if(rafId){cancelAnimationFrame(rafId);rafId=0;}
+  },900);
+ };
+ rows.forEach(row=>{
+  row.addEventListener("pointerenter",event=>{
+   pointerX=event.clientX+28;pointerY=event.clientY+24;
+   enterRow(row);
+  });
+  row.addEventListener("pointermove",event=>{
+   pointerX=event.clientX+28;pointerY=event.clientY+24;
+   if(active&&!rafId)startFrame();
+  });
+  row.addEventListener("pointerleave",leaveRow);
+  row.addEventListener("focus",()=>enterRow(row));
+  row.addEventListener("blur",leaveRow);
+ });
+}
