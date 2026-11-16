@@ -863,12 +863,12 @@ html.motion-ready .hero-title-line>span{transform:translateY(110%)}
 
 /* Expanded studio statement editorial layout */
 #home>.intro.section.view-panel{justify-content:center;align-items:stretch;padding:clamp(28px,5vh,58px) clamp(26px,5vw,76px);overflow:auto}
-#home>.intro .statement-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.85fr);gap:clamp(28px,5vw,72px);width:min(100%,1120px);margin:auto;align-items:start}
+#home>.intro .statement-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:clamp(24px,4vw,56px);width:min(100%,1120px);margin:auto;align-items:start}
 #home>.intro .statement-heading{align-self:start;min-width:0}
 #home>.intro .statement-detail{min-width:0;overflow-wrap:anywhere}
 #home>.intro .statement-heading .section-kicker{display:flex;align-items:center;gap:12px;margin:0 0 clamp(32px,6vh,68px);color:var(--muted);font:400 10px/1.5 var(--font-mono);letter-spacing:var(--track-meta)}
 #home>.intro .statement-heading .registration-mark{color:var(--gold-text)}
-#home>.intro .statement{width:100%;font-size:clamp(2.6rem,5.5vw,5.4rem);line-height:1.08;letter-spacing:0}
+#home>.intro .statement{width:100%;font-size:clamp(2.35rem,4.6vw,4.6rem);line-height:1.1;letter-spacing:0;text-wrap:pretty}
 #home>.intro .statement-detail{max-width:560px;color:var(--muted);font:400 13px/1.85 var(--font-body)}
 #home>.intro .statement-detail p{margin:0 0 18px}
 #home>.intro .statement-detail .statement-intro{color:var(--paper);font-size:clamp(14px,1.3vw,16px);line-height:1.8}
