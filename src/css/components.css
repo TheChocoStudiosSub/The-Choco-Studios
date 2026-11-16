@@ -20,7 +20,6 @@
 
 .hero-inner{
   position:relative;
-  isolation:isolate;
   display:flex;
   width:min(100%,1320px);
   min-height:clamp(360px,54vh,580px);
@@ -31,7 +30,6 @@
 
 .hero-meta{
   position:absolute;
-  z-index:2;
   top:0;
   left:0;
   display:flex;
@@ -55,7 +53,7 @@
 
 .hero-content{
   position:relative;
-  z-index:2;
+  z-index:1;
   width:min(100%,860px);
   max-width:860px;
 }
@@ -76,10 +74,7 @@ html.motion-ready .site-shell #home>.hero.view-panel .hero-title{letter-spacing:
 
 .hero-title-line{
   display:block;
-  overflow:visible;
-  padding-block:.1em;
-  margin-block:-.1em;
-  clip-path:inset(0 0 100% 0);
+  overflow:hidden;
 }
 
 .hero-title-line>span{
@@ -183,15 +178,14 @@ html.motion-ready .hero-title-line>span{transform:translateY(110%)}
 
 .hero-guilloche{
   position:absolute;
-  z-index:0;
   top:50%;
   right:0;
   display:block;
-  width:clamp(90px,12vw,170px);
+  width:clamp(112px,16vw,218px);
   height:auto;
   overflow:visible;
   color:var(--brass);
-  opacity:.2;
+  opacity:.46;
   pointer-events:none;
   transform:translateY(-50%);
 }
