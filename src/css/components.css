@@ -875,3 +875,8 @@ html.motion-ready .hero-title-line>span{transform:translateY(110%)}
 #home>.intro .statement-detail strong{color:var(--gold-text);font-weight:500}
 #home>.intro .statement-signature{display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:clamp(26px,4vh,42px);padding-top:15px;border-top:1px solid var(--rule);color:var(--muted);font:400 9px/1.5 var(--font-mono);letter-spacing:.1em}
 @media(max-width:900px){#home>.intro .statement-layout{grid-template-columns:1fr;gap:30px}#home>.intro .statement-heading .section-kicker{margin-bottom:28px}#home>.intro .statement{font-size:clamp(2.4rem,9vw,4rem)}#home>.intro .statement-detail{max-width:100%}}
+
+
+/* Keep the complete studio statement visible as one continuous sentence */
+#home>.intro .statement-mask{display:inline;overflow:visible;clip-path:none;}
+#home>.intro .statement-mask>span{display:inline;transform:none;animation:none;}
