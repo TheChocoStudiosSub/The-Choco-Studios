@@ -1598,9 +1598,6 @@ body {
     transform: none !important;
     rotate: none !important;
   }
-  #home > .view-panel .tcs-ornament--shooting-star {
-    display: none !important;
-  }
   #home > .view-panel .tcs-ornament--spark {
     opacity: .59 !important;
   }
