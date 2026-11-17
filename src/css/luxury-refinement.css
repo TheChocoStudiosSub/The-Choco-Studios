@@ -1059,7 +1059,7 @@ body {
 
 
 
-/* Kinetic ornament system: page-specific layouts, counter-rotating geometry and occasional shooting stars. */
+/* Kinetic ornament system: page-specific layouts and random diagonal meteor showers. */
 #home > .view-panel {
   isolation: isolate;
 }
@@ -1071,6 +1071,65 @@ body {
   contain: paint;
   pointer-events: none;
   user-select: none;
+}
+
+#home > .view-panel > .tcs-ornament-layer > .tcs-meteor-field {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+#home > .view-panel .tcs-meteor {
+  position: absolute;
+  display: block;
+  width: var(--meteor-length,100px);
+  height: var(--meteor-thickness,1.6px);
+  border-radius: 50%;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(215,189,140,.12) 18%,
+    rgba(240,223,182,.62) 66%,
+    rgba(255,247,222,1) 96%,
+    transparent 100%);
+  box-shadow: 0 0 7px rgba(240,223,182,.44), 0 0 16px rgba(215,189,140,.2);
+  filter: drop-shadow(0 0 5px rgba(255,240,202,var(--meteor-glow,.8)));
+  transform-origin: right center;
+  opacity: 0;
+  will-change: transform, opacity;
+  animation-name: tcs-meteor-flight;
+  animation-timing-function: cubic-bezier(.16,.68,.28,1);
+  animation-fill-mode: forwards;
+}
+#home > .view-panel .tcs-meteor::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 4%;
+  width: clamp(3px,calc(var(--meteor-thickness,1.6px) * 2.2),6px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff7df;
+  box-shadow: 0 0 7px 2px rgba(255,244,210,.8), 0 0 18px rgba(240,223,182,.7);
+  transform: translateY(-50%);
+}
+@keyframes tcs-meteor-flight {
+  0% {
+    opacity: 0;
+    transform: translate3d(0,0,0) rotate(var(--meteor-angle,42deg)) scaleX(.25);
+  }
+  8% {
+    opacity: .98;
+    transform: translate3d(0,0,0) rotate(var(--meteor-angle,42deg)) scaleX(1);
+  }
+  76% {
+    opacity: .92;
+    transform: translate3d(calc(var(--meteor-x) * .76),calc(var(--meteor-y) * .76),0) rotate(var(--meteor-angle,42deg)) scaleX(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--meteor-x),var(--meteor-y),0) rotate(var(--meteor-angle,42deg)) scaleX(.58);
+  }
 }
 #home > .view-panel:not(.hero)::before,
 #home > .view-panel:not(.hero)::after {
@@ -1137,25 +1196,6 @@ body {
   82% { opacity: .42; }
   100% { transform: translateY(120%); opacity: 0; }
 }
-@keyframes tcs-shooting-star {
-  0%,67% {
-    opacity: 0;
-    transform: translate3d(0,0,0) rotate(var(--star-angle,35deg)) scaleX(.12);
-  }
-  69% {
-    opacity: .95;
-    transform: translate3d(0,0,0) rotate(var(--star-angle,35deg)) scaleX(.62);
-  }
-  77% {
-    opacity: 0;
-    transform: translate3d(var(--star-x,-210px),var(--star-y,150px),0) rotate(var(--star-angle,35deg)) scaleX(1.2);
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(var(--star-x,-210px),var(--star-y,150px),0) rotate(var(--star-angle,35deg)) scaleX(.12);
-  }
-}
-
 /* Counter-rotating orbital assemblies. */
 #home > .view-panel .tcs-ornament--orbital {
   width: clamp(138px,18vw,252px);
@@ -1353,69 +1393,26 @@ body {
   animation: tcs-portrait-scan 7.5s ease-in-out 1.5s infinite;
 }
 
-/* Shooting stars: bright, brief, diagonal passes with long quiet intervals. */
-#home > .view-panel .tcs-ornament--shooting-star {
-  width: clamp(92px,12vw,164px);
-  height: 2px;
-  background: linear-gradient(90deg, transparent, rgba(215,189,140,.14) 24%, rgba(240,223,182,.96) 82%, transparent);
-  border-radius: 50%;
-  box-shadow: 0 0 8px rgba(240,223,182,.38);
-  opacity: 0;
-  filter: drop-shadow(0 0 6px rgba(240,223,182,.7));
-  animation: tcs-shooting-star var(--star-duration,15s) linear var(--star-delay,3s) infinite;
-}
-#home > .view-panel .tcs-ornament--shooting-star::after {
-  content: "";
-  position: absolute;
-  top: -2px;
-  right: 10%;
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: #fff2cf;
-  box-shadow: 0 0 10px 2px rgba(240,223,182,.7);
-}
-#home > .view-panel .tcs-ornament--star-a {
-  top: 13%;
-  right: 12%;
-  --star-angle: 34deg;
-  --star-x: -230px;
-  --star-y: 170px;
-  --star-duration: 14s;
-  --star-delay: 3s;
-}
-#home > .view-panel .tcs-ornament--star-b {
-  top: 46%;
-  left: 42%;
-  --star-angle: 146deg;
-  --star-x: 215px;
-  --star-y: 155px;
-  --star-duration: 17s;
-  --star-delay: 9s;
-}
-
 /* HOME: concentric orbitals frame the hero from opposing corners. */
 #home > .hero .tcs-ornament--orbital-home {
   top: 10%;
   right: 8%;
-  width: clamp(240px,31vw,430px);
+  width: clamp(150px,17vw,220px);
 }
 #home > .hero .tcs-ornament--orbital-reverse-home {
   left: 8%;
   bottom: 9%;
 }
 #home > .hero .tcs-ornament--constellation-home {
-  top: 19%;
-  left: 10%;
-  width: clamp(160px,18vw,250px);
+  top: 22%;
+  left: 8%;
+  width: clamp(120px,14vw,170px);
 }
 #home > .hero .tcs-ornament--crosshair-home {
-  right: 29%;
-  bottom: 17%;
+  right: 25%;
+  bottom: 16%;
 }
-#home > .hero .tcs-ornament--spark-one { top: 22%; left: 48%; }
-#home > .hero .tcs-ornament--spark-two { right: 18%; bottom: 19%; animation-delay: 2.2s; }
-#home > .hero .tcs-ornament--star-b { top: 66%; left: 54%; --star-delay: 6s; --star-duration: 16s; }
+#home > .hero .tcs-ornament--spark-one { top: 24%; left: 47%; }
 
 /* STUDIO: a wide technical grid, offset compass and constellation points. */
 #home > .view-panel[data-panel="studio"] .tcs-ornament--grid-studio {
@@ -1469,7 +1466,6 @@ body {
   bottom: 14%;
 }
 #home > .view-panel[data-panel="founder-profile"] .tcs-ornament--spark-one { right: 8%; bottom: 26%; }
-#home > .view-panel[data-panel="founder-profile"] .tcs-ornament--star-a { top: 70%; right: 30%; --star-delay: 5s; }
 
 /* WORK: a diagonal project index grid and orbiting corner markers. */
 #home > .view-panel[data-panel="work"] .tcs-ornament--grid-work {
@@ -1552,17 +1548,6 @@ body {
 #home > .view-panel[data-panel="footer"] .tcs-ornament--spark-one { left: 44%; top: 70%; }
 #home > .view-panel[data-panel="footer"] .tcs-ornament--spark-two { right: 9%; bottom: 21%; }
 
-/* Stagger and vary shooting-star timing from page to page. */
-#home > .view-panel[data-panel="studio"] .tcs-ornament--star-a { top: 18%; right: 30%; --star-delay: 1s; --star-duration: 15s; }
-#home > .view-panel[data-panel="studio"] .tcs-ornament--star-b { top: 72%; left: 14%; --star-delay: 9s; --star-duration: 18s; }
-#home > .view-panel[data-panel="founder-profile"] .tcs-ornament--star-b { top: 32%; left: 24%; --star-delay: 11s; --star-duration: 19s; }
-#home > .view-panel[data-panel="work"] .tcs-ornament--star-a { top: 17%; right: 42%; --star-delay: 4s; --star-duration: 16s; }
-#home > .view-panel[data-panel="work"] .tcs-ornament--star-b { top: 74%; left: 55%; --star-delay: 12s; --star-duration: 20s; }
-#home > .view-panel[data-panel="principles"] .tcs-ornament--star-a { top: 30%; right: 10%; --star-delay: 2s; --star-duration: 17s; }
-#home > .view-panel[data-panel="principles"] .tcs-ornament--star-b { top: 68%; left: 22%; --star-delay: 10s; --star-duration: 19s; }
-#home > .view-panel[data-panel="footer"] .tcs-ornament--star-a { top: 18%; right: 14%; --star-delay: 7s; --star-duration: 18s; }
-#home > .view-panel[data-panel="footer"] .tcs-ornament--star-b { top: 76%; left: 48%; --star-delay: 13s; --star-duration: 20s; }
-
 @media (max-width: 900px) {
   #home > .view-panel .tcs-ornament--orbital { width: clamp(118px,20vw,190px); }
   #home > .view-panel .tcs-ornament--coordinate-grid,
@@ -1580,18 +1565,6 @@ body {
   }
   #home > .view-panel .tcs-ornament--orbital-reverse {
     width: 88px;
-  }
-  #home > .view-panel .tcs-ornament--star-a {
-    top: 20%;
-    right: 10%;
-    --star-x: -125px;
-    --star-y: 110px;
-  }
-  #home > .view-panel .tcs-ornament--star-b {
-    top: 62%;
-    left: 12%;
-    --star-x: 130px;
-    --star-y: 105px;
   }
   #home > .view-panel .tcs-ornament--portrait-frame {
     width: 82px;
