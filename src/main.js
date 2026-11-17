@@ -1,40 +1,35 @@
 const panels=[...document.querySelectorAll("#home > [data-panel]")];
 const ornamentDesigns={
  home:[
-  ["orbital","orbital-home"],["orbital-reverse","orbital-reverse-home"],
-  ["constellation","constellation-home"],["crosshair","crosshair-home"],
-  ["spark","spark-one"],["spark","spark-two"],
-  ["shooting-star","star-a"],["shooting-star","star-b"]
+  ["orbital","orbital-home"],
+  ["constellation","constellation-home"],
+  ["crosshair","crosshair-home"],
+  ["spark","spark-one"]
  ],
  studio:[
   ["coordinate-grid","grid-studio"],["orbital","orbital-studio"],
   ["orbital-reverse","orbital-reverse-studio"],["constellation","constellation-studio"],
-  ["crosshair","crosshair-studio"],["spark","spark-one"],["spark","spark-two"],
-  ["shooting-star","star-a"],["shooting-star","star-b"]
+  ["crosshair","crosshair-studio"],["spark","spark-one"]
  ],
  "founder-profile":[
   ["portrait-frame","portrait-frame-founder"],["orbital","orbital-founder"],
   ["orbital-reverse","orbital-reverse-founder"],["constellation","constellation-founder"],
-  ["crosshair","crosshair-founder"],["spark","spark-one"],
-  ["shooting-star","star-a"],["shooting-star","star-b"]
+  ["crosshair","crosshair-founder"]
  ],
  work:[
   ["index-grid","grid-work"],["orbital","orbital-work"],
   ["orbital-reverse","orbital-reverse-work"],["constellation","constellation-work"],
-  ["crosshair","crosshair-work"],["spark","spark-one"],["spark","spark-two"],
-  ["shooting-star","star-a"],["shooting-star","star-b"]
+  ["crosshair","crosshair-work"]
  ],
  principles:[
   ["coordinate-grid","grid-principles"],["orbital","orbital-principles"],
   ["orbital-reverse","orbital-reverse-principles"],["constellation","constellation-principles"],
-  ["crosshair","crosshair-principles"],["spark","spark-one"],
-  ["shooting-star","star-a"],["shooting-star","star-b"]
+  ["crosshair","crosshair-principles"]
  ],
  footer:[
   ["portrait-frame","portrait-frame-footer"],["orbital","orbital-footer"],
   ["orbital-reverse","orbital-reverse-footer"],["constellation","constellation-footer"],
-  ["crosshair","crosshair-footer"],["spark","spark-one"],["spark","spark-two"],
-  ["shooting-star","star-a"],["shooting-star","star-b"]
+  ["crosshair","crosshair-footer"]
  ]
 };
 panels.forEach(panel=>{
@@ -49,6 +44,10 @@ panels.forEach(panel=>{
   ornament.className="tcs-ornament "+names.map(name=>"tcs-ornament--"+name).join(" ");
   layer.appendChild(ornament);
  });
+ const meteorField=document.createElement("div");
+ meteorField.className="tcs-meteor-field";
+ meteorField.setAttribute("aria-hidden","true");
+ layer.appendChild(meteorField);
  panel.appendChild(layer);
 });
 const links=[...document.querySelectorAll("[data-panel-link]")];
@@ -59,6 +58,60 @@ if(year)year.textContent=currentYear;
 if(footerYear)footerYear.textContent=currentYear;
 
 const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* Random meteor showers are generated only for the currently visible page. */
+let meteorTimer=0;
+let meteorPanel=null;
+const randomBetween=(min,max)=>min+Math.random()*(max-min);
+const randomInteger=(min,max)=>Math.floor(randomBetween(min,max+1));
+
+function createMeteor(panel,delay){
+ const field=panel.querySelector(".tcs-meteor-field");
+ if(!field)return;
+ const meteor=document.createElement("span");
+ meteor.className="tcs-meteor";
+ meteor.setAttribute("aria-hidden","true");
+ const duration=randomInteger(850,1750);
+ const width=panel.clientWidth||window.innerWidth;
+ const height=panel.clientHeight||window.innerHeight;
+ meteor.style.left=randomBetween(-12,18)+"%";
+ meteor.style.top=randomBetween(-14,13)+"%";
+ meteor.style.setProperty("--meteor-x",Math.round(width*randomBetween(1.0,1.22))+"px");
+ meteor.style.setProperty("--meteor-y",Math.round(height*randomBetween(1.0,1.22))+"px");
+ meteor.style.setProperty("--meteor-angle",randomBetween(34,48)+"deg");
+ meteor.style.setProperty("--meteor-length",randomBetween(58,190)+"px");
+ meteor.style.setProperty("--meteor-thickness",randomBetween(1.1,2.5)+"px");
+ meteor.style.setProperty("--meteor-glow",randomBetween(.55,1)+"");
+ meteor.style.animationDuration=duration+"ms";
+ meteor.style.animationDelay=delay+"ms";
+ field.appendChild(meteor);
+ window.setTimeout(()=>meteor.remove(),duration+delay+220);
+}
+
+function launchMeteorShower(panel){
+ if(reducedMotion||document.hidden||panel!==meteorPanel||!panel.classList.contains("is-active"))return;
+ const count=randomInteger(1,5);
+ let delay=0;
+ for(let i=0;i<count;i++){
+  delay+=i===0?randomInteger(0,260):randomInteger(90,320);
+  createMeteor(panel,delay);
+ }
+ meteorTimer=window.setTimeout(
+  ()=>launchMeteorShower(panel),
+  randomInteger(4200,9800)
+ );
+}
+
+function startMeteorScheduler(panel){
+ window.clearTimeout(meteorTimer);
+ meteorPanel=panel;
+ if(reducedMotion||document.hidden)return;
+ meteorTimer=window.setTimeout(
+  ()=>launchMeteorShower(panel),
+  randomInteger(1300,3900)
+ );
+}
+
 const loader=document.querySelector("#luxury-loader");
 const loaderStarted=performance.now();
 
@@ -121,6 +174,7 @@ function activatePanel(id,options={}){
  }
 
  revealPanel(target);
+ startMeteorScheduler(target);
 
  if(options.focus){
   target.focus({preventScroll:true});
