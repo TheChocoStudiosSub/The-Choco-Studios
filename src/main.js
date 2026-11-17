@@ -80,8 +80,12 @@ function createMeteor(panel,delay){
  const travelY=Math.round(height*randomBetween(1.0,1.22));
  meteor.style.setProperty("--meteor-x",travelX+"px");
  meteor.style.setProperty("--meteor-y",travelY+"px");
+ meteor.style.setProperty("--meteor-early-x",Math.round(travelX*.44)+"px");
+ meteor.style.setProperty("--meteor-early-y",Math.round(travelY*.44)+"px");
  meteor.style.setProperty("--meteor-mid-x",Math.round(travelX*.76)+"px");
  meteor.style.setProperty("--meteor-mid-y",Math.round(travelY*.76)+"px");
+ meteor.style.setProperty("--meteor-late-x",Math.round(travelX*.9328)+"px");
+ meteor.style.setProperty("--meteor-late-y",Math.round(travelY*.9328)+"px");
  meteor.style.setProperty("--meteor-angle",randomBetween(34,48)+"deg");
  meteor.style.setProperty("--meteor-length",randomBetween(57,189)+"px");
  meteor.style.setProperty("--meteor-thickness",randomBetween(.1,1.5)+"px");
