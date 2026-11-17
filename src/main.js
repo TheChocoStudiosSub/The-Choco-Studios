@@ -109,13 +109,12 @@ function meteorOpacityAt(progress){
 
 function resizeMeteorCanvas(){
  if(!meteorContext||!meteorPanel||!meteorCanvas.isConnected)return;
- const bounds=meteorPanel.getBoundingClientRect();
- meteorWidth=Math.max(1,Math.round(bounds.width));
- meteorHeight=Math.max(1,window.innerHeight);
+ meteorWidth=Math.max(1,Math.round(window.innerWidth));
+ meteorHeight=Math.max(1,Math.round(window.innerHeight));
  meteorDpr=Math.min(window.devicePixelRatio||1,2);
  meteorCanvas.width=Math.round(meteorWidth*meteorDpr);
  meteorCanvas.height=Math.round(meteorHeight*meteorDpr);
- meteorCanvas.style.width="100%";
+ meteorCanvas.style.width="100vw";
  meteorCanvas.style.height="100vh";
  meteorContext.setTransform(meteorDpr,0,0,meteorDpr,0,0);
  meteorContext.clearRect(0,0,meteorWidth,meteorHeight);
@@ -164,10 +163,8 @@ function launchMeteorShower(panel){
 function startMeteorCanvas(panel){
  window.clearTimeout(meteorTimer);
  meteorPanel=panel;
- if(!meteorContext)return;
- const layer=panel?.querySelector(":scope > .tcs-ornament-layer");
- if(!layer)return;
- if(meteorCanvas.parentNode!==layer)layer.appendChild(meteorCanvas);
+ if(!meteorContext||!document.body)return;
+ if(meteorCanvas.parentNode!==document.body)document.body.appendChild(meteorCanvas);
  resizeMeteorCanvas();
  meteorShower=[];
  meteorDust=[];
@@ -416,7 +413,7 @@ function activatePanel(id,options={}){
 
  revealPanel(target);
  startMeteorCanvas(target);
- setSpaceBackground(id === "home");
+ setSpaceBackground(true);
 
  if(options.focus){
   target.focus({preventScroll:true});
