@@ -6,4 +6,4 @@
 
 @import "./css/space-background.css";
 
-.sidebar-bottom a.choco-ai-cta{display:inline-flex;align-items:center;justify-content:center;width:max-content;padding:9px 13px;border:1px solid rgba(255,255,255,.28);border-radius:3px;color:#fff;text-decoration:none;letter-spacing:.04em;transition:background .2s,border-color .2s}.sidebar-bottom a.choco-ai-cta:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.55)}
+.sidebar-bottom a.choco-ai-cta{display:inline-flex;align-items:center;gap:8px;width:max-content;padding:0;border:0;border-radius:0;background:transparent;color:var(--gold-text);font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-decoration:none;transition:color .35s var(--ease-expo)}.sidebar-bottom a.choco-ai-cta::after{content:'↗';color:var(--muted);transition:transform .35s var(--ease-expo),color .35s var(--ease-expo)}.sidebar-bottom a.choco-ai-cta:hover{color:var(--gold-hot)}.sidebar-bottom a.choco-ai-cta:hover::after{color:var(--gold-hot);transform:translate(2px,-2px)}
