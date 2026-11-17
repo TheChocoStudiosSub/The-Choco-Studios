@@ -42,94 +42,74 @@ function revealPanel(panel){
  });
 }
 
-function setActivePanel(id){
- panels.forEach(panel=>panel.classList.toggle("is-active",panel.dataset.panel===id));
+function activatePanel(id,options={}){
+ const target=panels.find(panel=>panel.dataset.panel===id);
+ if(!target)return false;
+
+ panels.forEach(panel=>{
+  const active=panel===target;
+  panel.classList.toggle("is-active",active);
+  panel.setAttribute("aria-hidden",String(!active));
+  if("inert" in panel)panel.inert=!active;
+ });
+
  links.forEach(link=>{
   const active=link.dataset.panelLink===id;
   link.classList.toggle("is-current",active);
   if(active)link.setAttribute("aria-current","page");
   else link.removeAttribute("aria-current");
  });
-}
 
-function updateActivePanel(){
- if(!panels.length)return;
- const marker=Math.max(1,Math.min(window.innerHeight*.42,window.innerHeight-1));
- let current=panels.find(panel=>{
-  const rect=panel.getBoundingClientRect();
-  return rect.top<=marker&&rect.bottom>marker;
- });
- if(!current){
-  current=panels.reduce((nearest,panel)=>{
-   const distance=Math.abs(panel.getBoundingClientRect().top-marker);
-   return distance<nearest.distance?{panel,distance}:nearest;
-  },{panel:panels[0],distance:Infinity}).panel;
+ if(options.updateHash!==false&&location.hash!=="#"+id){
+  history.replaceState(null,"","#"+id);
  }
- setActivePanel(current.dataset.panel);
-}
 
-let scrollUpdatePending=false;
-function scheduleActivePanelUpdate(){
- if(scrollUpdatePending)return;
- scrollUpdatePending=true;
- requestAnimationFrame(()=>{
-  scrollUpdatePending=false;
-  updateActivePanel();
- });
-}
-window.addEventListener("scroll",scheduleActivePanelUpdate,{passive:true});
-window.addEventListener("resize",scheduleActivePanelUpdate,{passive:true});
+ if(options.scroll!==false){
+  target.scrollTop=0;
+ }
 
-if("IntersectionObserver" in window){
- const revealObserver=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-   if(!entry.isIntersecting)return;
-   revealPanel(entry.target);
-   revealObserver.unobserve(entry.target);
-  });
- },{threshold:.12});
- panels.forEach(panel=>revealObserver.observe(panel));
-}else{
- panels.forEach(revealPanel);
-}
+ revealPanel(target);
 
-function navigateToPanel(id){
- const target=id==="home"
-  ?document.querySelector("#home")
-  :panels.find(panel=>panel.id===id||panel.dataset.panel===id);
- if(!target)return false;
- history.replaceState(null,"","#"+id);
- target.scrollIntoView({behavior:reducedMotion?"auto":"smooth",block:"start"});
+ if(options.focus){
+  target.focus({preventScroll:true});
+ }
  return true;
 }
+
+function navigatePanel(id,focus=true){
+ return activatePanel(id,{focus});
+}
+
+panels.forEach(panel=>{
+ if(!panel.hasAttribute("tabindex"))panel.setAttribute("tabindex","0");
+});
 
 links.forEach(link=>link.addEventListener("click",event=>{
  event.preventDefault();
- navigateToPanel(link.dataset.panelLink);
+ navigatePanel(link.dataset.panelLink,true);
 }));
 
-document.querySelectorAll('a[href^="#"]:not([data-panel-link])').forEach(link=>{
+document.querySelectorAll('a[href^="#"]').forEach(link=>{
+ if(link.dataset.panelLink)return;
  link.addEventListener("click",event=>{
   const id=link.getAttribute("href").slice(1);
-  if(navigateToPanel(id))event.preventDefault();
+  if(navigatePanel(id,true))event.preventDefault();
  });
 });
 
-const initialId=decodeURIComponent(location.hash.slice(1));
-if(initialId&&navigateToPanelOnLoad(initialId)){
- requestAnimationFrame(()=>scheduleActivePanelUpdate());
-}else{
- requestAnimationFrame(updateActivePanel);
-}
+const initial=decodeURIComponent(location.hash.slice(1));
+activatePanel(panels.some(panel=>panel.dataset.panel===initial)?initial:"home",{
+ updateHash:false,
+ scroll:true,
+ focus:false
+});
 
-function navigateToPanelOnLoad(id){
- const target=id==="home"
-  ?document.querySelector("#home")
-  :panels.find(panel=>panel.id===id||panel.dataset.panel===id);
- if(!target)return false;
- requestAnimationFrame(()=>target.scrollIntoView({behavior:"auto",block:"start"}));
- return true;
-}
+window.addEventListener("hashchange",()=>{
+ const id=decodeURIComponent(location.hash.slice(1));
+ if(panels.some(panel=>panel.dataset.panel===id)){
+  activatePanel(id,{updateHash:false,scroll:true,focus:false});
+ }
+});
 
 const workIndex=document.querySelector("#work .work-index");
 const workPreview=document.querySelector("#work .work-preview");
