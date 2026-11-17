@@ -8,6 +8,10 @@
     "build": "vite build",
     "preview": "vite preview"
   },
+  "dependencies": {
+    "astronomy-engine": "2.1.19",
+    "three": "0.187.0"
+  },
   "devDependencies": {
     "vite": "^6.4.1"
   }
