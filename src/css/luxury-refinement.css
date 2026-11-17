@@ -1106,7 +1106,7 @@ body {
   position: absolute;
   top: 50%;
   right: 4%;
-  width: clamp(3px,calc(var(--meteor-thickness,1.6px) * 2.2),6px);
+  width: 5px;
   aspect-ratio: 1;
   border-radius: 50%;
   background: #fff7df;
@@ -1124,7 +1124,7 @@ body {
   }
   76% {
     opacity: .92;
-    transform: translate3d(calc(var(--meteor-x) * .76),calc(var(--meteor-y) * .76),0) rotate(var(--meteor-angle,42deg)) scaleX(1);
+    transform: translate3d(var(--meteor-mid-x),var(--meteor-mid-y),0) rotate(var(--meteor-angle,42deg)) scaleX(1);
   }
   100% {
     opacity: 0;
