@@ -174,3 +174,36 @@ body{height:auto;min-height:100vh;overflow:visible;background:var(--ink);font-fa
  #home>.principles .principles-list article,#home>.work .work-index-row,#home>.footer-panel .footer-links a,#home>.founder-panel .founder-copy,#home>.founder-panel .founder-portrait{animation:none!important;opacity:1;transform:none;filter:none}
  *{scroll-behavior:auto!important}
 }
+
+/* Native page scrolling: keep every section in document flow. */
+html,
+body {
+ height:auto !important;
+ min-height:100%;
+ overflow-x:hidden !important;
+ overflow-y:auto !important;
+}
+.site-shell {
+ height:auto !important;
+ min-height:100vh;
+ overflow:visible !important;
+ align-items:start;
+}
+#home {
+ height:auto !important;
+ min-height:100vh;
+ overflow:visible !important;
+}
+#home > .view-panel,
+#home > .view-panel.is-active {
+ display:flex !important;
+ position:relative;
+ box-sizing:border-box;
+ width:100%;
+ height:auto !important;
+ min-height:100vh !important;
+ min-height:100svh !important;
+ max-height:none !important;
+ overflow:visible !important;
+ flex-direction:column;
+}
