@@ -1,15 +1,55 @@
 const panels=[...document.querySelectorAll("#home > [data-panel]")];
-const ornamentTypes=["rail","reticle","lattice"];
+const ornamentDesigns={
+ home:[
+  ["orbital","orbital-home"],["orbital-reverse","orbital-reverse-home"],
+  ["constellation","constellation-home"],["crosshair","crosshair-home"],
+  ["spark","spark-one"],["spark","spark-two"],
+  ["shooting-star","star-a"],["shooting-star","star-b"]
+ ],
+ studio:[
+  ["coordinate-grid","grid-studio"],["orbital","orbital-studio"],
+  ["orbital-reverse","orbital-reverse-studio"],["constellation","constellation-studio"],
+  ["crosshair","crosshair-studio"],["spark","spark-one"],["spark","spark-two"],
+  ["shooting-star","star-a"],["shooting-star","star-b"]
+ ],
+ "founder-profile":[
+  ["portrait-frame","portrait-frame-founder"],["orbital","orbital-founder"],
+  ["orbital-reverse","orbital-reverse-founder"],["constellation","constellation-founder"],
+  ["crosshair","crosshair-founder"],["spark","spark-one"],
+  ["shooting-star","star-a"],["shooting-star","star-b"]
+ ],
+ work:[
+  ["index-grid","grid-work"],["orbital","orbital-work"],
+  ["orbital-reverse","orbital-reverse-work"],["constellation","constellation-work"],
+  ["crosshair","crosshair-work"],["spark","spark-one"],["spark","spark-two"],
+  ["shooting-star","star-a"],["shooting-star","star-b"]
+ ],
+ principles:[
+  ["coordinate-grid","grid-principles"],["orbital","orbital-principles"],
+  ["orbital-reverse","orbital-reverse-principles"],["constellation","constellation-principles"],
+  ["crosshair","crosshair-principles"],["spark","spark-one"],
+  ["shooting-star","star-a"],["shooting-star","star-b"]
+ ],
+ footer:[
+  ["portrait-frame","portrait-frame-footer"],["orbital","orbital-footer"],
+  ["orbital-reverse","orbital-reverse-footer"],["constellation","constellation-footer"],
+  ["crosshair","crosshair-footer"],["spark","spark-one"],["spark","spark-two"],
+  ["shooting-star","star-a"],["shooting-star","star-b"]
+ ]
+};
 panels.forEach(panel=>{
- if(panel.querySelector(":scope > .tcs-ornament"))return;
- const ornaments=document.createDocumentFragment();
- ornamentTypes.forEach(type=>{
+ const panelId=panel.dataset.panel;
+ if(panel.querySelector(":scope > .tcs-ornament-layer"))return;
+ panel.querySelectorAll(":scope > .tcs-ornament").forEach(ornament=>ornament.remove());
+ const layer=document.createElement("div");
+ layer.className="tcs-ornament-layer tcs-ornament-layer--"+panelId;
+ layer.setAttribute("aria-hidden","true");
+ (ornamentDesigns[panelId]||ornamentDesigns.home).forEach(names=>{
   const ornament=document.createElement("span");
-  ornament.className="tcs-ornament tcs-ornament--"+type;
-  ornament.setAttribute("aria-hidden","true");
-  ornaments.appendChild(ornament);
+  ornament.className="tcs-ornament "+names.map(name=>"tcs-ornament--"+name).join(" ");
+  layer.appendChild(ornament);
  });
- panel.appendChild(ornaments);
+ panel.appendChild(layer);
 });
 const links=[...document.querySelectorAll("[data-panel-link]")];
 const year=document.querySelector("#year");
