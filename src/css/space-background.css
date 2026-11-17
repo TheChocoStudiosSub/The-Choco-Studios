@@ -1,0 +1,59 @@
+/* Atmospheric black-and-gold space background, limited to the Home hero. */
+#home > .hero.view-panel {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background:
+    radial-gradient(ellipse 47% 62% at 69% 49%, rgba(116, 82, 38, .16), transparent 74%),
+    radial-gradient(ellipse 34% 42% at 86% 20%, rgba(109, 78, 39, .105), transparent 76%),
+    radial-gradient(ellipse 42% 44% at 63% 91%, rgba(83, 63, 37, .105), transparent 80%),
+    radial-gradient(ellipse 75% 90% at 78% 47%, rgba(27, 23, 17, .35), transparent 80%),
+    linear-gradient(116deg, #080807 0%, #070706 42%, #090806 100%) !important;
+}
+#home > .hero.view-panel::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 46% 56% at 70% 50%, transparent 22%, rgba(5,5,5,.16) 78%, rgba(5,5,5,.52) 100%),
+    linear-gradient(90deg, rgba(5,5,5,.22), transparent 53%, rgba(5,5,5,.12));
+}
+#home > .hero .tcs-space-canvas {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none !important;
+  user-select: none;
+  opacity: .96;
+}
+#home > .hero .hero-inner {
+  position: relative;
+  z-index: 2;
+}
+#home > .hero .hero-guilloche {
+  z-index: 2;
+}
+#home > .hero .tcs-ornament-layer {
+  z-index: 3;
+  pointer-events: none;
+}
+#home > .hero .tcs-ornament-layer .tcs-starfield-canvas {
+  z-index: 1;
+}
+@media (max-width: 650px) {
+  #home > .hero.view-panel {
+    background:
+      radial-gradient(ellipse 65% 42% at 80% 51%, rgba(116, 82, 38, .15), transparent 76%),
+      radial-gradient(ellipse 55% 38% at 81% 20%, rgba(109, 78, 39, .09), transparent 80%),
+      linear-gradient(135deg, #080807 0%, #070706 62%, #090806 100%) !important;
+  }
+  #home > .hero .tcs-space-canvas { opacity: .78; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #home > .hero .tcs-space-canvas { opacity: .82; }
+}

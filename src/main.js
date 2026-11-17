@@ -55,6 +55,31 @@ if(footerYear)footerYear.textContent=currentYear;
 
 const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+let spaceBackground = null;
+let spaceBackgroundPromise = null;
+
+function setSpaceBackground(active) {
+ if(!active) {
+  spaceBackground?.setActive(false);
+  return;
+ }
+ if(spaceBackground) {
+  spaceBackground.setActive(true);
+  return;
+ }
+ if(spaceBackgroundPromise) return;
+
+ spaceBackgroundPromise=import("./space-background.js")
+  .then(({createSpaceBackground})=>{
+   spaceBackground=createSpaceBackground();
+   spaceBackground?.setActive(true);
+  })
+  .catch(error=>{
+   console.error("TCS space background could not initialize:",error);
+  });
+}
+
+
 
 /* Canvas meteor field: all meteors and stardust are painted on one responsive canvas. */
 const meteorCanvas=document.createElement("canvas");
@@ -351,6 +376,7 @@ function activatePanel(id,options={}){
 
  revealPanel(target);
  startMeteorCanvas(target);
+ setSpaceBackground(id === "home");
 
  if(options.focus){
   target.focus({preventScroll:true});
