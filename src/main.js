@@ -71,7 +71,7 @@ function createMeteor(panel,delay){
  const meteor=document.createElement("span");
  meteor.className="tcs-meteor";
  meteor.setAttribute("aria-hidden","true");
- const duration=randomInteger(850,1750);
+ const duration=randomInteger(2600,4200);
  const width=panel.clientWidth||window.innerWidth;
  const height=panel.clientHeight||window.innerHeight;
  meteor.style.left=randomBetween(-12,18)+"%";
@@ -83,8 +83,8 @@ function createMeteor(panel,delay){
  meteor.style.setProperty("--meteor-mid-x",Math.round(travelX*.76)+"px");
  meteor.style.setProperty("--meteor-mid-y",Math.round(travelY*.76)+"px");
  meteor.style.setProperty("--meteor-angle",randomBetween(34,48)+"deg");
- meteor.style.setProperty("--meteor-length",randomBetween(58,190)+"px");
- meteor.style.setProperty("--meteor-thickness",randomBetween(1.1,2.5)+"px");
+ meteor.style.setProperty("--meteor-length",randomBetween(57,189)+"px");
+ meteor.style.setProperty("--meteor-thickness",randomBetween(.1,1.5)+"px");
  meteor.style.setProperty("--meteor-glow",randomBetween(.55,1)+"");
  meteor.style.animationDuration=duration+"ms";
  meteor.style.animationDelay=delay+"ms";
