@@ -76,8 +76,12 @@ function createMeteor(panel,delay){
  const height=panel.clientHeight||window.innerHeight;
  meteor.style.left=randomBetween(-12,18)+"%";
  meteor.style.top=randomBetween(-14,13)+"%";
- meteor.style.setProperty("--meteor-x",Math.round(width*randomBetween(1.0,1.22))+"px");
- meteor.style.setProperty("--meteor-y",Math.round(height*randomBetween(1.0,1.22))+"px");
+ const travelX=Math.round(width*randomBetween(1.0,1.22));
+ const travelY=Math.round(height*randomBetween(1.0,1.22));
+ meteor.style.setProperty("--meteor-x",travelX+"px");
+ meteor.style.setProperty("--meteor-y",travelY+"px");
+ meteor.style.setProperty("--meteor-mid-x",Math.round(travelX*.76)+"px");
+ meteor.style.setProperty("--meteor-mid-y",Math.round(travelY*.76)+"px");
  meteor.style.setProperty("--meteor-angle",randomBetween(34,48)+"deg");
  meteor.style.setProperty("--meteor-length",randomBetween(58,190)+"px");
  meteor.style.setProperty("--meteor-thickness",randomBetween(1.1,2.5)+"px");
@@ -111,6 +115,11 @@ function startMeteorScheduler(panel){
   randomInteger(1300,3900)
  );
 }
+
+document.addEventListener("visibilitychange",()=>{
+ if(document.hidden)window.clearTimeout(meteorTimer);
+ else if(meteorPanel?.classList.contains("is-active"))startMeteorScheduler(meteorPanel);
+});
 
 const loader=document.querySelector("#luxury-loader");
 const loaderStarted=performance.now();
