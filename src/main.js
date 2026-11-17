@@ -129,7 +129,7 @@ function createCanvasMeteor(delay=0){
   vx:directionX*speed,vy:directionY*speed,
   angle,length:randomBetween(57,189),
   thickness:randomBetween(.55,1.25),
-  headRadius:randomBetween(.7,1.45),
+  sparkleSize:randomBetween(3.4,4.8),
   glow:randomBetween(12,22),
   duration,bornAt:performance.now()+delay,
   elapsed:0,alpha:0,
@@ -214,34 +214,34 @@ function drawCanvasMeteor(meteor){
  meteorContext.lineCap="round";
  meteorContext.lineWidth=meteor.thickness;
  meteorContext.strokeStyle=gradient;
- meteorContext.shadowBlur=meteor.glow*.55;
- meteorContext.shadowColor="rgba(255,240,205,.48)";
+ meteorContext.shadowBlur=meteor.glow*.45;
+ meteorContext.shadowColor="rgba(255,240,205,.42)";
  meteorContext.beginPath();
  meteorContext.moveTo(tailX,tailY);
  meteorContext.lineTo(meteor.x,meteor.y);
  meteorContext.stroke();
- const headGlow=meteorContext.createRadialGradient(
-  meteor.x,meteor.y,0,
-  meteor.x,meteor.y,meteor.glow
- );
- headGlow.addColorStop(0,"rgba(255,255,255,1)");
- headGlow.addColorStop(.12,"rgba(255,248,226,.92)");
- headGlow.addColorStop(.4,"rgba(245,224,184,.28)");
- headGlow.addColorStop(1,"rgba(245,224,184,0)");
+
+ // Four-pointed sparkle head inspired by the Gemini mark, not a circular light.
+ const size=meteor.sparkleSize;
+ meteorContext.translate(meteor.x,meteor.y);
+ meteorContext.rotate(meteor.angle);
+ const sparkleGradient=meteorContext.createLinearGradient(0,-size*3.2,0,size*3.2);
+ sparkleGradient.addColorStop(0,"rgba(255,255,250,1)");
+ sparkleGradient.addColorStop(.48,"rgba(255,248,226,1)");
+ sparkleGradient.addColorStop(1,"rgba(226,194,137,.98)");
  meteorContext.shadowBlur=meteor.glow;
- meteorContext.shadowColor="rgba(255,245,220,.95)";
- meteorContext.fillStyle=headGlow;
+ meteorContext.shadowColor="rgba(255,239,201,.9)";
+ meteorContext.fillStyle=sparkleGradient;
  meteorContext.beginPath();
- meteorContext.arc(meteor.x,meteor.y,meteor.glow,0,Math.PI*2);
- meteorContext.fill();
- meteorContext.shadowBlur=8;
- meteorContext.fillStyle="rgba(255,255,255,.98)";
- meteorContext.beginPath();
- meteorContext.arc(meteor.x,meteor.y,meteor.headRadius,0,Math.PI*2);
+ meteorContext.moveTo(0,-size*3.2);
+ meteorContext.bezierCurveTo(size*.23,-size*.78,size*.78,-size*.23,size*3.2,0);
+ meteorContext.bezierCurveTo(size*.78,size*.23,size*.23,size*.78,0,size*3.2);
+ meteorContext.bezierCurveTo(-size*.23,size*.78,-size*.78,size*.23,-size*3.2,0);
+ meteorContext.bezierCurveTo(-size*.78,-size*.23,-size*.23,-size*.78,0,-size*3.2);
+ meteorContext.closePath();
  meteorContext.fill();
  meteorContext.restore();
 }
-
 function drawMeteorDust(delta){
  for(let i=meteorDust.length-1;i>=0;i--){
   const particle=meteorDust[i];

@@ -4,7 +4,7 @@ const random = (min, max) => min + Math.random() * (max - min);
 
 function makeStars(width, height) {
   const mobile = width < 680;
-  const count = mobile ? 250 : Math.min(760, Math.max(480, Math.round(width * height / 2100)));
+  const count = mobile ? 380 : Math.min(1400, Math.max(850, Math.round(width * height / 1200)));
   const stars = [];
 
   for (let index = 0; index < count; index += 1) {
