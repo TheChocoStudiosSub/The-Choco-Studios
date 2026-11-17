@@ -10,7 +10,7 @@ Sheeblink is an integrated handmade initiative within the TCS ecosystem that bro
 ## Public sites
 - Official website: https://the-choco-studios-official.vercel.app/
 - Founder profile: https://the-choco-studios-official.vercel.app/about/hasby-prasetya-saprudin/
-- Sheeblink profile: https://the-choco-studios-official.vercel.app/ecosystem/sheeblink/
+- Sheeblink website: https://sheeblink.vercel.app/
 - Information site: https://the-choco-studios-information.vercel.app/
 - Contribution guide: https://the-choco-studios-official.vercel.app/bergabung/
 - Contact: thechocostudio@gmail.com
