@@ -113,7 +113,7 @@ function resizeMeteorCanvas(){
 }
 
 function createCanvasMeteor(delay=0){
- const angle=randomBetween(36,49)*Math.PI/180;
+ const angle=randomBetween(37,51)*Math.PI/180;
  const directionX=Math.cos(angle);
  const directionY=Math.sin(angle);
  const startX=randomBetween(-meteorWidth*.08,meteorWidth*.48);
@@ -121,16 +121,17 @@ function createCanvasMeteor(delay=0){
  const edgeX=(meteorWidth+startX+180)/directionX;
  const edgeY=(meteorHeight+startY+180)/directionY;
  const availableDistance=Math.min(edgeX,edgeY);
- const travelDistance=availableDistance*randomBetween(.68,.86);
- const duration=randomBetween(3500,5400);
+ const travelDistance=availableDistance*randomBetween(.78,.92);
+ // A sub-second streak creates a near-instant, light-speed visual impression.
+ const duration=randomBetween(620,880);
  const speed=travelDistance/duration;
  return {
   x:startX,y:startY,startX,startY,
   vx:directionX*speed,vy:directionY*speed,
-  angle,length:randomBetween(57,189),
-  thickness:randomBetween(.55,1.25),
-  sparkleSize:randomBetween(3.4,4.8),
-  glow:randomBetween(12,22),
+  angle,length:randomBetween(190,310),
+  thickness:randomBetween(.85,1.5),
+  sparkleSize:randomBetween(4.8,6.3),
+  glow:randomBetween(26,40),
   duration,bornAt:performance.now()+delay,
   elapsed:0,alpha:0,
   dustClock:0
@@ -139,19 +140,15 @@ function createCanvasMeteor(delay=0){
 
 function launchMeteorShower(panel){
  if(reducedMotion||document.hidden||panel!==meteorPanel||!panel.classList.contains("is-active"))return;
- const count=randomInteger(1,5);
- let stagger=0;
- for(let i=0;i<count;i++){
-  stagger+=i===0?randomInteger(0,180):randomInteger(110,390);
-  meteorShower.push(createCanvasMeteor(stagger));
- }
+ // Keep each appearance rare and singular instead of creating repeated showers.
+ meteorShower.push(createCanvasMeteor(0));
  if(!meteorFrame){
   meteorLastFrame=performance.now();
   meteorFrame=requestAnimationFrame(animateMeteorCanvas);
  }
  meteorTimer=window.setTimeout(
   ()=>launchMeteorShower(panel),
-  randomInteger(4600,10200)
+  randomInteger(18000,32000)
  );
 }
 
@@ -175,7 +172,7 @@ function startMeteorCanvas(panel){
  if(!meteorFrame)meteorFrame=requestAnimationFrame(animateMeteorCanvas);
  meteorTimer=window.setTimeout(
   ()=>launchMeteorShower(panel),
-  randomInteger(1400,3800)
+  randomInteger(5200,9000)
  );
 }
 
@@ -183,61 +180,98 @@ function emitMeteorDust(meteor,delta){
  meteor.dustClock+=delta;
  while(meteor.dustClock>=.105){
   meteor.dustClock-=.105;
-  if(meteorDust.length>260)meteorDust.splice(0,meteorDust.length-260);
+  if(meteorDust.length>90)meteorDust.splice(0,meteorDust.length-90);
   const trailOffset=randomBetween(5,meteor.length*.82);
   meteorDust.push({
    x:meteor.x-meteor.vx*(trailOffset/Math.max(.08,Math.hypot(meteor.vx,meteor.vy))),
    y:meteor.y-meteor.vy*(trailOffset/Math.max(.08,Math.hypot(meteor.vx,meteor.vy))),
    vx:-meteor.vx*randomBetween(.08,.32)+randomBetween(-.025,.025),
    vy:-meteor.vy*randomBetween(.08,.32)+randomBetween(-.025,.025),
-   radius:randomBetween(.35,1.25),
-   life:randomBetween(.38,1.05),
+   radius:randomBetween(.25,.85),
+   life:randomBetween(.18,.42),
    age:0,
-   alpha:randomBetween(.22,.7)
+   alpha:randomBetween(.12,.46)
   });
  }
 }
 
-function drawCanvasMeteor(meteor){
+function drawCanvasMeteor(meteor,progress){
  const directionX=Math.cos(meteor.angle);
  const directionY=Math.sin(meteor.angle);
  const tailX=meteor.x-directionX*meteor.length;
  const tailY=meteor.y-directionY*meteor.length;
  const gradient=meteorContext.createLinearGradient(tailX,tailY,meteor.x,meteor.y);
  gradient.addColorStop(0,"rgba(255,246,218,0)");
- gradient.addColorStop(.38,"rgba(224,198,148,.035)");
- gradient.addColorStop(.7,"rgba(239,220,181,.18)");
- gradient.addColorStop(.9,"rgba(255,245,218,.55)");
- gradient.addColorStop(1,"rgba(255,255,255,.96)");
+ gradient.addColorStop(.3,"rgba(224,198,148,.045)");
+ gradient.addColorStop(.68,"rgba(239,220,181,.24)");
+ gradient.addColorStop(.9,"rgba(255,245,218,.72)");
+ gradient.addColorStop(1,"rgba(255,255,255,1)");
  meteorContext.save();
  meteorContext.globalAlpha=meteor.alpha;
  meteorContext.lineCap="round";
  meteorContext.lineWidth=meteor.thickness;
  meteorContext.strokeStyle=gradient;
- meteorContext.shadowBlur=meteor.glow*.45;
- meteorContext.shadowColor="rgba(255,240,205,.42)";
+ meteorContext.shadowBlur=meteor.glow*.72;
+ meteorContext.shadowColor="rgba(255,240,205,.72)";
  meteorContext.beginPath();
  meteorContext.moveTo(tailX,tailY);
  meteorContext.lineTo(meteor.x,meteor.y);
  meteorContext.stroke();
 
- // Four-pointed sparkle head inspired by the Gemini mark, not a circular light.
+ // A short radial flash gives the streak a sharp, splash-like burst.
  const size=meteor.sparkleSize;
+ const burst=Math.pow(1-clamp(progress/.24,0,1),2);
  meteorContext.translate(meteor.x,meteor.y);
  meteorContext.rotate(meteor.angle);
- const sparkleGradient=meteorContext.createLinearGradient(0,-size*3.2,0,size*3.2);
+
+ if(burst>.008){
+  const rayAngles=[0,Math.PI/4,Math.PI/2,Math.PI*3/4,Math.PI,Math.PI*1.25,Math.PI*1.5,Math.PI*1.75];
+  meteorContext.save();
+  meteorContext.globalAlpha=meteor.alpha*burst*.78;
+  meteorContext.lineCap="round";
+  meteorContext.lineWidth=.65;
+  meteorContext.strokeStyle="rgba(255,248,225,.96)";
+  meteorContext.shadowBlur=meteor.glow*1.8;
+  meteorContext.shadowColor="rgba(255,237,197,.95)";
+  for(const ray of rayAngles){
+   const inner=size*.55;
+   const outer=size*(2.2+burst*2.7);
+   meteorContext.beginPath();
+   meteorContext.moveTo(Math.cos(ray)*inner,Math.sin(ray)*inner);
+   meteorContext.lineTo(Math.cos(ray)*outer,Math.sin(ray)*outer);
+   meteorContext.stroke();
+  }
+  meteorContext.restore();
+ }
+
+ const auraRadius=meteor.glow*(1.7+burst*1.2);
+ const aura=meteorContext.createRadialGradient(0,0,0,0,0,auraRadius);
+ aura.addColorStop(0,"rgba(255,255,255,.9)");
+ aura.addColorStop(.12,"rgba(255,246,221,.62)");
+ aura.addColorStop(.38,"rgba(244,218,171,.2)");
+ aura.addColorStop(1,"rgba(244,218,171,0)");
+ meteorContext.save();
+ meteorContext.globalAlpha=meteor.alpha*(.62+burst*.38);
+ meteorContext.fillStyle=aura;
+ meteorContext.beginPath();
+ meteorContext.arc(0,0,auraRadius,0,Math.PI*2);
+ meteorContext.fill();
+ meteorContext.restore();
+
+ // Four-pointed curved sparkle head, kept clearly visible above the flash.
+ const sparkleGradient=meteorContext.createLinearGradient(0,-size*3.8,0,size*3.8);
  sparkleGradient.addColorStop(0,"rgba(255,255,250,1)");
  sparkleGradient.addColorStop(.48,"rgba(255,248,226,1)");
- sparkleGradient.addColorStop(1,"rgba(226,194,137,.98)");
- meteorContext.shadowBlur=meteor.glow;
- meteorContext.shadowColor="rgba(255,239,201,.9)";
+ sparkleGradient.addColorStop(1,"rgba(226,194,137,1)");
+ meteorContext.shadowBlur=meteor.glow*1.25;
+ meteorContext.shadowColor="rgba(255,239,201,1)";
  meteorContext.fillStyle=sparkleGradient;
  meteorContext.beginPath();
- meteorContext.moveTo(0,-size*3.2);
- meteorContext.bezierCurveTo(size*.23,-size*.78,size*.78,-size*.23,size*3.2,0);
- meteorContext.bezierCurveTo(size*.78,size*.23,size*.23,size*.78,0,size*3.2);
- meteorContext.bezierCurveTo(-size*.23,size*.78,-size*.78,size*.23,-size*3.2,0);
- meteorContext.bezierCurveTo(-size*.78,-size*.23,-size*.23,-size*.78,0,-size*3.2);
+ meteorContext.moveTo(0,-size*3.8);
+ meteorContext.bezierCurveTo(size*.24,-size*.9,size*.9,-size*.24,size*3.8,0);
+ meteorContext.bezierCurveTo(size*.9,size*.24,size*.24,size*.9,0,size*3.8);
+ meteorContext.bezierCurveTo(-size*.24,size*.9,-size*.9,size*.24,-size*3.8,0);
+ meteorContext.bezierCurveTo(-size*.9,-size*.24,-size*.24,-size*.9,0,-size*3.8);
  meteorContext.closePath();
  meteorContext.fill();
  meteorContext.restore();
@@ -283,11 +317,11 @@ function animateMeteorCanvas(now){
   const progress=clamp(meteor.elapsed/meteor.duration,0,1);
   meteor.x=meteor.startX+meteor.vx*meteor.elapsed;
   meteor.y=meteor.startY+meteor.vy*meteor.elapsed;
-  const fadeIn=clamp(progress/.075,0,1);
-  const fadeOut=clamp((1-progress)/.3,0,1);
+  const fadeIn=clamp(progress/.025,0,1);
+  const fadeOut=clamp((1-progress)/.12,0,1);
   meteor.alpha=fadeIn*fadeOut;
   if(meteor.alpha>.01){
-   drawCanvasMeteor(meteor);
+   drawCanvasMeteor(meteor,progress);
    if(Math.random()<delta*8)emitMeteorDust(meteor,delta);
   }
   if(progress>=1)meteorShower.splice(i,1);
