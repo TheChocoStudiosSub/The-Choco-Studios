@@ -327,7 +327,7 @@ function animateMeteorCanvas(now){
   meteor.x=meteor.startX+meteor.vx*meteor.elapsed;
   meteor.y=meteor.startY+meteor.vy*meteor.elapsed;
   meteor.alpha=meteorOpacityAt(progress);
-  if(meteor.alpha>.01){
+  if(meteor.alpha>0){
    drawCanvasMeteor(meteor,progress);
    if(Math.random()<delta*8)emitMeteorDust(meteor,delta);
   }
