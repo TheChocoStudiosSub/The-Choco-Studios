@@ -44,10 +44,6 @@ panels.forEach(panel=>{
   ornament.className="tcs-ornament "+names.map(name=>"tcs-ornament--"+name).join(" ");
   layer.appendChild(ornament);
  });
- const meteorField=document.createElement("div");
- meteorField.className="tcs-meteor-field";
- meteorField.setAttribute("aria-hidden","true");
- layer.appendChild(meteorField);
  panel.appendChild(layer);
 });
 const links=[...document.querySelectorAll("[data-panel-link]")];
@@ -59,70 +55,228 @@ if(footerYear)footerYear.textContent=currentYear;
 
 const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-/* Random meteor showers are generated only for the currently visible page. */
+
+/* Canvas meteor field: all meteors and stardust are painted on one responsive canvas. */
+const meteorCanvas=document.createElement("canvas");
+meteorCanvas.className="tcs-starfield-canvas";
+meteorCanvas.setAttribute("aria-hidden","true");
+const meteorContext=meteorCanvas.getContext("2d",{alpha:true});
 let meteorTimer=0;
+let meteorFrame=0;
 let meteorPanel=null;
+let meteorWidth=0;
+let meteorHeight=0;
+let meteorDpr=1;
+let meteorLastFrame=0;
+let meteorShower=[];
+let meteorDust=[];
 const randomBetween=(min,max)=>min+Math.random()*(max-min);
 const randomInteger=(min,max)=>Math.floor(randomBetween(min,max+1));
+const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 
-function createMeteor(panel,delay){
- const field=panel.querySelector(".tcs-meteor-field");
- if(!field)return;
- const meteor=document.createElement("span");
- meteor.className="tcs-meteor";
- meteor.setAttribute("aria-hidden","true");
- const duration=randomInteger(2600,4200);
- const width=panel.clientWidth||window.innerWidth;
- const height=panel.clientHeight||window.innerHeight;
- meteor.style.left=randomBetween(-12,18)+"%";
- meteor.style.top=randomBetween(-14,13)+"%";
- const travelX=Math.round(width*randomBetween(1.0,1.22));
- const travelY=Math.round(height*randomBetween(1.0,1.22));
- meteor.style.setProperty("--meteor-x",travelX+"px");
- meteor.style.setProperty("--meteor-y",travelY+"px");
- meteor.style.setProperty("--meteor-early-x",Math.round(travelX*.44)+"px");
- meteor.style.setProperty("--meteor-early-y",Math.round(travelY*.44)+"px");
- meteor.style.setProperty("--meteor-mid-x",Math.round(travelX*.76)+"px");
- meteor.style.setProperty("--meteor-mid-y",Math.round(travelY*.76)+"px");
- meteor.style.setProperty("--meteor-late-x",Math.round(travelX*.9328)+"px");
- meteor.style.setProperty("--meteor-late-y",Math.round(travelY*.9328)+"px");
- meteor.style.setProperty("--meteor-angle",randomBetween(34,48)+"deg");
- meteor.style.setProperty("--meteor-length",randomBetween(57,189)+"px");
- meteor.style.setProperty("--meteor-thickness",randomBetween(.1,1.5)+"px");
- meteor.style.setProperty("--meteor-glow",randomBetween(.55,1)+"");
- meteor.style.animationDuration=duration+"ms";
- meteor.style.animationDelay=delay+"ms";
- field.appendChild(meteor);
- window.setTimeout(()=>meteor.remove(),duration+delay+220);
+function resizeMeteorCanvas(){
+ if(!meteorPanel||!meteorCanvas.isConnected)return;
+ const bounds=meteorPanel.getBoundingClientRect();
+ meteorWidth=Math.max(1,Math.round(bounds.width));
+ meteorHeight=Math.max(1,window.innerHeight);
+ meteorDpr=Math.min(window.devicePixelRatio||1,2);
+ meteorCanvas.width=Math.round(meteorWidth*meteorDpr);
+ meteorCanvas.height=Math.round(meteorHeight*meteorDpr);
+ meteorCanvas.style.width="100%";
+ meteorCanvas.style.height="100vh";
+ meteorContext.setTransform(meteorDpr,0,0,meteorDpr,0,0);
+ meteorContext.clearRect(0,0,meteorWidth,meteorHeight);
+}
+
+function createCanvasMeteor(delay=0){
+ const angle=randomBetween(36,49)*Math.PI/180;
+ const directionX=Math.cos(angle);
+ const directionY=Math.sin(angle);
+ const startX=randomBetween(-meteorWidth*.08,meteorWidth*.48);
+ const startY=randomBetween(-meteorHeight*.2,meteorHeight*.12);
+ const edgeX=(meteorWidth+startX+180)/directionX;
+ const edgeY=(meteorHeight+startY+180)/directionY;
+ const availableDistance=Math.min(edgeX,edgeY);
+ const travelDistance=availableDistance*randomBetween(.68,.86);
+ const duration=randomBetween(3500,5400);
+ const speed=travelDistance/duration;
+ return {
+  x:startX,y:startY,startX,startY,
+  vx:directionX*speed,vy:directionY*speed,
+  angle,length:randomBetween(57,189),
+  thickness:randomBetween(.55,1.25),
+  headRadius:randomBetween(.7,1.45),
+  glow:randomBetween(12,22),
+  duration,bornAt:performance.now()+delay,
+  elapsed:0,alpha:0,
+  dustClock:0
+ };
 }
 
 function launchMeteorShower(panel){
  if(reducedMotion||document.hidden||panel!==meteorPanel||!panel.classList.contains("is-active"))return;
  const count=randomInteger(1,5);
- let delay=0;
+ let stagger=0;
  for(let i=0;i<count;i++){
-  delay+=i===0?randomInteger(0,260):randomInteger(90,320);
-  createMeteor(panel,delay);
+  stagger+=i===0?randomInteger(0,180):randomInteger(110,390);
+  meteorShower.push(createCanvasMeteor(stagger));
  }
  meteorTimer=window.setTimeout(
   ()=>launchMeteorShower(panel),
-  randomInteger(4200,9800)
+  randomInteger(4600,10200)
  );
 }
 
-function startMeteorScheduler(panel){
+function startMeteorCanvas(panel){
  window.clearTimeout(meteorTimer);
  meteorPanel=panel;
- if(reducedMotion||document.hidden)return;
+ const layer=panel?.querySelector(":scope > .tcs-ornament-layer");
+ if(!layer)return;
+ if(meteorCanvas.parentNode!==layer)layer.appendChild(meteorCanvas);
+ resizeMeteorCanvas();
+ meteorShower=[];
+ meteorDust=[];
+ meteorLastFrame=performance.now();
+ if(reducedMotion||document.hidden){
+  if(meteorFrame)cancelAnimationFrame(meteorFrame);
+  meteorFrame=0;
+  meteorContext.clearRect(0,0,meteorWidth,meteorHeight);
+  return;
+ }
+ if(!meteorFrame)meteorFrame=requestAnimationFrame(animateMeteorCanvas);
  meteorTimer=window.setTimeout(
   ()=>launchMeteorShower(panel),
-  randomInteger(1300,3900)
+  randomInteger(1400,3800)
  );
 }
 
+function emitMeteorDust(meteor,delta){
+ meteor.dustClock+=delta;
+ while(meteor.dustClock>=.105){
+  meteor.dustClock-=.105;
+  if(meteorDust.length>260)meteorDust.splice(0,meteorDust.length-260);
+  const trailOffset=randomBetween(5,meteor.length*.82);
+  meteorDust.push({
+   x:meteor.x-meteor.vx*(trailOffset/Math.max(.08,Math.hypot(meteor.vx,meteor.vy))),
+   y:meteor.y-meteor.vy*(trailOffset/Math.max(.08,Math.hypot(meteor.vx,meteor.vy))),
+   vx:-meteor.vx*randomBetween(.08,.32)+randomBetween(-.025,.025),
+   vy:-meteor.vy*randomBetween(.08,.32)+randomBetween(-.025,.025),
+   radius:randomBetween(.35,1.25),
+   life:randomBetween(.38,1.05),
+   age:0,
+   alpha:randomBetween(.22,.7)
+  });
+ }
+}
+
+function drawCanvasMeteor(meteor){
+ const directionX=Math.cos(meteor.angle);
+ const directionY=Math.sin(meteor.angle);
+ const tailX=meteor.x-directionX*meteor.length;
+ const tailY=meteor.y-directionY*meteor.length;
+ const gradient=meteorContext.createLinearGradient(tailX,tailY,meteor.x,meteor.y);
+ gradient.addColorStop(0,"rgba(255,246,218,0)");
+ gradient.addColorStop(.38,"rgba(224,198,148,.035)");
+ gradient.addColorStop(.7,"rgba(239,220,181,.18)");
+ gradient.addColorStop(.9,"rgba(255,245,218,.55)");
+ gradient.addColorStop(1,"rgba(255,255,255,.96)");
+ meteorContext.save();
+ meteorContext.globalAlpha=meteor.alpha;
+ meteorContext.lineCap="round";
+ meteorContext.lineWidth=meteor.thickness;
+ meteorContext.strokeStyle=gradient;
+ meteorContext.shadowBlur=meteor.glow*.55;
+ meteorContext.shadowColor="rgba(255,240,205,.48)";
+ meteorContext.beginPath();
+ meteorContext.moveTo(tailX,tailY);
+ meteorContext.lineTo(meteor.x,meteor.y);
+ meteorContext.stroke();
+ const headGlow=meteorContext.createRadialGradient(
+  meteor.x,meteor.y,0,
+  meteor.x,meteor.y,meteor.glow
+ );
+ headGlow.addColorStop(0,"rgba(255,255,255,1)");
+ headGlow.addColorStop(.12,"rgba(255,248,226,.92)");
+ headGlow.addColorStop(.4,"rgba(245,224,184,.28)");
+ headGlow.addColorStop(1,"rgba(245,224,184,0)");
+ meteorContext.shadowBlur=meteor.glow;
+ meteorContext.shadowColor="rgba(255,245,220,.95)";
+ meteorContext.fillStyle=headGlow;
+ meteorContext.beginPath();
+ meteorContext.arc(meteor.x,meteor.y,meteor.glow,0,Math.PI*2);
+ meteorContext.fill();
+ meteorContext.shadowBlur=8;
+ meteorContext.fillStyle="rgba(255,255,255,.98)";
+ meteorContext.beginPath();
+ meteorContext.arc(meteor.x,meteor.y,meteor.headRadius,0,Math.PI*2);
+ meteorContext.fill();
+ meteorContext.restore();
+}
+
+function drawMeteorDust(delta){
+ for(let i=meteorDust.length-1;i>=0;i--){
+  const particle=meteorDust[i];
+  particle.age+=delta;
+  if(particle.age>=particle.life){
+   meteorDust.splice(i,1);
+   continue;
+  }
+  particle.x+=particle.vx*delta*1000;
+  particle.y+=particle.vy*delta*1000;
+  const fade=1-particle.age/particle.life;
+  const alpha=particle.alpha*fade*fade;
+  meteorContext.save();
+  meteorContext.globalAlpha=alpha;
+  meteorContext.fillStyle="rgba(255,236,195,1)";
+  meteorContext.shadowBlur=4;
+  meteorContext.shadowColor="rgba(255,226,173,.7)";
+  meteorContext.beginPath();
+  meteorContext.arc(particle.x,particle.y,particle.radius*fade,0,Math.PI*2);
+  meteorContext.fill();
+  meteorContext.restore();
+ }
+}
+
+function animateMeteorCanvas(now){
+ if(!meteorPanel||document.hidden||reducedMotion||!meteorPanel.classList.contains("is-active")){
+  meteorFrame=0;
+  return;
+ }
+ const delta=Math.min(.05,Math.max(0,(now-meteorLastFrame)/1000));
+ meteorLastFrame=now;
+ meteorContext.clearRect(0,0,meteorWidth,meteorHeight);
+ meteorContext.save();
+ meteorContext.globalCompositeOperation="lighter";
+ for(let i=meteorShower.length-1;i>=0;i--){
+  const meteor=meteorShower[i];
+  if(now<meteor.bornAt)continue;
+  meteor.elapsed=now-meteor.bornAt;
+  const progress=clamp(meteor.elapsed/meteor.duration,0,1);
+  meteor.x=meteor.startX+meteor.vx*meteor.elapsed;
+  meteor.y=meteor.startY+meteor.vy*meteor.elapsed;
+  const fadeIn=clamp(progress/.075,0,1);
+  const fadeOut=clamp((1-progress)/.3,0,1);
+  meteor.alpha=fadeIn*fadeOut;
+  if(meteor.alpha>.01){
+   drawCanvasMeteor(meteor);
+   if(Math.random()<delta*8)emitMeteorDust(meteor,delta);
+  }
+  if(progress>=1)meteorShower.splice(i,1);
+ }
+ drawMeteorDust(delta);
+ meteorContext.restore();
+ meteorFrame=requestAnimationFrame(animateMeteorCanvas);
+}
+
+window.addEventListener("resize",resizeMeteorCanvas,{passive:true});
 document.addEventListener("visibilitychange",()=>{
- if(document.hidden)window.clearTimeout(meteorTimer);
- else if(meteorPanel?.classList.contains("is-active"))startMeteorScheduler(meteorPanel);
+ if(document.hidden){
+  window.clearTimeout(meteorTimer);
+  if(meteorFrame)cancelAnimationFrame(meteorFrame);
+  meteorFrame=0;
+ }else if(meteorPanel?.classList.contains("is-active")){
+  startMeteorCanvas(meteorPanel);
+ }
 });
 
 const loader=document.querySelector("#luxury-loader");
@@ -187,7 +341,7 @@ function activatePanel(id,options={}){
  }
 
  revealPanel(target);
- startMeteorScheduler(target);
+ startMeteorCanvas(target);
 
  if(options.focus){
   target.focus({preventScroll:true});
