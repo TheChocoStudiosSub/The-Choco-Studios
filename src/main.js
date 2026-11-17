@@ -1,10 +1,11 @@
-const panels=[...document.querySelectorAll("[data-panel]")];
+const panels=[...document.querySelectorAll("#home > [data-panel]")];
 const links=[...document.querySelectorAll("[data-panel-link]")];
 const year=document.querySelector("#year");
 const footerYear=document.querySelector("#footer-year");
 const currentYear=new Date().getFullYear();
 if(year)year.textContent=currentYear;
 if(footerYear)footerYear.textContent=currentYear;
+
 const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const loader=document.querySelector("#luxury-loader");
 const loaderStarted=performance.now();
@@ -41,60 +42,94 @@ function revealPanel(panel){
  });
 }
 
-function activatePanel(id,options={}){
- const target=panels.find(panel=>panel.dataset.panel===id);
- if(!target)return;
- panels.forEach(panel=>{
-  const active=panel===target;
-  panel.classList.toggle("is-active",active);
-  panel.setAttribute("aria-hidden",String(!active));
-  if("inert" in panel)panel.inert=!active;
- });
+function setActivePanel(id){
+ panels.forEach(panel=>panel.classList.toggle("is-active",panel.dataset.panel===id));
  links.forEach(link=>{
   const active=link.dataset.panelLink===id;
   link.classList.toggle("is-current",active);
   if(active)link.setAttribute("aria-current","page");
   else link.removeAttribute("aria-current");
  });
- if(options.updateHash!==false&&location.hash!=="#"+id)history.replaceState(null,"","#"+id);
- if(options.scroll!==false)window.scrollTo({top:0,behavior:reducedMotion?"auto":"smooth"});
- revealPanel(target);
- if(options.focus){
-  target.setAttribute("tabindex","-1");
-  target.focus({preventScroll:true});
+}
+
+function updateActivePanel(){
+ if(!panels.length)return;
+ const marker=Math.max(1,Math.min(window.innerHeight*.42,window.innerHeight-1));
+ let current=panels.find(panel=>{
+  const rect=panel.getBoundingClientRect();
+  return rect.top<=marker&&rect.bottom>marker;
+ });
+ if(!current){
+  current=panels.reduce((nearest,panel)=>{
+   const distance=Math.abs(panel.getBoundingClientRect().top-marker);
+   return distance<nearest.distance?{panel,distance}:nearest;
+  },{panel:panels[0],distance:Infinity}).panel;
  }
+ setActivePanel(current.dataset.panel);
 }
-function navigatePanel(id,focus=false){
- if(panels.some(panel=>panel.dataset.panel===id))activatePanel(id,{focus});
+
+let scrollUpdatePending=false;
+function scheduleActivePanelUpdate(){
+ if(scrollUpdatePending)return;
+ scrollUpdatePending=true;
+ requestAnimationFrame(()=>{
+  scrollUpdatePending=false;
+  updateActivePanel();
+ });
 }
+window.addEventListener("scroll",scheduleActivePanelUpdate,{passive:true});
+window.addEventListener("resize",scheduleActivePanelUpdate,{passive:true});
+
+if("IntersectionObserver" in window){
+ const revealObserver=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+   if(!entry.isIntersecting)return;
+   revealPanel(entry.target);
+   revealObserver.unobserve(entry.target);
+  });
+ },{threshold:.12});
+ panels.forEach(panel=>revealObserver.observe(panel));
+}else{
+ panels.forEach(revealPanel);
+}
+
+function navigateToPanel(id){
+ const target=id==="home"
+  ?document.querySelector("#home")
+  :panels.find(panel=>panel.id===id||panel.dataset.panel===id);
+ if(!target)return false;
+ history.replaceState(null,"","#"+id);
+ target.scrollIntoView({behavior:reducedMotion?"auto":"smooth",block:"start"});
+ return true;
+}
+
 links.forEach(link=>link.addEventListener("click",event=>{
  event.preventDefault();
- navigatePanel(link.dataset.panelLink,true);
+ navigateToPanel(link.dataset.panelLink);
 }));
-document.querySelectorAll('a[href^="#"]').forEach(link=>{
- if(link.dataset.panelLink)return;
+
+document.querySelectorAll('a[href^="#"]:not([data-panel-link])').forEach(link=>{
  link.addEventListener("click",event=>{
   const id=link.getAttribute("href").slice(1);
-  if(panels.some(panel=>panel.dataset.panel===id)){
-   event.preventDefault();
-   navigatePanel(id,true);
-  }
+  if(navigateToPanel(id))event.preventDefault();
  });
 });
-const initial=location.hash.slice(1);
-activatePanel(panels.some(panel=>panel.dataset.panel===initial)?initial:"home",{updateHash:false,scroll:false});
 
-document.addEventListener("keydown",event=>{
- if(event.altKey||event.ctrlKey||event.metaKey)return;
- if(event.key!=="ArrowDown"&&event.key!=="ArrowUp")return;
- const active=document.activeElement;
- if(active?.tagName==="INPUT"||active?.tagName==="TEXTAREA"||active?.isContentEditable)return;
- const current=links.findIndex(link=>link.classList.contains("is-current"));
- if(current<0)return;
- event.preventDefault();
- const next=(current+(event.key==="ArrowDown"?1:-1)+links.length)%links.length;
- links[next].focus();
-});
+const initialId=decodeURIComponent(location.hash.slice(1));
+if(initialId&&navigateToPanelOnLoad(initialId)){
+ requestAnimationFrame(()=>scheduleActivePanelUpdate());
+}else{
+ requestAnimationFrame(updateActivePanel);
+}
+
+function navigateToPanelOnLoad(id){
+ const target=id==="home"
+  ?document.querySelector("#home")
+  :panels.find(panel=>panel.id===id||panel.dataset.panel===id);
+ if(!target)return false;
+ requestAnimationFrame(()=>target.scrollIntoView({behavior:"auto",block:"start"}));
+ return true;
+}
 
 const workIndex=document.querySelector("#work .work-index");
 const workPreview=document.querySelector("#work .work-preview");
