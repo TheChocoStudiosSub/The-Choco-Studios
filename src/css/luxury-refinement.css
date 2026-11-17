@@ -46,9 +46,9 @@ body{height:auto;min-height:100vh;overflow:visible;background:var(--ink);font-fa
 #home>.intro .statement-heading .registration-mark{color:var(--gold-text)}
 #home>.intro .statement{display:block;width:100%;max-width:11ch;margin:0;color:var(--paper);font:500 clamp(3.7rem,6.7vw,7rem)/.98 var(--font-display);letter-spacing:-.025em;text-wrap:pretty;overflow-wrap:normal}
 #home>.intro .statement-mask{display:block;overflow:visible;clip-path:none}
-#home>.intro .statement-mask>span{display:block!important;max-width:100%;margin:0;font:inherit;color:inherit;transform:translateY(34px);opacity:0;white-space:normal}
+#home>.intro .statement-mask>span{display:block!important;max-width:100%;margin:0;font:inherit;color:inherit;transform:none;opacity:1;white-space:normal}
 #home>.intro .statement em{font-style:italic;font-weight:500;color:var(--gold-text)}
-#home>.intro .statement.is-entered .statement-mask>span{animation:tcs-statement-arrive 1.15s var(--ease-expo) both}
+#home>.intro .statement.is-revealed .statement-mask>span{animation:tcs-statement-arrive 1.15s var(--ease-expo) both}
 @keyframes tcs-statement-arrive{0%{opacity:0;transform:translateY(34px);filter:blur(5px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
 #home>.intro .statement-detail{width:100%;max-width:560px;min-width:0;margin-inline:auto;color:var(--muted);font:400 12px/2 var(--font-body);overflow-wrap:break-word}
 #home>.intro .statement-detail p{margin:0 0 20px}
