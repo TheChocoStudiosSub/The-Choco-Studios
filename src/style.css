@@ -5,3 +5,5 @@
 @import "./css/luxury-refinement.css";
 
 @import "./css/space-background.css";
+
+.sidebar-bottom a.choco-ai-cta{display:inline-flex;align-items:center;justify-content:center;width:max-content;padding:9px 13px;border:1px solid rgba(255,255,255,.28);border-radius:3px;color:#fff;text-decoration:none;letter-spacing:.04em;transition:background .2s,border-color .2s}.sidebar-bottom a.choco-ai-cta:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.55)}
