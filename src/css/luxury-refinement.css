@@ -175,35 +175,79 @@ body{height:auto;min-height:100vh;overflow:visible;background:var(--ink);font-fa
  *{scroll-behavior:auto!important}
 }
 
-/* Native page scrolling: keep every section in document flow. */
+/* Panel-based navigation with an independent scroll area inside each page. */
 html,
 body {
- height:auto !important;
- min-height:100%;
- overflow-x:hidden !important;
- overflow-y:auto !important;
+ width:100%;
+ height:100%;
+ min-height:0;
+ overflow:hidden !important;
+}
+html {
+ scroll-behavior:auto;
+}
+body {
+ overflow:hidden !important;
 }
 .site-shell {
- height:auto !important;
- min-height:100vh;
- overflow:visible !important;
- align-items:start;
+ height:100dvh !important;
+ min-height:100dvh !important;
+ overflow:hidden !important;
+}
+.sidebar {
+ height:100dvh !important;
+ min-height:0 !important;
+ overflow-x:hidden;
+ overflow-y:auto;
+ overscroll-behavior:contain;
 }
 #home {
- height:auto !important;
- min-height:100vh;
- overflow:visible !important;
+ height:100dvh !important;
+ min-height:0 !important;
+ overflow:hidden !important;
 }
 #home > .view-panel,
 #home > .view-panel.is-active {
- display:flex !important;
- position:relative;
+ position:absolute !important;
+ inset:0;
  box-sizing:border-box;
  width:100%;
- height:auto !important;
- min-height:100vh !important;
- min-height:100svh !important;
- max-height:none !important;
- overflow:visible !important;
+ height:100% !important;
+ min-height:0 !important;
+ max-height:100% !important;
+ margin:0;
+ overflow-x:hidden !important;
+ overflow-y:auto !important;
+ overscroll-behavior-y:contain;
+ -webkit-overflow-scrolling:touch;
+ scrollbar-gutter:stable;
+}
+#home > .view-panel {
+ display:none !important;
+}
+#home > .view-panel.is-active {
+ display:flex !important;
  flex-direction:column;
+ justify-content:safe center !important;
+}
+#home > .view-panel:focus-visible {
+ outline:2px solid rgba(201,174,126,.45);
+ outline-offset:-4px;
+}
+#home > .view-panel {
+ scrollbar-width:thin;
+ scrollbar-color:rgba(201,174,126,.35) transparent;
+}
+@media(max-width:650px) {
+ .sidebar {
+  height:100svh !important;
+ }
+ #home {
+  height:100svh !important;
+ }
+ #home > .view-panel,
+ #home > .view-panel.is-active {
+  height:100% !important;
+  max-height:100% !important;
+ }
 }
