@@ -1,4 +1,4 @@
-/* React Three Fiber space scene, isolated to the Home hero. */
+/* Quiet, low-key Saturn scene, isolated to the Home hero. */
 #home > .hero.view-panel {
   position: relative;
   overflow: hidden;
@@ -6,15 +6,26 @@
   background: #050508 !important;
 }
 
-#home > .hero.view-panel::before {
+#home > .hero.view-panel::before,
+#home > .hero.view-panel::after {
   content: "";
   position: absolute;
-  z-index: 0;
   inset: 0;
   pointer-events: none;
+}
+
+#home > .hero.view-panel::before {
+  z-index: 0;
   background:
-    linear-gradient(90deg, rgba(5, 5, 8, .34) 0%, rgba(5, 5, 8, .13) 46%, rgba(5, 5, 8, .08) 100%),
-    radial-gradient(ellipse 53% 66% at 70% 50%, transparent 24%, rgba(5, 5, 8, .2) 82%, rgba(5, 5, 8, .5) 100%);
+    radial-gradient(ellipse 42% 54% at 76% 70%, rgba(103, 79, 48, .075), transparent 76%),
+    radial-gradient(ellipse 30% 35% at 88% 22%, rgba(59, 78, 105, .055), transparent 80%);
+}
+
+#home > .hero.view-panel::after {
+  z-index: 2;
+  background:
+    linear-gradient(90deg, rgba(5, 5, 8, .52) 0%, rgba(5, 5, 8, .36) 42%, rgba(5, 5, 8, .12) 68%, rgba(5, 5, 8, .08) 100%),
+    radial-gradient(ellipse 56% 72% at 70% 54%, transparent 20%, rgba(5, 5, 8, .18) 78%, rgba(5, 5, 8, .42) 100%);
 }
 
 #home > .hero .tcs-r3f-background {
@@ -26,7 +37,7 @@
   overflow: hidden;
   pointer-events: none !important;
   user-select: none;
-  opacity: .98;
+  opacity: .88;
 }
 
 #home > .hero .tcs-r3f-background canvas {
@@ -49,12 +60,18 @@
 
 @media (max-width: 650px) {
   #home > .hero .tcs-r3f-background {
-    opacity: .84;
+    opacity: .72;
+  }
+
+  #home > .hero.view-panel::after {
+    background:
+      linear-gradient(90deg, rgba(5, 5, 8, .58) 0%, rgba(5, 5, 8, .4) 56%, rgba(5, 5, 8, .2) 100%),
+      radial-gradient(ellipse 76% 72% at 71% 57%, transparent 12%, rgba(5, 5, 8, .32) 100%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   #home > .hero .tcs-r3f-background {
-    opacity: .9;
+    opacity: .78;
   }
 }
