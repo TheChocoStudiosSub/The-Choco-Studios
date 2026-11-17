@@ -1201,7 +1201,7 @@ body {
 }
 @keyframes tcs-ornament-appear {
   from { opacity: 0; filter: blur(7px); transform: translate3d(0,10px,0) scale(.9); }
-  to { opacity: .3; filter: blur(1.25px); transform: translate3d(0,0,0) scale(1); }
+  to { opacity: .59; filter: blur(1.25px); transform: translate3d(0,0,0) scale(1); }
 }
 @keyframes tcs-ornament-rail-loop {
   0%,100% { background-position: left center, left top; }
@@ -1216,26 +1216,26 @@ body {
   50% { background-position: 12px 0, -8px 4px; }
 }
 
-/* Existing hero and panel ornaments are softened by roughly 70% visually. */
+/* Existing ornaments use 59% opacity for clearer visibility. */
 #home > .hero.view-panel::before {
   filter: blur(1.35px);
-  opacity: .3;
+  opacity: .59;
 }
 #home > .hero.view-panel::after {
   filter: blur(.9px);
-  opacity: .3;
+  opacity: .59;
 }
 #home > .hero .hero-guilloche {
   filter: blur(1.1px) drop-shadow(0 0 8px rgba(201,174,126,.1));
-  opacity: .3;
+  opacity: .59;
 }
 #home > .view-panel:not(.hero)::before {
   filter: blur(1.2px);
-  opacity: .3;
+  opacity: .59;
 }
 #home > .view-panel:not(.hero)::after {
   filter: blur(.8px);
-  opacity: .3;
+  opacity: .59;
 }
 #home > .founder-panel .founder-portrait::before,
 #home > .founder-panel .founder-portrait::after {
@@ -1243,23 +1243,23 @@ body {
 }
 #home > .principles .principles-list h3::before {
   filter: blur(.45px);
-  opacity: .3;
+  opacity: .59;
 }
 #home > .footer-panel .footer-links a::before {
   filter: blur(.7px);
-  opacity: .3;
+  opacity: .59;
 }
 #home > .work .work-index-row::before {
   filter: blur(.65px);
-  opacity: .3;
+  opacity: .59;
 }
 .side-nav a.is-current::before {
   filter: blur(.65px);
-  opacity: .3;
+  opacity: .59;
 }
 @keyframes tcs-frame-appear {
   from { opacity: 0; }
-  to { opacity: .3; }
+  to { opacity: .59; }
 }
 @keyframes tcs-frame-glow {
   0%,100% { filter: blur(1.35px) drop-shadow(0 0 0 rgba(215,189,140,0)); }
@@ -1267,39 +1267,39 @@ body {
 }
 @keyframes tcs-spine-appear {
   from { opacity: 0; }
-  to { opacity: .3; }
+  to { opacity: .59; }
 }
 @keyframes tcs-diamond-appear {
   from { opacity: 0; }
-  to { opacity: .3; }
+  to { opacity: .59; }
 }
 @keyframes tcs-diamond-glow {
-  0%,100% { opacity: .24; filter: blur(1.2px) drop-shadow(0 0 1px rgba(215,189,140,.06)); }
-  50% { opacity: .34; filter: blur(1.2px) drop-shadow(0 0 6px rgba(215,189,140,.16)); }
+  0%,100% { opacity: .59; filter: blur(1.2px) drop-shadow(0 0 1px rgba(215,189,140,.06)); }
+  50% { opacity: .594; filter: blur(1.2px) drop-shadow(0 0 6px rgba(215,189,140,.16)); }
 }
 @keyframes tcs-guilloche-glow {
-  0%,100% { opacity: .24; filter: blur(1.1px) drop-shadow(0 0 3px rgba(201,174,126,.05)); }
-  50% { opacity: .34; filter: blur(1.1px) drop-shadow(0 0 10px rgba(215,189,140,.14)); }
+  0%,100% { opacity: .59; filter: blur(1.1px) drop-shadow(0 0 3px rgba(201,174,126,.05)); }
+  50% { opacity: .594; filter: blur(1.1px) drop-shadow(0 0 10px rgba(215,189,140,.14)); }
 }
 @keyframes tcs-founder-corner-loop {
-  0%,100% { opacity: .2; transform: translate(0,0); }
-  50% { opacity: .34; transform: translate(-2px,-2px); }
+  0%,100% { opacity: .59; transform: translate(0,0); }
+  50% { opacity: .594; transform: translate(-2px,-2px); }
 }
 @keyframes tcs-founder-corner-loop-reverse {
-  0%,100% { opacity: .18; transform: translate(0,0); }
-  50% { opacity: .32; transform: translate(2px,2px); }
+  0%,100% { opacity: .59; transform: translate(0,0); }
+  50% { opacity: .592; transform: translate(2px,2px); }
 }
 @keyframes tcs-principle-diamond {
-  0%,100% { opacity: .2; transform: rotate(45deg) scale(1); box-shadow: 0 0 0 rgba(215,189,140,0); }
-  50% { opacity: .34; transform: rotate(135deg) scale(1.18); box-shadow: 0 0 4px rgba(215,189,140,.18); }
+  0%,100% { opacity: .59; transform: rotate(45deg) scale(1); box-shadow: 0 0 0 rgba(215,189,140,0); }
+  50% { opacity: .594; transform: rotate(135deg) scale(1.18); box-shadow: 0 0 4px rgba(215,189,140,.18); }
 }
 @keyframes tcs-work-accent-loop {
-  0%,100% { opacity: .18; box-shadow: 0 0 0 rgba(215,189,140,0); }
-  50% { opacity: .34; box-shadow: 0 0 5px rgba(215,189,140,.16); }
+  0%,100% { opacity: .59; box-shadow: 0 0 0 rgba(215,189,140,0); }
+  50% { opacity: .594; box-shadow: 0 0 5px rgba(215,189,140,.16); }
 }
 @keyframes tcs-nav-marker-loop {
-  0%,100% { opacity: .18; box-shadow: 0 0 2px rgba(215,189,140,.05); }
-  50% { opacity: .34; box-shadow: 0 0 6px rgba(215,189,140,.18); }
+  0%,100% { opacity: .59; box-shadow: 0 0 2px rgba(215,189,140,.05); }
+  50% { opacity: .594; box-shadow: 0 0 6px rgba(215,189,140,.18); }
 }
 @media (max-width: 650px) {
   #home > .view-panel > .tcs-ornament--rail {
@@ -1328,7 +1328,7 @@ body {
 }
 @media (prefers-reduced-motion: reduce) {
   #home > .view-panel > .tcs-ornament {
-    opacity: .3 !important;
+    opacity: .59 !important;
     filter: blur(1.25px) !important;
     animation: none !important;
     transform: none !important;
