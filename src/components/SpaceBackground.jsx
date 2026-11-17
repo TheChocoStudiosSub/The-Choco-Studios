@@ -20,7 +20,7 @@ const DUST_VERTEX_SHADER = [
   "  vUv = uv;",
   "  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);",
   "}"
-].join("\\n");
+].join("\n");
 
 const DUST_FRAGMENT_SHADER = [
   "uniform float uTime;",
@@ -67,7 +67,7 @@ const DUST_FRAGMENT_SHADER = [
   "  gl_FragColor = vec4(color, alpha);",
   "  #include <colorspace_fragment>",
   "}"
-].join("\\n");
+].join("\n");
 
 function createRadialRingGeometry(innerRadius, outerRadius, thetaSegments = 512, radialSegments = 48) {
   const geometry = new THREE.BufferGeometry();
