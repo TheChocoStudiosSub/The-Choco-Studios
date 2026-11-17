@@ -36,6 +36,7 @@ const RIM_FRAGMENT_SHADER = [
   "  vec3 rimColor = mix(uBlue, uGold, warmSide);",
   "  float alpha = edge * uOpacity * (0.35 + 0.35 * warmSide);",
   "  gl_FragColor = vec4(rimColor, alpha);",
+  "  #include <colorspace_fragment>",
   "}"
 ].join("\n");
 
@@ -65,6 +66,7 @@ const RING_FRAGMENT_SHADER = [
   "  vec3 ringColor = mix(uBrown, uGold, 0.24 + 0.58 * smoothstep(0.08, 0.92, t));",
   "  float alpha = edgeFade * cassiniGap * enckeGap * ringlets * broadBands * uOpacity;",
   "  gl_FragColor = vec4(ringColor, alpha);",
+  "  #include <colorspace_fragment>",
   "}"
 ].join("\n");
 
@@ -106,7 +108,8 @@ function createSaturnAtmosphereTexture() {
     }
     bandColor.multiplyScalar(0.88 + polarFade * 0.12);
 
-    context.fillStyle = "rgb(" + Math.round(bandColor.r * 255) + ", " + Math.round(bandColor.g * 255) + ", " + Math.round(bandColor.b * 255) + ")";
+    const srgbColor = bandColor.getHex(THREE.SRGBColorSpace);
+    context.fillStyle = "rgb(" + ((srgbColor >> 16) & 255) + ", " + ((srgbColor >> 8) & 255) + ", " + (srgbColor & 255) + ")";
     context.fillRect(0, y, canvas.width, 1);
   }
 
