@@ -1086,9 +1086,6 @@ body {
   pointer-events: none;
   will-change: transform, opacity;
 }
-#home > .view-panel.is-entered > .tcs-ornament-layer > .tcs-ornament:not(.tcs-ornament--shooting-star) {
-  animation: tcs-ornament-arrive 1250ms var(--ease-expo) var(--ornament-delay,80ms) both;
-}
 #home > .view-panel > .tcs-ornament-layer > .tcs-ornament:nth-child(2) { --ornament-delay: 180ms; }
 #home > .view-panel > .tcs-ornament-layer > .tcs-ornament:nth-child(3) { --ornament-delay: 280ms; }
 #home > .view-panel > .tcs-ornament-layer > .tcs-ornament:nth-child(4) { --ornament-delay: 390ms; }
@@ -1327,6 +1324,7 @@ body {
 /* Framed details used by founder and closing pages. */
 #home > .view-panel .tcs-ornament--portrait-frame {
   width: clamp(110px,15vw,190px);
+  animation: tcs-ornament-arrive 1250ms var(--ease-expo) var(--ornament-delay,80ms) both;
   height: clamp(140px,23vh,245px);
   background:
     linear-gradient(var(--gold-text),var(--gold-text)) left top / 25px 1px no-repeat,
