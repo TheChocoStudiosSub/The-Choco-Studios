@@ -773,7 +773,7 @@ function createSolarSystem() {
       .then(async response => {
         if (!response.ok) throw new Error("JPL endpoint returned HTTP " + response.status);
         const payload = await response.json();
-        if (!payload || payload.source !== "NASA/JPL Horizons" || !payload.positions) {
+        if (!payload || !String(payload.source || "").startsWith("NASA/JPL Horizons") || !payload.positions) {
           throw new Error("JPL ephemeris payload was incomplete.");
         }
         jplPositions = payload.positions;
@@ -781,11 +781,11 @@ function createSolarSystem() {
         if (mode === "realtime") {
           applyJplPositions(jplPositions);
           updateTimeLabel(new Date());
-          setSource("NASA / JPL HORIZONS · SYNCED");
+          setSource(payload.isStale ? "NASA / JPL HORIZONS · CACHED" : "NASA / JPL HORIZONS · SYNCED");
         }
       })
       .catch(() => {
-        if (!jplPositions) setSource("ASTRONOMY ENGINE · LOCAL EPHEMERIS");
+        if (!jplPositions) setSource("NASA/JPL UNAVAILABLE · LOCAL ENGINE");
       })
       .finally(() => {
         window.clearTimeout(timeout);

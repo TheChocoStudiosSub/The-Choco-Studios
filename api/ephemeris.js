@@ -1,4 +1,8 @@
 const HORIZONS_ENDPOINT = "https://ssd.jpl.nasa.gov/api/horizons.api";
+let lastGoodSnapshot = null;
+let lastGoodTimestamp = 0;
+const MAX_STALE_MS = 10 * 60 * 1000;
+const delay = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
 
 const TARGETS = [
   { key:"Mercury", id:"199" },
@@ -59,19 +63,46 @@ async function fetchTarget(target, timeString) {
     VEC_CORR:"NONE",
     OUT_UNITS:"AU-D"
   });
-  const response = await fetch(HORIZONS_ENDPOINT + "?" + parameters.toString(), {
-    headers:{ Accept:"application/json" },
-    signal:AbortSignal.timeout(8500)
-  });
-  if (!response.ok) throw new Error("NASA/JPL Horizons returned HTTP " + response.status + ".");
-  const payload = await response.json();
-  if (payload.error) throw new Error(payload.error);
-  if (typeof payload.result !== "string") throw new Error("NASA/JPL Horizons returned an incomplete result.");
-  return [target.key, readVector(payload.result)];
+  const url = HORIZONS_ENDPOINT + "?" + parameters.toString();
+  let lastError = null;
+
+  for (let attempt = 0; attempt < 2; attempt += 1) {
+    let response;
+    try {
+      response = await fetch(url, {
+        headers:{ Accept:"application/json" },
+        signal:AbortSignal.timeout(4300)
+      });
+    } catch (error) {
+      lastError = error;
+      if (attempt === 0) {
+        await delay(320 + Math.random() * 180);
+        continue;
+      }
+      throw error;
+    }
+
+    if (!response.ok) {
+      const transient = [429, 500, 502, 503, 504].includes(response.status);
+      lastError = new Error("NASA/JPL Horizons returned HTTP " + response.status + ".");
+      if (transient && attempt === 0) {
+        await delay(320 + Math.random() * 180);
+        continue;
+      }
+      throw lastError;
+    }
+
+    const payload = await response.json();
+    if (payload.error) throw new Error(payload.error);
+    if (typeof payload.result !== "string") throw new Error("NASA/JPL Horizons returned an incomplete result.");
+    return [target.key, readVector(payload.result)];
+  }
+
+  throw lastError || new Error("NASA/JPL Horizons request failed.");
 }
 
 export default async function handler(req, res) {
-  res.setHeader("Cache-Control", "public, s-maxage=40, stale-while-revalidate=20");
+  res.setHeader("Cache-Control", "public, s-maxage=40, stale-while-revalidate=120");
   res.setHeader("Content-Type", "application/json; charset=utf-8");
 
   if (req.method !== "GET") {
@@ -88,17 +119,32 @@ export default async function handler(req, res) {
   const timeString = formatHorizonsTime(requestedDate);
   try {
     const entries = await Promise.all(TARGETS.map(target => fetchTarget(target, timeString)));
-    const positions = Object.fromEntries(entries);
-    return res.status(200).json({
+    const snapshot = {
       source:"NASA/JPL Horizons",
       referencePlane:"ECLIPTIC",
       coordinateOrigin:"SUN CENTER",
       units:"AU",
       epoch:requestedDate.toISOString(),
-      positions
-    });
+      positions:Object.fromEntries(entries)
+    };
+    lastGoodSnapshot = snapshot;
+    lastGoodTimestamp = Date.now();
+    return res.status(200).json(snapshot);
   } catch (error) {
+    const ageMs = Date.now() - lastGoodTimestamp;
+    if (lastGoodSnapshot && ageMs <= MAX_STALE_MS) {
+      return res.status(200).json({
+        ...lastGoodSnapshot,
+        source:"NASA/JPL Horizons (cached)",
+        isStale:true,
+        staleAgeMs:ageMs
+      });
+    }
+
     console.error("TCS NASA/JPL ephemeris request failed:", error?.message || error);
-    return res.status(502).json({ error:"NASA/JPL ephemeris is temporarily unavailable." });
+    return res.status(503).json({
+      source:"NASA/JPL unavailable",
+      error:"NASA/JPL ephemeris is temporarily unavailable."
+    });
   }
 }
