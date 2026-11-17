@@ -1056,3 +1056,281 @@ body {
     animation: none !important;
   }
 }
+
+
+/* Extra ornaments: three restrained geometric layers on every navigation panel. */
+#home > .view-panel > .tcs-ornament {
+  position: absolute !important;
+  z-index: 0 !important;
+  display: block;
+  pointer-events: none;
+  user-select: none;
+  color: rgba(215,189,140,.62);
+  opacity: 0;
+  filter: blur(1.25px);
+}
+#home > .view-panel.is-entered > .tcs-ornament--rail {
+  animation: tcs-ornament-appear 1400ms var(--ease-expo) 80ms both,
+    tcs-ornament-rail-loop 18s ease-in-out 1480ms infinite;
+}
+#home > .view-panel.is-entered > .tcs-ornament--reticle {
+  animation: tcs-ornament-appear 1400ms var(--ease-expo) 240ms both,
+    tcs-ornament-reticle-loop 32s linear 1640ms infinite;
+}
+#home > .view-panel.is-entered > .tcs-ornament--lattice {
+  animation: tcs-ornament-appear 1400ms var(--ease-expo) 400ms both,
+    tcs-ornament-lattice-loop 22s ease-in-out 1800ms infinite;
+}
+#home > .view-panel > .tcs-ornament--rail {
+  top: 23%;
+  left: clamp(24px,3.4vw,48px);
+  width: 13px;
+  height: clamp(104px,21vh,190px);
+  border-left: 1px solid rgba(215,189,140,.58);
+  background:
+    linear-gradient(180deg, transparent, rgba(215,189,140,.38), transparent),
+    repeating-linear-gradient(180deg, rgba(215,189,140,.42) 0 1px, transparent 1px 13px);
+  background-size: 1px 100%, 100% 26px;
+  background-position: left center, left top;
+  background-repeat: no-repeat, repeat-y;
+}
+#home > .view-panel > .tcs-ornament--rail::before,
+#home > .view-panel > .tcs-ornament--rail::after {
+  content: "";
+  position: absolute;
+  left: -3px;
+  width: 6px;
+  height: 6px;
+  border: 1px solid rgba(215,189,140,.7);
+  transform: rotate(45deg);
+}
+#home > .view-panel > .tcs-ornament--rail::before { top: 0; }
+#home > .view-panel > .tcs-ornament--rail::after { bottom: 0; }
+#home > .view-panel > .tcs-ornament--reticle {
+  top: clamp(84px,16vh,148px);
+  right: clamp(104px,16vw,216px);
+  width: clamp(42px,5vw,64px);
+  aspect-ratio: 1;
+  border-top: 1px solid rgba(215,189,140,.66);
+  border-right: 1px solid rgba(215,189,140,.66);
+}
+#home > .view-panel > .tcs-ornament--reticle::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-left: 1px solid rgba(215,189,140,.48);
+  border-bottom: 1px solid rgba(215,189,140,.48);
+}
+#home > .view-panel > .tcs-ornament--reticle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border: 1px solid rgba(215,189,140,.72);
+  transform: translate(-50%,-50%) rotate(45deg);
+  box-shadow: 0 0 0 5px rgba(215,189,140,.045);
+}
+#home > .view-panel > .tcs-ornament--lattice {
+  right: clamp(34px,9vw,124px);
+  bottom: clamp(58px,14vh,126px);
+  width: clamp(82px,10vw,132px);
+  height: clamp(42px,6vh,62px);
+  border-right: 1px solid rgba(215,189,140,.5);
+  border-bottom: 1px solid rgba(215,189,140,.5);
+  background:
+    repeating-linear-gradient(135deg, rgba(215,189,140,.35) 0 1px, transparent 1px 11px),
+    repeating-linear-gradient(45deg, rgba(215,189,140,.16) 0 1px, transparent 1px 15px);
+  background-size: 100% 100%, 100% 100%;
+}
+#home > .view-panel > .tcs-ornament--lattice::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  right: 12px;
+  width: 9px;
+  height: 9px;
+  border: 1px solid rgba(215,189,140,.62);
+  transform: rotate(45deg);
+}
+#home > .view-panel[data-panel="studio"] > .tcs-ornament--reticle {
+  left: 22%;
+  right: auto;
+  top: 14%;
+}
+#home > .view-panel[data-panel="founder-profile"] > .tcs-ornament--rail {
+  right: clamp(24px,4vw,58px);
+  left: auto;
+  top: 19%;
+  height: clamp(100px,18vh,164px);
+}
+#home > .view-panel[data-panel="founder-profile"] > .tcs-ornament--reticle {
+  top: auto;
+  right: auto;
+  bottom: 24%;
+  left: 7%;
+}
+#home > .view-panel[data-panel="work"] > .tcs-ornament--reticle {
+  top: 17%;
+  right: 7%;
+}
+#home > .view-panel[data-panel="work"] > .tcs-ornament--lattice {
+  right: 17%;
+  bottom: 12%;
+}
+#home > .view-panel[data-panel="principles"] > .tcs-ornament--rail {
+  left: auto;
+  right: 5%;
+  top: 26%;
+}
+#home > .view-panel[data-panel="principles"] > .tcs-ornament--reticle {
+  top: auto;
+  right: auto;
+  left: 8%;
+  bottom: 22%;
+}
+#home > .view-panel[data-panel="footer"] > .tcs-ornament--rail {
+  left: 6%;
+  top: 17%;
+  height: clamp(85px,16vh,148px);
+}
+#home > .view-panel[data-panel="footer"] > .tcs-ornament--reticle {
+  top: 17%;
+  right: 7%;
+}
+@keyframes tcs-ornament-appear {
+  from { opacity: 0; filter: blur(7px); transform: translate3d(0,10px,0) scale(.9); }
+  to { opacity: .3; filter: blur(1.25px); transform: translate3d(0,0,0) scale(1); }
+}
+@keyframes tcs-ornament-rail-loop {
+  0%,100% { background-position: left center, left top; }
+  50% { background-position: left center, left 26px; }
+}
+@keyframes tcs-ornament-reticle-loop {
+  from { rotate: 0deg; }
+  to { rotate: 360deg; }
+}
+@keyframes tcs-ornament-lattice-loop {
+  0%,100% { background-position: 0 0, 0 0; }
+  50% { background-position: 12px 0, -8px 4px; }
+}
+
+/* Existing hero and panel ornaments are softened by roughly 70% visually. */
+#home > .hero.view-panel::before {
+  filter: blur(1.35px);
+  opacity: .3;
+}
+#home > .hero.view-panel::after {
+  filter: blur(.9px);
+  opacity: .3;
+}
+#home > .hero .hero-guilloche {
+  filter: blur(1.1px) drop-shadow(0 0 8px rgba(201,174,126,.1));
+  opacity: .3;
+}
+#home > .view-panel:not(.hero)::before {
+  filter: blur(1.2px);
+  opacity: .3;
+}
+#home > .view-panel:not(.hero)::after {
+  filter: blur(.8px);
+  opacity: .3;
+}
+#home > .founder-panel .founder-portrait::before,
+#home > .founder-panel .founder-portrait::after {
+  filter: blur(.75px);
+}
+#home > .principles .principles-list h3::before {
+  filter: blur(.45px);
+  opacity: .3;
+}
+#home > .footer-panel .footer-links a::before {
+  filter: blur(.7px);
+  opacity: .3;
+}
+#home > .work .work-index-row::before {
+  filter: blur(.65px);
+  opacity: .3;
+}
+.side-nav a.is-current::before {
+  filter: blur(.65px);
+  opacity: .3;
+}
+@keyframes tcs-frame-appear {
+  from { opacity: 0; }
+  to { opacity: .3; }
+}
+@keyframes tcs-frame-glow {
+  0%,100% { filter: blur(1.35px) drop-shadow(0 0 0 rgba(215,189,140,0)); }
+  50% { filter: blur(1.35px) drop-shadow(0 0 8px rgba(215,189,140,.1)); }
+}
+@keyframes tcs-spine-appear {
+  from { opacity: 0; }
+  to { opacity: .3; }
+}
+@keyframes tcs-diamond-appear {
+  from { opacity: 0; }
+  to { opacity: .3; }
+}
+@keyframes tcs-diamond-glow {
+  0%,100% { opacity: .24; filter: blur(1.2px) drop-shadow(0 0 1px rgba(215,189,140,.06)); }
+  50% { opacity: .34; filter: blur(1.2px) drop-shadow(0 0 6px rgba(215,189,140,.16)); }
+}
+@keyframes tcs-guilloche-glow {
+  0%,100% { opacity: .24; filter: blur(1.1px) drop-shadow(0 0 3px rgba(201,174,126,.05)); }
+  50% { opacity: .34; filter: blur(1.1px) drop-shadow(0 0 10px rgba(215,189,140,.14)); }
+}
+@keyframes tcs-founder-corner-loop {
+  0%,100% { opacity: .2; transform: translate(0,0); }
+  50% { opacity: .34; transform: translate(-2px,-2px); }
+}
+@keyframes tcs-founder-corner-loop-reverse {
+  0%,100% { opacity: .18; transform: translate(0,0); }
+  50% { opacity: .32; transform: translate(2px,2px); }
+}
+@keyframes tcs-principle-diamond {
+  0%,100% { opacity: .2; transform: rotate(45deg) scale(1); box-shadow: 0 0 0 rgba(215,189,140,0); }
+  50% { opacity: .34; transform: rotate(135deg) scale(1.18); box-shadow: 0 0 4px rgba(215,189,140,.18); }
+}
+@keyframes tcs-work-accent-loop {
+  0%,100% { opacity: .18; box-shadow: 0 0 0 rgba(215,189,140,0); }
+  50% { opacity: .34; box-shadow: 0 0 5px rgba(215,189,140,.16); }
+}
+@keyframes tcs-nav-marker-loop {
+  0%,100% { opacity: .18; box-shadow: 0 0 2px rgba(215,189,140,.05); }
+  50% { opacity: .34; box-shadow: 0 0 6px rgba(215,189,140,.18); }
+}
+@media (max-width: 650px) {
+  #home > .view-panel > .tcs-ornament--rail {
+    left: 14px;
+    height: 104px;
+  }
+  #home > .view-panel > .tcs-ornament--reticle {
+    right: 62px;
+    top: 72px;
+    width: 38px;
+  }
+  #home > .view-panel > .tcs-ornament--lattice {
+    right: 25px;
+    bottom: 42px;
+    width: 68px;
+    height: 36px;
+  }
+  #home > .view-panel[data-panel="studio"] > .tcs-ornament--reticle,
+  #home > .view-panel[data-panel="principles"] > .tcs-ornament--reticle,
+  #home > .view-panel[data-panel="founder-profile"] > .tcs-ornament--reticle {
+    left: auto;
+    right: 62px;
+    top: 72px;
+    bottom: auto;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  #home > .view-panel > .tcs-ornament {
+    opacity: .3 !important;
+    filter: blur(1.25px) !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}
