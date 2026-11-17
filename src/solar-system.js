@@ -1,14 +1,10 @@
 import * as THREE from "three";
-import * as AstronomyModule from "astronomy-engine";
+import * as Astronomy from "astronomy-engine";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
 import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
 import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
 import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
-
-const Astronomy = AstronomyModule.default && AstronomyModule.default.HelioVector
-  ? AstronomyModule.default
-  : AstronomyModule;
 
 const BODY = Astronomy.Body;
 const hasEphemeris = Boolean(BODY && typeof Astronomy.HelioVector === "function");
@@ -279,11 +275,15 @@ function vectorDifference(a, b) {
 
 function moonVectorToWorld(vector) {
   const ecliptic = eclipticFromEquatorial(vector);
+  return moonEclipticVectorToWorld(ecliptic);
+}
+
+function moonEclipticVectorToWorld(vector) {
   const exaggeration = 150;
   return new THREE.Vector3(
-    ecliptic.x * exaggeration,
-    ecliptic.z * exaggeration,
-    -ecliptic.y * exaggeration
+    vector.x * exaggeration,
+    vector.z * exaggeration,
+    -vector.y * exaggeration
   );
 }
 
@@ -752,7 +752,7 @@ function createSolarSystem() {
     const moonVector = positions.Moon;
     const earthVector = positions.Earth;
     if (moonVector && earthVector) {
-      moon.position.copy(moonVectorToWorld(vectorDifference(moonVector, earthVector)));
+      moon.position.copy(moonEclipticVectorToWorld(vectorDifference(moonVector, earthVector)));
     }
   }
 
