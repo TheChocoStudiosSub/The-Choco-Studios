@@ -57,9 +57,11 @@ const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matche
 
 let spaceBackground = null;
 let spaceBackgroundPromise = null;
+let spaceBackgroundActive = false;
 
 function setSpaceBackground(active) {
- if(!active) {
+ spaceBackgroundActive=Boolean(active);
+ if(!spaceBackgroundActive) {
   spaceBackground?.setActive(false);
   return;
  }
@@ -69,13 +71,14 @@ function setSpaceBackground(active) {
  }
  if(spaceBackgroundPromise) return;
 
- spaceBackgroundPromise=import("./space-background.js")
-  .then(({createSpaceBackground})=>{
-   spaceBackground=createSpaceBackground();
-   spaceBackground?.setActive(true);
+ spaceBackgroundPromise=import("./components/SpaceBackground.jsx")
+  .then(({mountSpaceBackground})=>{
+   const hero=document.querySelector('#home > .hero[data-panel="home"]');
+   spaceBackground=mountSpaceBackground(hero,spaceBackgroundActive);
   })
   .catch(error=>{
-   console.error("TCS space background could not initialize:",error);
+   spaceBackgroundPromise=null;
+   console.error("TCS 3D space background could not initialize:",error);
   });
 }
 
