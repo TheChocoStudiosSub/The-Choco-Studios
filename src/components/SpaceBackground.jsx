@@ -4,7 +4,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
 const SATURN_RADIUS = 1.42;
-const RING_INNER_RADIUS = 1.48;
+const RING_INNER_RADIUS = 1.72;
 const RING_OUTER_RADIUS = 3.42;
 
 const BACKDROP_VERTEX_SHADER = [
@@ -287,9 +287,9 @@ function ProceduralBackdrop({ animated }) {
   );
 }
 
-function SaturnPlanet({ animated }) {
-  const groupRef = useRef(null);
-  const material = useMemo(() => new THREE.ShaderMaterial({
+function Saturn({ animated, compact }) {
+  const planetRef = useRef(null);
+  const planetMaterial = useMemo(() => new THREE.ShaderMaterial({
     uniforms: {
       uCream: { value: new THREE.Color("#C8B598") },
       uCaramel: { value: new THREE.Color("#7D6950") },
@@ -302,28 +302,7 @@ function SaturnPlanet({ animated }) {
     toneMapped: true
   }), []);
 
-  useFrame((_, delta) => {
-    if (animated && groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.0022;
-      material.uniforms.uTime.value += delta;
-    }
-  });
-
-  useEffect(() => () => material.dispose(), [material]);
-
-  return (
-    <group ref={groupRef}>
-      <mesh renderOrder={1}>
-        <sphereGeometry args={[SATURN_RADIUS, 144, 112]} />
-        <primitive object={material} attach="material" />
-      </mesh>
-    </group>
-  );
-}
-
-function SaturnRings({ animated }) {
-  const groupRef = useRef(null);
-  const material = useMemo(() => new THREE.ShaderMaterial({
+  const ringMaterial = useMemo(() => new THREE.ShaderMaterial({
     uniforms: {
       uIceColor: { value: new THREE.Color("#C9C1B2") },
       uShadowColor: { value: new THREE.Color("#514B42") },
@@ -342,35 +321,44 @@ function SaturnRings({ animated }) {
   }), []);
 
   useFrame((_, delta) => {
-    if (animated && groupRef.current) {
-      groupRef.current.rotation.y += delta * 0.00055;
+    if (animated && planetRef.current) {
+      planetRef.current.rotation.y += delta * 0.0022;
+    }
+    if (animated) {
+      planetMaterial.uniforms.uTime.value += delta;
     }
   });
 
-  useEffect(() => () => material.dispose(), [material]);
+  useEffect(() => () => {
+    planetMaterial.dispose();
+    ringMaterial.dispose();
+  }, [planetMaterial, ringMaterial]);
 
-  return (
-    <group
-      ref={groupRef}
-      rotation={[1.104, 0, -0.16]}
-      renderOrder={2}
-    >
-      <mesh renderOrder={2}>
-        <ringGeometry args={[RING_INNER_RADIUS, RING_OUTER_RADIUS, 512]} />
-        <primitive object={material} attach="material" />
-      </mesh>
-    </group>
-  );
-}
-
-function Saturn({ animated, compact }) {
   const position = compact ? [1.12, -1.20, -1.55] : [2.62, -1.12, -1.65];
   const scale = compact ? 0.48 : 0.91;
 
   return (
-    <group position={position} scale={scale}>
-      <SaturnPlanet animated={animated} />
-      <SaturnRings animated={animated} />
+    <group
+      position={position}
+      scale={scale}
+      rotation={[0.466, 0, 0.2]}
+    >
+      <mesh
+        ref={planetRef}
+        position={[0, 0, 0]}
+        renderOrder={1}
+      >
+        <sphereGeometry args={[SATURN_RADIUS, 144, 112]} />
+        <primitive object={planetMaterial} attach="material" />
+      </mesh>
+
+      <mesh
+        position={[0, 0, 0]}
+        renderOrder={2}
+      >
+        <ringGeometry args={[RING_INNER_RADIUS, RING_OUTER_RADIUS, 512]} />
+        <primitive object={ringMaterial} attach="material" />
+      </mesh>
     </group>
   );
 }
