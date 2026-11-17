@@ -57,11 +57,9 @@ const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matche
 
 let spaceBackground = null;
 let spaceBackgroundPromise = null;
-let spaceBackgroundActive = false;
 
 function setSpaceBackground(active) {
- spaceBackgroundActive=Boolean(active);
- if(!spaceBackgroundActive) {
+ if(!active) {
   spaceBackground?.setActive(false);
   return;
  }
@@ -71,17 +69,15 @@ function setSpaceBackground(active) {
  }
  if(spaceBackgroundPromise) return;
 
- spaceBackgroundPromise=import("./components/SpaceBackground.jsx")
-  .then(({mountSpaceBackground})=>{
-   const hero=document.querySelector('#home > .hero[data-panel="home"]');
-   spaceBackground=mountSpaceBackground(hero,spaceBackgroundActive);
+ spaceBackgroundPromise=import("./space-background.js")
+  .then(({createSpaceBackground})=>{
+   spaceBackground=createSpaceBackground();
+   spaceBackground?.setActive(true);
   })
   .catch(error=>{
-   spaceBackgroundPromise=null;
-   console.error("TCS 3D space background could not initialize:",error);
+   console.error("TCS space background could not initialize:",error);
   });
 }
-
 
 
 /* Canvas meteor field: all meteors and stardust are painted on one responsive canvas. */
