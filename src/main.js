@@ -1,4 +1,16 @@
 const panels=[...document.querySelectorAll("#home > [data-panel]")];
+const ornamentTypes=["rail","reticle","lattice"];
+panels.forEach(panel=>{
+ if(panel.querySelector(":scope > .tcs-ornament"))return;
+ const ornaments=document.createDocumentFragment();
+ ornamentTypes.forEach(type=>{
+  const ornament=document.createElement("span");
+  ornament.className="tcs-ornament tcs-ornament--"+type;
+  ornament.setAttribute("aria-hidden","true");
+  ornaments.appendChild(ornament);
+ });
+ panel.appendChild(ornaments);
+});
 const links=[...document.querySelectorAll("[data-panel-link]")];
 const year=document.querySelector("#year");
 const footerYear=document.querySelector("#footer-year");
