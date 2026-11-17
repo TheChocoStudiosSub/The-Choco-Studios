@@ -28,8 +28,7 @@ function makeStars(width, height) {
 }
 
 function createSpaceBackground() {
-  const hero = document.querySelector('#home > .hero[data-panel="home"]');
-  if (!hero) return null;
+  if (!document.body) return null;
 
   const canvas = document.createElement("canvas");
   canvas.className = "tcs-space-canvas";
@@ -37,7 +36,7 @@ function createSpaceBackground() {
   const context = canvas.getContext("2d", { alpha:true, desynchronized:true });
   if (!context) return null;
 
-  hero.insertBefore(canvas, hero.firstChild);
+  document.body.appendChild(canvas);
 
   let width = 1;
   let height = 1;
@@ -48,13 +47,11 @@ function createSpaceBackground() {
   let disposed = false;
   let lastFrame = 0;
   let elapsed = 0;
-  let resizeObserver = null;
 
   function resize() {
     if (disposed) return;
-    const bounds = hero.getBoundingClientRect();
-    width = Math.max(1, Math.round(bounds.width));
-    height = Math.max(1, Math.round(bounds.height));
+    width = Math.max(1, Math.round(window.innerWidth));
+    height = Math.max(1, Math.round(window.innerHeight));
     dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = Math.round(width * dpr);
     canvas.height = Math.round(height * dpr);
@@ -186,18 +183,12 @@ function createSpaceBackground() {
 
   document.addEventListener("visibilitychange", handleVisibility);
   REDUCED_MOTION.addEventListener?.("change", handleMotionChange);
-  if (typeof ResizeObserver === "function") {
-    resizeObserver = new ResizeObserver(resize);
-    resizeObserver.observe(hero);
-  } else {
-    window.addEventListener("resize", resize, { passive:true });
-  }
+  window.addEventListener("resize", resize, { passive:true });
 
   function dispose() {
     if (disposed) return;
     disposed = true;
     stop();
-    resizeObserver?.disconnect();
     document.removeEventListener("visibilitychange", handleVisibility);
     REDUCED_MOTION.removeEventListener?.("change", handleMotionChange);
     window.removeEventListener("resize", resize);
