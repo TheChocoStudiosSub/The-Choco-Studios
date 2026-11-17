@@ -1058,279 +1058,579 @@ body {
 }
 
 
-/* Extra ornaments: three restrained geometric layers on every navigation panel. */
-#home > .view-panel > .tcs-ornament {
-  position: absolute !important;
-  z-index: 0 !important;
-  display: block;
+
+/* Kinetic ornament system: page-specific layouts, counter-rotating geometry and occasional shooting stars. */
+#home > .view-panel {
+  isolation: isolate;
+}
+#home > .view-panel > .tcs-ornament-layer {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  contain: paint;
   pointer-events: none;
   user-select: none;
-  color: rgba(215,189,140,.62);
+}
+#home > .view-panel:not(.hero)::before,
+#home > .view-panel:not(.hero)::after {
+  content: none !important;
+  display: none !important;
+}
+#home > .view-panel > .tcs-ornament-layer > .tcs-ornament {
+  position: absolute;
+  display: block;
+  color: var(--gold-text);
   opacity: 0;
-  filter: blur(1.25px);
+  filter: blur(.35px);
+  pointer-events: none;
+  will-change: transform, opacity;
 }
-#home > .view-panel.is-entered > .tcs-ornament--rail {
-  animation: tcs-ornament-appear 1400ms var(--ease-expo) 80ms both,
-    tcs-ornament-rail-loop 18s ease-in-out 1480ms infinite;
+#home > .view-panel.is-entered > .tcs-ornament-layer > .tcs-ornament:not(.tcs-ornament--shooting-star) {
+  animation: tcs-ornament-arrive 1250ms var(--ease-expo) var(--ornament-delay,80ms) both;
 }
-#home > .view-panel.is-entered > .tcs-ornament--reticle {
-  animation: tcs-ornament-appear 1400ms var(--ease-expo) 240ms both,
-    tcs-ornament-reticle-loop 32s linear 1640ms infinite;
+#home > .view-panel > .tcs-ornament-layer > .tcs-ornament:nth-child(2) { --ornament-delay: 180ms; }
+#home > .view-panel > .tcs-ornament-layer > .tcs-ornament:nth-child(3) { --ornament-delay: 280ms; }
+#home > .view-panel > .tcs-ornament-layer > .tcs-ornament:nth-child(4) { --ornament-delay: 390ms; }
+#home > .view-panel > .tcs-ornament-layer > .tcs-ornament:nth-child(5) { --ornament-delay: 500ms; }
+#home > .view-panel > .tcs-ornament-layer > .tcs-ornament:nth-child(6) { --ornament-delay: 610ms; }
+
+@keyframes tcs-ornament-arrive {
+  from { opacity: 0; }
+  to { opacity: .59; }
 }
-#home > .view-panel.is-entered > .tcs-ornament--lattice {
-  animation: tcs-ornament-appear 1400ms var(--ease-expo) 400ms both,
-    tcs-ornament-lattice-loop 22s ease-in-out 1800ms infinite;
+@keyframes tcs-orbit-clockwise {
+  from { rotate: 0deg; }
+  to { rotate: 360deg; }
 }
-#home > .view-panel > .tcs-ornament--rail {
-  top: 23%;
-  left: clamp(24px,3.4vw,48px);
-  width: 13px;
-  height: clamp(104px,21vh,190px);
-  border-left: 1px solid rgba(215,189,140,.58);
-  background:
-    linear-gradient(180deg, transparent, rgba(215,189,140,.38), transparent),
-    repeating-linear-gradient(180deg, rgba(215,189,140,.42) 0 1px, transparent 1px 13px);
-  background-size: 1px 100%, 100% 26px;
-  background-position: left center, left top;
-  background-repeat: no-repeat, repeat-y;
+@keyframes tcs-orbit-counterclockwise {
+  from { rotate: 360deg; }
+  to { rotate: 0deg; }
 }
-#home > .view-panel > .tcs-ornament--rail::before,
-#home > .view-panel > .tcs-ornament--rail::after {
+@keyframes tcs-constellation-twinkle {
+  0%,100% { background-position: 0 0, 0 0, 0 0; filter: drop-shadow(0 0 1px rgba(215,189,140,.08)); }
+  50% { background-position: 4px -3px, -5px 4px, 3px 2px; filter: drop-shadow(0 0 9px rgba(215,189,140,.28)); }
+}
+@keyframes tcs-grid-scan {
+  0% { transform: translateY(-110%); opacity: 0; }
+  12% { opacity: .65; }
+  88% { opacity: .5; }
+  100% { transform: translateY(110%); opacity: 0; }
+}
+@keyframes tcs-grid-drift {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 28px 0, 0 28px; }
+}
+@keyframes tcs-crosshair-turn {
+  from { rotate: 0deg; }
+  to { rotate: -360deg; }
+}
+@keyframes tcs-crosshair-pulse {
+  0%,100% { filter: drop-shadow(0 0 2px rgba(215,189,140,.1)); }
+  50% { filter: drop-shadow(0 0 13px rgba(215,189,140,.38)); }
+}
+@keyframes tcs-spark-twinkle {
+  0%,100% { scale: .72; rotate: 0deg; opacity: .2; }
+  45% { scale: 1.18; rotate: 45deg; opacity: .95; }
+  70% { scale: .9; rotate: 70deg; opacity: .48; }
+}
+@keyframes tcs-portrait-scan {
+  0%,12% { transform: translateY(-120%); opacity: 0; }
+  22% { opacity: .58; }
+  82% { opacity: .42; }
+  100% { transform: translateY(120%); opacity: 0; }
+}
+@keyframes tcs-shooting-star {
+  0%,67% {
+    opacity: 0;
+    transform: translate3d(0,0,0) rotate(var(--star-angle,35deg)) scaleX(.12);
+  }
+  69% {
+    opacity: .95;
+    transform: translate3d(0,0,0) rotate(var(--star-angle,35deg)) scaleX(.62);
+  }
+  77% {
+    opacity: 0;
+    transform: translate3d(var(--star-x,-210px),var(--star-y,150px),0) rotate(var(--star-angle,35deg)) scaleX(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--star-x,-210px),var(--star-y,150px),0) rotate(var(--star-angle,35deg)) scaleX(.12);
+  }
+}
+
+/* Counter-rotating orbital assemblies. */
+#home > .view-panel .tcs-ornament--orbital {
+  width: clamp(138px,18vw,252px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(215,189,140,.46);
+  border-top-color: rgba(240,223,182,.82);
+  border-left-color: transparent;
+  border-bottom-color: rgba(215,189,140,.22);
+  border-radius: 50%;
+  box-shadow: inset 0 0 24px rgba(215,189,140,.035), 0 0 24px rgba(215,189,140,.045);
+  animation: tcs-ornament-arrive 1250ms var(--ease-expo) var(--ornament-delay,80ms) both,
+    tcs-orbit-clockwise 46s linear 1300ms infinite;
+}
+#home > .view-panel .tcs-ornament--orbital::before {
   content: "";
   position: absolute;
-  left: -3px;
+  inset: 12%;
+  border: 1px dashed rgba(215,189,140,.44);
+  border-top-color: transparent;
+  border-bottom-color: rgba(240,223,182,.7);
+  border-radius: 50%;
+  rotate: 28deg;
+  animation: tcs-orbit-counterclockwise 27s linear infinite;
+}
+#home > .view-panel .tcs-ornament--orbital::after {
+  content: "";
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border: 1px solid rgba(240,223,182,.8);
+  background: #d7bd8c;
+  box-shadow: 0 0 12px rgba(240,223,182,.55);
+  transform: translateX(-50%) rotate(45deg);
+}
+#home > .view-panel .tcs-ornament--orbital-reverse {
+  width: clamp(92px,12vw,166px);
+  aspect-ratio: 1;
+  border: 1px dotted rgba(215,189,140,.58);
+  border-right-color: transparent;
+  border-top-color: rgba(240,223,182,.72);
+  border-radius: 50%;
+  box-shadow: 0 0 18px rgba(215,189,140,.055);
+  animation: tcs-ornament-arrive 1250ms var(--ease-expo) var(--ornament-delay,80ms) both,
+    tcs-orbit-counterclockwise 34s linear 1300ms infinite;
+}
+#home > .view-panel .tcs-ornament--orbital-reverse::before {
+  content: "";
+  position: absolute;
+  inset: 16%;
+  border: 1px solid rgba(215,189,140,.33);
+  border-right-color: transparent;
+  border-radius: 50%;
+  rotate: -34deg;
+  animation: tcs-orbit-clockwise 21s linear infinite;
+}
+#home > .view-panel .tcs-ornament--orbital-reverse::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -3px;
   width: 6px;
   height: 6px;
-  border: 1px solid rgba(215,189,140,.7);
-  transform: rotate(45deg);
+  border-radius: 50%;
+  background: var(--gold-hot);
+  box-shadow: 0 0 11px rgba(240,223,182,.65);
 }
-#home > .view-panel > .tcs-ornament--rail::before { top: 0; }
-#home > .view-panel > .tcs-ornament--rail::after { bottom: 0; }
-#home > .view-panel > .tcs-ornament--reticle {
-  top: clamp(84px,16vh,148px);
-  right: clamp(104px,16vw,216px);
-  width: clamp(42px,5vw,64px);
-  aspect-ratio: 1;
-  border-top: 1px solid rgba(215,189,140,.66);
-  border-right: 1px solid rgba(215,189,140,.66);
+
+/* Constellations and coordinate patterns. */
+#home > .view-panel .tcs-ornament--constellation {
+  width: clamp(130px,18vw,230px);
+  height: clamp(86px,14vh,150px);
+  background:
+    radial-gradient(circle at 8% 24%, rgba(240,223,182,.95) 0 1px, transparent 2px),
+    radial-gradient(circle at 34% 12%, rgba(215,189,140,.78) 0 1px, transparent 2px),
+    radial-gradient(circle at 58% 48%, rgba(240,223,182,.9) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 86% 20%, rgba(215,189,140,.76) 0 1px, transparent 2px),
+    radial-gradient(circle at 76% 84%, rgba(240,223,182,.88) 0 1px, transparent 2px),
+    radial-gradient(circle at 22% 78%, rgba(215,189,140,.7) 0 1px, transparent 2px),
+    linear-gradient(24deg, transparent 20%, rgba(215,189,140,.18) 20.3%, transparent 20.7% 53%, rgba(215,189,140,.13) 53.3%, transparent 53.7%);
+  background-size: 100% 100%;
+  animation: tcs-ornament-arrive 1250ms var(--ease-expo) var(--ornament-delay,80ms) both,
+    tcs-constellation-twinkle 8s ease-in-out 1.3s infinite;
 }
-#home > .view-panel > .tcs-ornament--reticle::before {
+#home > .view-panel .tcs-ornament--coordinate-grid,
+#home > .view-panel .tcs-ornament--index-grid {
+  width: clamp(160px,22vw,300px);
+  height: clamp(130px,24vh,240px);
+  border: 1px solid rgba(215,189,140,.2);
+  background:
+    linear-gradient(rgba(215,189,140,.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(215,189,140,.12) 1px, transparent 1px);
+  background-size: 22px 22px;
+  animation: tcs-ornament-arrive 1250ms var(--ease-expo) var(--ornament-delay,80ms) both,
+    tcs-grid-drift 24s linear 1.3s infinite;
+}
+#home > .view-panel .tcs-ornament--coordinate-grid::after,
+#home > .view-panel .tcs-ornament--index-grid::after {
   content: "";
   position: absolute;
-  inset: 8px;
-  border-left: 1px solid rgba(215,189,140,.48);
-  border-bottom: 1px solid rgba(215,189,140,.48);
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 30%;
+  background: linear-gradient(180deg, transparent, rgba(240,223,182,.14), transparent);
+  animation: tcs-grid-scan 8s ease-in-out 1.5s infinite;
 }
-#home > .view-panel > .tcs-ornament--reticle::after {
+#home > .view-panel .tcs-ornament--index-grid {
+  background-size: 28px 28px;
+  border-style: dotted;
+  transform: skewY(-8deg);
+}
+
+/* Rotating registration marks and star-like highlights. */
+#home > .view-panel .tcs-ornament--crosshair {
+  width: clamp(34px,4.6vw,58px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(215,189,140,.55);
+  border-radius: 50%;
+  background:
+    linear-gradient(90deg, transparent 49.5%, rgba(240,223,182,.72) 49.8% 50.2%, transparent 50.5%),
+    linear-gradient(0deg, transparent 49.5%, rgba(240,223,182,.72) 49.8% 50.2%, transparent 50.5%);
+  animation: tcs-ornament-arrive 1250ms var(--ease-expo) var(--ornament-delay,80ms) both,
+    tcs-crosshair-turn 24s linear 1.3s infinite,
+    tcs-crosshair-pulse 5.8s ease-in-out 1.3s infinite;
+}
+#home > .view-panel .tcs-ornament--crosshair::before {
+  content: "";
+  position: absolute;
+  inset: 33%;
+  border: 1px solid rgba(240,223,182,.85);
+  transform: rotate(45deg);
+}
+#home > .view-panel .tcs-ornament--crosshair::after {
   content: "";
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 8px;
-  height: 8px;
-  border: 1px solid rgba(215,189,140,.72);
-  transform: translate(-50%,-50%) rotate(45deg);
-  box-shadow: 0 0 0 5px rgba(215,189,140,.045);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold-hot);
+  box-shadow: 0 0 9px rgba(240,223,182,.8);
+  transform: translate(-50%,-50%);
 }
-#home > .view-panel > .tcs-ornament--lattice {
-  right: clamp(34px,9vw,124px);
-  bottom: clamp(58px,14vh,126px);
-  width: clamp(82px,10vw,132px);
-  height: clamp(42px,6vh,62px);
-  border-right: 1px solid rgba(215,189,140,.5);
-  border-bottom: 1px solid rgba(215,189,140,.5);
+#home > .view-panel .tcs-ornament--spark {
+  width: 18px;
+  height: 18px;
   background:
-    repeating-linear-gradient(135deg, rgba(215,189,140,.35) 0 1px, transparent 1px 11px),
-    repeating-linear-gradient(45deg, rgba(215,189,140,.16) 0 1px, transparent 1px 15px);
-  background-size: 100% 100%, 100% 100%;
+    linear-gradient(90deg, transparent 43%, rgba(240,223,182,.95) 49%, transparent 55%),
+    linear-gradient(0deg, transparent 43%, rgba(240,223,182,.95) 49%, transparent 55%);
+  filter: drop-shadow(0 0 6px rgba(240,223,182,.55));
+  animation: tcs-ornament-arrive 800ms ease var(--ornament-delay,80ms) both,
+    tcs-spark-twinkle 4.8s ease-in-out 1s infinite;
 }
-#home > .view-panel > .tcs-ornament--lattice::before {
+#home > .view-panel .tcs-ornament--spark::after {
   content: "";
   position: absolute;
-  top: -5px;
-  right: 12px;
-  width: 9px;
-  height: 9px;
-  border: 1px solid rgba(215,189,140,.62);
-  transform: rotate(45deg);
-}
-#home > .view-panel[data-panel="studio"] > .tcs-ornament--reticle {
-  left: 22%;
-  right: auto;
-  top: 14%;
-}
-#home > .view-panel[data-panel="founder-profile"] > .tcs-ornament--rail {
-  right: clamp(24px,4vw,58px);
-  left: auto;
-  top: 19%;
-  height: clamp(100px,18vh,164px);
-}
-#home > .view-panel[data-panel="founder-profile"] > .tcs-ornament--reticle {
-  top: auto;
-  right: auto;
-  bottom: 24%;
-  left: 7%;
-}
-#home > .view-panel[data-panel="work"] > .tcs-ornament--reticle {
-  top: 17%;
-  right: 7%;
-}
-#home > .view-panel[data-panel="work"] > .tcs-ornament--lattice {
-  right: 17%;
-  bottom: 12%;
-}
-#home > .view-panel[data-panel="principles"] > .tcs-ornament--rail {
-  left: auto;
-  right: 5%;
-  top: 26%;
-}
-#home > .view-panel[data-panel="principles"] > .tcs-ornament--reticle {
-  top: auto;
-  right: auto;
-  left: 8%;
-  bottom: 22%;
-}
-#home > .view-panel[data-panel="footer"] > .tcs-ornament--rail {
-  left: 6%;
-  top: 17%;
-  height: clamp(85px,16vh,148px);
-}
-#home > .view-panel[data-panel="footer"] > .tcs-ornament--reticle {
-  top: 17%;
-  right: 7%;
-}
-@keyframes tcs-ornament-appear {
-  from { opacity: 0; filter: blur(7px); transform: translate3d(0,10px,0) scale(.9); }
-  to { opacity: .59; filter: blur(1.25px); transform: translate3d(0,0,0) scale(1); }
-}
-@keyframes tcs-ornament-rail-loop {
-  0%,100% { background-position: left center, left top; }
-  50% { background-position: left center, left 26px; }
-}
-@keyframes tcs-ornament-reticle-loop {
-  from { rotate: 0deg; }
-  to { rotate: 360deg; }
-}
-@keyframes tcs-ornament-lattice-loop {
-  0%,100% { background-position: 0 0, 0 0; }
-  50% { background-position: 12px 0, -8px 4px; }
+  inset: 6px;
+  border-radius: 50%;
+  background: #fff0c8;
+  box-shadow: 0 0 8px 2px rgba(240,223,182,.55);
 }
 
-/* Existing ornaments use 59% opacity for clearer visibility. */
-#home > .hero.view-panel::before {
-  filter: blur(1.35px);
-  opacity: .59;
+/* Framed details used by founder and closing pages. */
+#home > .view-panel .tcs-ornament--portrait-frame {
+  width: clamp(110px,15vw,190px);
+  height: clamp(140px,23vh,245px);
+  background:
+    linear-gradient(var(--gold-text),var(--gold-text)) left top / 25px 1px no-repeat,
+    linear-gradient(var(--gold-text),var(--gold-text)) left top / 1px 25px no-repeat,
+    linear-gradient(var(--gold-text),var(--gold-text)) right top / 25px 1px no-repeat,
+    linear-gradient(var(--gold-text),var(--gold-text)) right top / 1px 25px no-repeat,
+    linear-gradient(var(--gold-text),var(--gold-text)) left bottom / 25px 1px no-repeat,
+    linear-gradient(var(--gold-text),var(--gold-text)) left bottom / 1px 25px no-repeat,
+    linear-gradient(var(--gold-text),var(--gold-text)) right bottom / 25px 1px no-repeat,
+    linear-gradient(var(--gold-text),var(--gold-text)) right bottom / 1px 25px no-repeat;
 }
-#home > .hero.view-panel::after {
-  filter: blur(.9px);
-  opacity: .59;
+#home > .view-panel .tcs-ornament--portrait-frame::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border: 1px solid rgba(215,189,140,.17);
 }
-#home > .hero .hero-guilloche {
-  filter: blur(1.1px) drop-shadow(0 0 8px rgba(201,174,126,.1));
-  opacity: .59;
+#home > .view-panel .tcs-ornament--portrait-frame::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 28%;
+  background: linear-gradient(180deg, transparent, rgba(240,223,182,.13), transparent);
+  animation: tcs-portrait-scan 7.5s ease-in-out 1.5s infinite;
 }
-#home > .view-panel:not(.hero)::before {
-  filter: blur(1.2px);
-  opacity: .59;
+
+/* Shooting stars: bright, brief, diagonal passes with long quiet intervals. */
+#home > .view-panel .tcs-ornament--shooting-star {
+  width: clamp(92px,12vw,164px);
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(215,189,140,.14) 24%, rgba(240,223,182,.96) 82%, transparent);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(240,223,182,.38);
+  opacity: 0;
+  filter: drop-shadow(0 0 6px rgba(240,223,182,.7));
+  animation: tcs-shooting-star var(--star-duration,15s) linear var(--star-delay,3s) infinite;
 }
-#home > .view-panel:not(.hero)::after {
-  filter: blur(.8px);
-  opacity: .59;
+#home > .view-panel .tcs-ornament--shooting-star::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  right: 10%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #fff2cf;
+  box-shadow: 0 0 10px 2px rgba(240,223,182,.7);
 }
-#home > .founder-panel .founder-portrait::before,
-#home > .founder-panel .founder-portrait::after {
-  filter: blur(.75px);
+#home > .view-panel .tcs-ornament--star-a {
+  top: 13%;
+  right: 12%;
+  --star-angle: 34deg;
+  --star-x: -230px;
+  --star-y: 170px;
+  --star-duration: 14s;
+  --star-delay: 3s;
 }
-#home > .principles .principles-list h3::before {
-  filter: blur(.45px);
-  opacity: .59;
+#home > .view-panel .tcs-ornament--star-b {
+  top: 46%;
+  left: 42%;
+  --star-angle: 146deg;
+  --star-x: 215px;
+  --star-y: 155px;
+  --star-duration: 17s;
+  --star-delay: 9s;
 }
-#home > .footer-panel .footer-links a::before {
-  filter: blur(.7px);
-  opacity: .59;
+
+/* HOME: concentric orbitals frame the hero from opposing corners. */
+#home > .hero .tcs-ornament--orbital-home {
+  top: 10%;
+  right: 8%;
+  width: clamp(240px,31vw,430px);
 }
-#home > .work .work-index-row::before {
-  filter: blur(.65px);
-  opacity: .59;
+#home > .hero .tcs-ornament--orbital-reverse-home {
+  left: 8%;
+  bottom: 9%;
 }
-.side-nav a.is-current::before {
-  filter: blur(.65px);
-  opacity: .59;
+#home > .hero .tcs-ornament--constellation-home {
+  top: 19%;
+  left: 10%;
+  width: clamp(160px,18vw,250px);
 }
-@keyframes tcs-frame-appear {
-  from { opacity: 0; }
-  to { opacity: .59; }
+#home > .hero .tcs-ornament--crosshair-home {
+  right: 29%;
+  bottom: 17%;
 }
-@keyframes tcs-frame-glow {
-  0%,100% { filter: blur(1.35px) drop-shadow(0 0 0 rgba(215,189,140,0)); }
-  50% { filter: blur(1.35px) drop-shadow(0 0 8px rgba(215,189,140,.1)); }
+#home > .hero .tcs-ornament--spark-one { top: 22%; left: 48%; }
+#home > .hero .tcs-ornament--spark-two { right: 18%; bottom: 19%; animation-delay: 2.2s; }
+#home > .hero .tcs-ornament--star-b { top: 66%; left: 54%; --star-delay: 6s; --star-duration: 16s; }
+
+/* STUDIO: a wide technical grid, offset compass and constellation points. */
+#home > .view-panel[data-panel="studio"] .tcs-ornament--grid-studio {
+  top: 8%;
+  left: 6%;
+  width: clamp(190px,25vw,340px);
+  height: clamp(145px,24vh,245px);
 }
-@keyframes tcs-spine-appear {
-  from { opacity: 0; }
-  to { opacity: .59; }
+#home > .view-panel[data-panel="studio"] .tcs-ornament--orbital-studio {
+  top: 13%;
+  right: 9%;
+  width: clamp(150px,18vw,235px);
 }
-@keyframes tcs-diamond-appear {
-  from { opacity: 0; }
-  to { opacity: .59; }
+#home > .view-panel[data-panel="studio"] .tcs-ornament--orbital-reverse-studio {
+  right: 22%;
+  bottom: 10%;
+  width: clamp(94px,11vw,145px);
 }
-@keyframes tcs-diamond-glow {
-  0%,100% { opacity: .59; filter: blur(1.2px) drop-shadow(0 0 1px rgba(215,189,140,.06)); }
-  50% { opacity: .594; filter: blur(1.2px) drop-shadow(0 0 6px rgba(215,189,140,.16)); }
+#home > .view-panel[data-panel="studio"] .tcs-ornament--constellation-studio {
+  left: 11%;
+  bottom: 14%;
 }
-@keyframes tcs-guilloche-glow {
-  0%,100% { opacity: .59; filter: blur(1.1px) drop-shadow(0 0 3px rgba(201,174,126,.05)); }
-  50% { opacity: .594; filter: blur(1.1px) drop-shadow(0 0 10px rgba(215,189,140,.14)); }
+#home > .view-panel[data-panel="studio"] .tcs-ornament--crosshair-studio {
+  left: 45%;
+  top: 15%;
 }
-@keyframes tcs-founder-corner-loop {
-  0%,100% { opacity: .59; transform: translate(0,0); }
-  50% { opacity: .594; transform: translate(-2px,-2px); }
+#home > .view-panel[data-panel="studio"] .tcs-ornament--spark-one { right: 36%; bottom: 18%; }
+#home > .view-panel[data-panel="studio"] .tcs-ornament--spark-two { left: 28%; top: 56%; }
+
+/* FOUNDER: a floating portrait frame with two differently paced orbit paths. */
+#home > .view-panel[data-panel="founder-profile"] .tcs-ornament--portrait-frame-founder {
+  top: 17%;
+  left: 5%;
 }
-@keyframes tcs-founder-corner-loop-reverse {
-  0%,100% { opacity: .59; transform: translate(0,0); }
-  50% { opacity: .592; transform: translate(2px,2px); }
+#home > .view-panel[data-panel="founder-profile"] .tcs-ornament--orbital-founder {
+  top: 10%;
+  right: 10%;
+  width: clamp(150px,19vw,245px);
 }
-@keyframes tcs-principle-diamond {
-  0%,100% { opacity: .59; transform: rotate(45deg) scale(1); box-shadow: 0 0 0 rgba(215,189,140,0); }
-  50% { opacity: .594; transform: rotate(135deg) scale(1.18); box-shadow: 0 0 4px rgba(215,189,140,.18); }
+#home > .view-panel[data-panel="founder-profile"] .tcs-ornament--orbital-reverse-founder {
+  right: 18%;
+  bottom: 8%;
+  width: clamp(100px,12vw,160px);
 }
-@keyframes tcs-work-accent-loop {
-  0%,100% { opacity: .59; box-shadow: 0 0 0 rgba(215,189,140,0); }
-  50% { opacity: .594; box-shadow: 0 0 5px rgba(215,189,140,.16); }
+#home > .view-panel[data-panel="founder-profile"] .tcs-ornament--constellation-founder {
+  right: 34%;
+  top: 16%;
 }
-@keyframes tcs-nav-marker-loop {
-  0%,100% { opacity: .59; box-shadow: 0 0 2px rgba(215,189,140,.05); }
-  50% { opacity: .594; box-shadow: 0 0 6px rgba(215,189,140,.18); }
+#home > .view-panel[data-panel="founder-profile"] .tcs-ornament--crosshair-founder {
+  left: 13%;
+  bottom: 14%;
+}
+#home > .view-panel[data-panel="founder-profile"] .tcs-ornament--spark-one { right: 8%; bottom: 26%; }
+#home > .view-panel[data-panel="founder-profile"] .tcs-ornament--star-a { top: 70%; right: 30%; --star-delay: 5s; }
+
+/* WORK: a diagonal project index grid and orbiting corner markers. */
+#home > .view-panel[data-panel="work"] .tcs-ornament--grid-work {
+  top: 8%;
+  right: 6%;
+  width: clamp(180px,24vw,325px);
+  height: clamp(125px,20vh,210px);
+}
+#home > .view-panel[data-panel="work"] .tcs-ornament--orbital-work {
+  left: 7%;
+  bottom: 9%;
+  width: clamp(140px,17vw,220px);
+}
+#home > .view-panel[data-panel="work"] .tcs-ornament--orbital-reverse-work {
+  right: 9%;
+  bottom: 11%;
+}
+#home > .view-panel[data-panel="work"] .tcs-ornament--constellation-work {
+  left: 6%;
+  top: 16%;
+}
+#home > .view-panel[data-panel="work"] .tcs-ornament--crosshair-work {
+  right: 33%;
+  top: 13%;
+}
+#home > .view-panel[data-panel="work"] .tcs-ornament--spark-one { left: 38%; bottom: 13%; }
+#home > .view-panel[data-panel="work"] .tcs-ornament--spark-two { right: 25%; top: 65%; }
+
+/* PRINCIPLES: constellation nodes and counter-rotating circles on both sides. */
+#home > .view-panel[data-panel="principles"] .tcs-ornament--grid-principles {
+  left: 5%;
+  top: 12%;
+  width: clamp(155px,19vw,245px);
+  height: clamp(125px,20vh,210px);
+}
+#home > .view-panel[data-panel="principles"] .tcs-ornament--orbital-principles {
+  right: 9%;
+  top: 8%;
+  width: clamp(150px,18vw,236px);
+}
+#home > .view-panel[data-panel="principles"] .tcs-ornament--orbital-reverse-principles {
+  left: 14%;
+  bottom: 8%;
+}
+#home > .view-panel[data-panel="principles"] .tcs-ornament--constellation-principles {
+  right: 5%;
+  bottom: 15%;
+}
+#home > .view-panel[data-panel="principles"] .tcs-ornament--crosshair-principles {
+  left: 47%;
+  top: 48%;
+}
+#home > .view-panel[data-panel="principles"] .tcs-ornament--spark-one { right: 30%; top: 18%; }
+
+/* FOOTER: layered orbital rings and a framed closing signature. */
+#home > .view-panel[data-panel="footer"] .tcs-ornament--portrait-frame-footer {
+  left: 7%;
+  top: 12%;
+  width: clamp(120px,16vw,210px);
+  height: clamp(145px,25vh,260px);
+}
+#home > .view-panel[data-panel="footer"] .tcs-ornament--orbital-footer {
+  right: 12%;
+  top: 12%;
+  width: clamp(210px,26vw,350px);
+}
+#home > .view-panel[data-panel="footer"] .tcs-ornament--orbital-reverse-footer {
+  left: 17%;
+  bottom: 9%;
+  width: clamp(110px,13vw,170px);
+}
+#home > .view-panel[data-panel="footer"] .tcs-ornament--constellation-footer {
+  right: 38%;
+  bottom: 12%;
+}
+#home > .view-panel[data-panel="footer"] .tcs-ornament--crosshair-footer {
+  right: 35%;
+  top: 18%;
+}
+#home > .view-panel[data-panel="footer"] .tcs-ornament--spark-one { left: 44%; top: 70%; }
+#home > .view-panel[data-panel="footer"] .tcs-ornament--spark-two { right: 9%; bottom: 21%; }
+
+/* Stagger and vary shooting-star timing from page to page. */
+#home > .view-panel[data-panel="studio"] .tcs-ornament--star-a { top: 18%; right: 30%; --star-delay: 1s; --star-duration: 15s; }
+#home > .view-panel[data-panel="studio"] .tcs-ornament--star-b { top: 72%; left: 14%; --star-delay: 9s; --star-duration: 18s; }
+#home > .view-panel[data-panel="founder-profile"] .tcs-ornament--star-b { top: 32%; left: 24%; --star-delay: 11s; --star-duration: 19s; }
+#home > .view-panel[data-panel="work"] .tcs-ornament--star-a { top: 17%; right: 42%; --star-delay: 4s; --star-duration: 16s; }
+#home > .view-panel[data-panel="work"] .tcs-ornament--star-b { top: 74%; left: 55%; --star-delay: 12s; --star-duration: 20s; }
+#home > .view-panel[data-panel="principles"] .tcs-ornament--star-a { top: 30%; right: 10%; --star-delay: 2s; --star-duration: 17s; }
+#home > .view-panel[data-panel="principles"] .tcs-ornament--star-b { top: 68%; left: 22%; --star-delay: 10s; --star-duration: 19s; }
+#home > .view-panel[data-panel="footer"] .tcs-ornament--star-a { top: 18%; right: 14%; --star-delay: 7s; --star-duration: 18s; }
+#home > .view-panel[data-panel="footer"] .tcs-ornament--star-b { top: 76%; left: 48%; --star-delay: 13s; --star-duration: 20s; }
+
+@media (max-width: 900px) {
+  #home > .view-panel .tcs-ornament--orbital { width: clamp(118px,20vw,190px); }
+  #home > .view-panel .tcs-ornament--coordinate-grid,
+  #home > .view-panel .tcs-ornament--index-grid { width: 150px; height: 125px; }
+  #home > .view-panel .tcs-ornament--portrait-frame { opacity: .38; }
 }
 @media (max-width: 650px) {
-  #home > .view-panel > .tcs-ornament--rail {
-    left: 14px;
-    height: 104px;
+  #home > .view-panel .tcs-ornament--orbital-home,
+  #home > .view-panel .tcs-ornament--orbital-studio,
+  #home > .view-panel .tcs-ornament--orbital-founder,
+  #home > .view-panel .tcs-ornament--orbital-work,
+  #home > .view-panel .tcs-ornament--orbital-principles,
+  #home > .view-panel .tcs-ornament--orbital-footer {
+    width: 128px;
   }
-  #home > .view-panel > .tcs-ornament--reticle {
-    right: 62px;
-    top: 72px;
-    width: 38px;
+  #home > .view-panel .tcs-ornament--orbital-reverse {
+    width: 88px;
   }
-  #home > .view-panel > .tcs-ornament--lattice {
-    right: 25px;
-    bottom: 42px;
-    width: 68px;
-    height: 36px;
+  #home > .view-panel .tcs-ornament--star-a {
+    top: 20%;
+    right: 10%;
+    --star-x: -125px;
+    --star-y: 110px;
   }
-  #home > .view-panel[data-panel="studio"] > .tcs-ornament--reticle,
-  #home > .view-panel[data-panel="principles"] > .tcs-ornament--reticle,
-  #home > .view-panel[data-panel="founder-profile"] > .tcs-ornament--reticle {
-    left: auto;
-    right: 62px;
-    top: 72px;
-    bottom: auto;
+  #home > .view-panel .tcs-ornament--star-b {
+    top: 62%;
+    left: 12%;
+    --star-x: 130px;
+    --star-y: 105px;
   }
+  #home > .view-panel .tcs-ornament--portrait-frame {
+    width: 82px;
+    height: 112px;
+  }
+  #home > .view-panel .tcs-ornament--coordinate-grid,
+  #home > .view-panel .tcs-ornament--index-grid {
+    width: 112px;
+    height: 90px;
+    background-size: 18px 18px;
+  }
+  #home > .view-panel[data-panel="studio"] .tcs-ornament--grid-studio { left: 3%; top: 5%; }
+  #home > .view-panel[data-panel="studio"] .tcs-ornament--orbital-studio { right: 3%; top: 16%; }
+  #home > .view-panel[data-panel="studio"] .tcs-ornament--orbital-reverse-studio { right: 16%; bottom: 5%; }
+  #home > .view-panel[data-panel="studio"] .tcs-ornament--constellation-studio { left: 5%; bottom: 9%; }
+  #home > .view-panel[data-panel="founder-profile"] .tcs-ornament--portrait-frame-founder { left: 3%; top: 16%; }
+  #home > .view-panel[data-panel="founder-profile"] .tcs-ornament--orbital-founder { right: 4%; top: 7%; }
+  #home > .view-panel[data-panel="founder-profile"] .tcs-ornament--orbital-reverse-founder { right: 8%; bottom: 7%; }
+  #home > .view-panel[data-panel="work"] .tcs-ornament--grid-work { right: 2%; top: 6%; }
+  #home > .view-panel[data-panel="work"] .tcs-ornament--orbital-work { left: 3%; bottom: 6%; }
+  #home > .view-panel[data-panel="principles"] .tcs-ornament--grid-principles { left: 2%; top: 5%; }
+  #home > .view-panel[data-panel="principles"] .tcs-ornament--orbital-principles { right: 2%; top: 6%; }
+  #home > .view-panel[data-panel="footer"] .tcs-ornament--portrait-frame-footer { left: 2%; top: 7%; }
+  #home > .view-panel[data-panel="footer"] .tcs-ornament--orbital-footer { right: 2%; top: 9%; }
 }
 @media (prefers-reduced-motion: reduce) {
-  #home > .view-panel > .tcs-ornament {
-    opacity: .59 !important;
-    filter: blur(1.25px) !important;
+  #home > .view-panel > .tcs-ornament-layer > .tcs-ornament {
     animation: none !important;
+    opacity: .59 !important;
+    filter: none !important;
     transform: none !important;
+    rotate: none !important;
+  }
+  #home > .view-panel .tcs-ornament--shooting-star {
+    display: none !important;
+  }
+  #home > .view-panel .tcs-ornament--spark {
+    opacity: .59 !important;
   }
 }
