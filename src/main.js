@@ -97,6 +97,15 @@ let meteorDust=[];
 const randomBetween=(min,max)=>min+Math.random()*(max-min);
 const randomInteger=(min,max)=>Math.floor(randomBetween(min,max+1));
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
+const METEOR_OPACITY_KEYFRAMES=[0,.10,.15,.20,.40,.20,.15,.10,0];
+function meteorOpacityAt(progress){
+ const scaled=clamp(progress,0,1)*(METEOR_OPACITY_KEYFRAMES.length-1);
+ const index=Math.min(Math.floor(scaled),METEOR_OPACITY_KEYFRAMES.length-2);
+ const localProgress=scaled-index;
+ const start=METEOR_OPACITY_KEYFRAMES[index];
+ const end=METEOR_OPACITY_KEYFRAMES[index+1];
+ return start+(end-start)*localProgress;
+}
 
 function resizeMeteorCanvas(){
  if(!meteorContext||!meteorPanel||!meteorCanvas.isConnected)return;
@@ -317,9 +326,7 @@ function animateMeteorCanvas(now){
   const progress=clamp(meteor.elapsed/meteor.duration,0,1);
   meteor.x=meteor.startX+meteor.vx*meteor.elapsed;
   meteor.y=meteor.startY+meteor.vy*meteor.elapsed;
-  const fadeIn=clamp(progress/.025,0,1);
-  const fadeOut=clamp((1-progress)/.12,0,1);
-  meteor.alpha=fadeIn*fadeOut;
+  meteor.alpha=meteorOpacityAt(progress);
   if(meteor.alpha>.01){
    drawCanvasMeteor(meteor,progress);
    if(Math.random()<delta*8)emitMeteorDust(meteor,delta);
