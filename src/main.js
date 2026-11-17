@@ -75,7 +75,7 @@ const randomInteger=(min,max)=>Math.floor(randomBetween(min,max+1));
 const clamp=(value,min,max)=>Math.max(min,Math.min(max,value));
 
 function resizeMeteorCanvas(){
- if(!meteorPanel||!meteorCanvas.isConnected)return;
+ if(!meteorContext||!meteorPanel||!meteorCanvas.isConnected)return;
  const bounds=meteorPanel.getBoundingClientRect();
  meteorWidth=Math.max(1,Math.round(bounds.width));
  meteorHeight=Math.max(1,window.innerHeight);
@@ -134,6 +134,7 @@ function launchMeteorShower(panel){
 function startMeteorCanvas(panel){
  window.clearTimeout(meteorTimer);
  meteorPanel=panel;
+ if(!meteorContext)return;
  const layer=panel?.querySelector(":scope > .tcs-ornament-layer");
  if(!layer)return;
  if(meteorCanvas.parentNode!==layer)layer.appendChild(meteorCanvas);
