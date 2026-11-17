@@ -1067,79 +1067,20 @@ body {
   position: absolute;
   z-index: -1;
   inset: 0;
-  overflow: hidden;
-  contain: paint;
+  overflow: visible;
   pointer-events: none;
   user-select: none;
 }
-
-#home > .view-panel > .tcs-ornament-layer > .tcs-meteor-field {
-  position: absolute;
-  z-index: 4;
+#home > .view-panel > .tcs-ornament-layer > .tcs-starfield-canvas {
+  position: fixed;
   inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-#home > .view-panel .tcs-meteor {
-  position: absolute;
+  z-index: 0;
   display: block;
-  width: var(--meteor-length,100px);
-  height: var(--meteor-thickness,1.6px);
-  border-radius: 50%;
-  background: linear-gradient(90deg,
-    transparent 0%,
-    rgba(215,189,140,.035) 24%,
-    rgba(215,189,140,.11) 48%,
-    rgba(240,223,182,.28) 70%,
-    rgba(240,223,182,.72) 91%,
-    rgba(255,247,222,1) 98%,
-    transparent 100%);
-  box-shadow: 0 0 6px rgba(240,223,182,.35), 0 0 15px rgba(215,189,140,.16);
-  filter: drop-shadow(0 0 4px rgba(255,240,202,var(--meteor-glow,.8)));
-  transform-origin: right center;
-  opacity: 0;
-  will-change: transform, opacity;
-  animation-name: tcs-meteor-flight;
-  animation-timing-function: linear;
-  animation-fill-mode: forwards;
-}
-#home > .view-panel .tcs-meteor::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 4%;
-  width: 4px;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: #fff7df;
-  box-shadow: 0 0 6px 1px rgba(255,244,210,.72), 0 0 17px rgba(240,223,182,.62);
-  transform: translateY(-50%);
-}
-@keyframes tcs-meteor-flight {
-  0% {
-    opacity: 0;
-    transform: translate3d(0,0,0) rotate(var(--meteor-angle,42deg)) scaleX(.25);
-  }
-  7% {
-    opacity: .94;
-    transform: translate3d(0,0,0) rotate(var(--meteor-angle,42deg)) scaleX(1);
-  }
-  44% {
-    opacity: .92;
-    transform: translate3d(var(--meteor-early-x),var(--meteor-early-y),0) rotate(var(--meteor-angle,42deg)) scaleX(1);
-  }
-  76% {
-    opacity: .68;
-    transform: translate3d(var(--meteor-mid-x),var(--meteor-mid-y),0) rotate(var(--meteor-angle,42deg)) scaleX(.96);
-  }
-  91% {
-    opacity: .34;
-    transform: translate3d(var(--meteor-late-x),var(--meteor-late-y),0) rotate(var(--meteor-angle,42deg)) scaleX(.8);
-  }
-  100% {
-    opacity: 0;
-    transform: translate3d(var(--meteor-x),var(--meteor-y),0) rotate(var(--meteor-angle,42deg)) scaleX(.58);
-  }
+  width: 100%;
+  height: 100vh;
+  pointer-events: none !important;
+  user-select: none;
+  opacity: 1;
 }
 #home > .view-panel:not(.hero)::before,
 #home > .view-panel:not(.hero)::after {
