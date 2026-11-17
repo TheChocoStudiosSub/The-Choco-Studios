@@ -121,6 +121,10 @@ function launchMeteorShower(panel){
   stagger+=i===0?randomInteger(0,180):randomInteger(110,390);
   meteorShower.push(createCanvasMeteor(stagger));
  }
+ if(!meteorFrame){
+  meteorLastFrame=performance.now();
+  meteorFrame=requestAnimationFrame(animateMeteorCanvas);
+ }
  meteorTimer=window.setTimeout(
   ()=>launchMeteorShower(panel),
   randomInteger(4600,10200)
@@ -265,7 +269,11 @@ function animateMeteorCanvas(now){
  }
  drawMeteorDust(delta);
  meteorContext.restore();
- meteorFrame=requestAnimationFrame(animateMeteorCanvas);
+ if(meteorShower.length||meteorDust.length){
+  meteorFrame=requestAnimationFrame(animateMeteorCanvas);
+ }else{
+  meteorFrame=0;
+ }
 }
 
 window.addEventListener("resize",resizeMeteorCanvas,{passive:true});
