@@ -131,3 +131,21 @@
     transition-duration: .01ms !important;
   }
 }
+
+
+/* Adsterra native banner in the Contact panel. */
+.tcs-native-ad {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin: clamp(24px, 4vh, 40px) auto;
+  overflow: visible;
+}
+.tcs-native-ad > div {
+  max-width: 100%;
+}
+.tcs-native-ad iframe {
+  max-width: 100%;
+}
