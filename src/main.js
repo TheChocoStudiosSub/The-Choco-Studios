@@ -502,3 +502,48 @@ if(workIndex&&workPreview&&!reducedMotion&&window.matchMedia("(hover: hover) and
   row.addEventListener("blur",leaveRow);
  });
 }
+
+/* Delayed Jagoan Hosting banner. Its close control appears five seconds after entrance. */
+const hostingAffiliateBanner = document.querySelector("#tcs-hosting-affiliate-banner");
+if (hostingAffiliateBanner) {
+ const hostingAffiliateLink = hostingAffiliateBanner.querySelector(".tcs-hosting-affiliate-banner__link");
+ const hostingAffiliateImage = hostingAffiliateBanner.querySelector("img");
+ const hostingAffiliateClose = hostingAffiliateBanner.querySelector(".tcs-hosting-affiliate-banner__dismiss");
+ let hostingAffiliateDismissed = false;
+
+ const hostingAffiliateShowDelay = 5000 + Math.floor(Math.random() * 3001);
+ const hostingAffiliateEntranceDuration = reducedMotion ? 1 : 760;
+ let hostingAffiliateCloseTimer = 0;
+
+ const removeHostingAffiliateBanner = () => {
+  window.clearTimeout(hostingAffiliateCloseTimer);
+  hostingAffiliateBanner.remove();
+ };
+
+ hostingAffiliateImage?.addEventListener("error", removeHostingAffiliateBanner, {once:true});
+
+ window.setTimeout(() => {
+  if (hostingAffiliateDismissed || !hostingAffiliateBanner.isConnected) return;
+
+  hostingAffiliateBanner.classList.add("is-visible");
+  hostingAffiliateBanner.removeAttribute("aria-hidden");
+  hostingAffiliateLink?.removeAttribute("tabindex");
+
+  hostingAffiliateCloseTimer = window.setTimeout(() => {
+   if (hostingAffiliateDismissed || !hostingAffiliateBanner.isConnected) return;
+   hostingAffiliateBanner.classList.add("is-close-ready");
+   hostingAffiliateClose?.removeAttribute("tabindex");
+  }, hostingAffiliateEntranceDuration + 5000);
+ }, hostingAffiliateShowDelay);
+
+ hostingAffiliateClose?.addEventListener("click", () => {
+  if (hostingAffiliateDismissed) return;
+  hostingAffiliateDismissed = true;
+  hostingAffiliateBanner.classList.remove("is-close-ready");
+  hostingAffiliateBanner.classList.add("is-hiding");
+  hostingAffiliateBanner.setAttribute("aria-hidden", "true");
+  hostingAffiliateLink?.setAttribute("tabindex", "-1");
+  hostingAffiliateClose.setAttribute("tabindex", "-1");
+  window.setTimeout(removeHostingAffiliateBanner, reducedMotion ? 1 : 700);
+ });
+}
