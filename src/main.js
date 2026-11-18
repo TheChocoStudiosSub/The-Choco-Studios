@@ -517,28 +517,9 @@ if (hostingAffiliateBanner) {
  let hostingAffiliateExitTimer = 0;
  let hostingAffiliateNextShowAt = 0;
 
- const hostingAffiliateEntranceDuration = reducedMotion ? 1 : 760;
- const hostingAffiliateExitDuration = reducedMotion ? 1 : 700;
+ const hostingAffiliateExitDuration = reducedMotion ? 1 : 1000;
  const hostingAffiliateVisibleDuration = 8000;
  const hostingAffiliateCloseDelay = 5000;
-
- // Set the outer frame to the exact rendered image width plus its 2px border.
- const sizeHostingAffiliateBanner = () => {
-  if (!hostingAffiliateImage?.naturalWidth) return;
-  const sidebarWidth = window.innerWidth <= 650 ? 58 : window.innerWidth <= 1000 ? 82 : 258;
-  const sideGap = sidebarWidth === 58 ? 26 : 40;
-  const availableImageWidth = Math.max(120, window.innerWidth - sidebarWidth - sideGap - 2);
-  const renderedImageWidth = Math.min(hostingAffiliateImage.naturalWidth + 80, availableImageWidth);
-  hostingAffiliateBanner.style.width = `${Math.round(renderedImageWidth + 2)}px`;
-  hostingAffiliateLink.style.width = "100%";
-  hostingAffiliateImage.style.width = "100%";
- };
- if (hostingAffiliateImage?.complete && hostingAffiliateImage.naturalWidth) {
-  sizeHostingAffiliateBanner();
- } else {
-  hostingAffiliateImage?.addEventListener("load", sizeHostingAffiliateBanner);
- }
- window.addEventListener("resize", sizeHostingAffiliateBanner, {passive:true});
 
  const clearHostingAffiliateTimers = () => {
   window.clearTimeout(hostingAffiliateCloseTimer);
@@ -576,7 +557,6 @@ if (hostingAffiliateBanner) {
    scheduleHostingAffiliateAppearance(1000);
    return;
   }
-  sizeHostingAffiliateBanner();
   hostingAffiliateVisible = true;
   hostingAffiliateNextShowAt = performance.now() + randomInteger(10000, 16000);
 
