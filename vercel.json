@@ -26,7 +26,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline' https://bicea.org; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.jagoanhosting.com https://bicea.org; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://choco-ai-independent-seven.vercel.app https://bicea.org; upgrade-insecure-requests; frame-src https://bicea.org"
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline' https://bicea.org https://static.nresystems.com https://cdn.storageimagedisplay.com https://cdn.show-sb.com https://cdn.show-creative1.com https://cdn.cloudpiko.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.jagoanhosting.com https://bicea.org https://static.nresystems.com https://cdn.storageimagedisplay.com https://cdn.show-sb.com https://cdn.show-creative1.com https://cdn.cloudpiko.com; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://choco-ai-independent-seven.vercel.app https://bicea.org https://static.nresystems.com https://cdn.storageimagedisplay.com https://cdn.show-sb.com https://cdn.show-creative1.com https://cdn.cloudpiko.com; upgrade-insecure-requests; frame-src https://bicea.org https://static.nresystems.com https://cdn.storageimagedisplay.com https://cdn.show-sb.com https://cdn.show-creative1.com https://cdn.cloudpiko.com"
         }
       ]
     }
