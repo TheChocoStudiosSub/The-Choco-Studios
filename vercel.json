@@ -47,15 +47,5 @@
       "destination": "https://sheeblink.vercel.app/",
       "permanent": true
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/recommended-tools/",
-      "destination": "https://tcs-recommended-tools-the-choco-corporation.vercel.app/"
-    },
-    {
-      "source": "/recommended-tools/:path*",
-      "destination": "https://tcs-recommended-tools-the-choco-corporation.vercel.app/:path*"
-    }
   ]
 }
