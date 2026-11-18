@@ -511,6 +511,17 @@ if (hostingAffiliateBanner) {
  const hostingAffiliateClose = hostingAffiliateBanner.querySelector(".tcs-hosting-affiliate-banner__dismiss");
  let hostingAffiliateDismissed = false;
 
+ // Render the banner image 80 CSS pixels wider than its native width.
+ const expandHostingAffiliateImage = () => {
+  if (!hostingAffiliateImage?.naturalWidth) return;
+  hostingAffiliateImage.style.width = `${hostingAffiliateImage.naturalWidth + 80}px`;
+ };
+ if (hostingAffiliateImage?.complete) {
+  expandHostingAffiliateImage();
+ } else {
+  hostingAffiliateImage?.addEventListener("load", expandHostingAffiliateImage, {once:true});
+ }
+
  const hostingAffiliateShowDelay = 5000 + Math.floor(Math.random() * 3001);
  const hostingAffiliateEntranceDuration = reducedMotion ? 1 : 760;
  let hostingAffiliateCloseTimer = 0;
