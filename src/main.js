@@ -565,7 +565,11 @@ if (hostingAffiliateBanner) {
  };
 
  function showHostingAffiliateBanner() {
-  if (!hostingAffiliateBanner.isConnected || !hostingAffiliateImage?.naturalWidth) return;
+  if (!hostingAffiliateBanner.isConnected) return;
+  if (!hostingAffiliateImage?.naturalWidth) {
+   scheduleHostingAffiliateAppearance(1000);
+   return;
+  }
   hostingAffiliateVisible = true;
   hostingAffiliateNextShowAt = performance.now() + randomInteger(10000, 16000);
 
