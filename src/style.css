@@ -151,53 +151,161 @@
 }
 
  
-/* Adsterra footer banner units. */
-.tcs-ad-banner-row {
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: clamp(16px, 3vw, 28px);
-  margin: clamp(18px, 3vh, 28px) auto;
+
+/* Timed Adsterra banner popup. */
+body.tcs-ad-popup-open {
+  overflow: hidden;
 }
-.tcs-468x60-ad {
+.tcs-ad-popup[hidden] {
+  display: none !important;
+}
+.tcs-ad-popup {
+  position: fixed;
+  z-index: 1800;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: clamp(12px, 3vw, 30px);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 240ms ease, visibility 240ms ease;
+}
+.tcs-ad-popup.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+.tcs-ad-popup__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 6, .82);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+}
+.tcs-ad-popup__dialog {
+  position: relative;
+  z-index: 1;
+  width: min(860px, 100%);
+  max-height: calc(100dvh - 24px);
+  overflow: auto;
+  padding: 15px 18px 22px;
+  border: 1px solid rgba(201, 174, 126, .42);
+  border-radius: 12px;
+  background: #100e0a;
+  box-shadow: 0 24px 90px rgba(0, 0, 0, .64), 0 0 34px rgba(201, 174, 126, .07);
+  transform: translateY(14px) scale(.985);
+  transition: transform 260ms cubic-bezier(.16, 1, .3, 1);
+}
+.tcs-ad-popup.is-open .tcs-ad-popup__dialog {
+  transform: translateY(0) scale(1);
+}
+.tcs-ad-popup__header {
   display: flex;
-  width: 100%;
-  max-width: 468px;
-  min-height: 60px;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(201, 174, 126, .2);
+}
+.tcs-ad-popup__header p {
   margin: 0;
-  overflow: hidden;
+  color: #c9ae7e;
+  font: 500 9px/1.4 var(--font-mono);
+  letter-spacing: .16em;
 }
-.tcs-468x60-ad iframe {
-  display: block;
-  width: 468px;
-  max-width: 100%;
-  height: 60px;
-  border: 0;
+.tcs-ad-popup__close {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  place-items: center;
+  padding: 0 0 2px;
+  border: 1px solid rgba(201, 174, 126, .35);
+  border-radius: 50%;
+  background: transparent;
+  color: #eee5d6;
+  font: 300 25px/1 var(--font-body);
+  cursor: pointer;
+  transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
 }
-.tcs-300x250-ad {
+.tcs-ad-popup__close:hover,
+.tcs-ad-popup__close:focus-visible {
+  border-color: #c9ae7e;
+  background: rgba(201, 174, 126, .12);
+  color: #fff;
+  outline: 2px solid rgba(201, 174, 126, .35);
+  outline-offset: 3px;
+}
+.tcs-ad-popup__content {
+  display: grid;
+  grid-template-columns: minmax(0, 300px) minmax(0, 468px);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 3vw, 28px);
+  min-width: 0;
+}
+.tcs-ad-popup__slot {
   display: flex;
-  width: 300px;
-  max-width: 100%;
-  min-height: 250px;
+  min-width: 0;
   align-items: center;
   justify-content: center;
   overflow: hidden;
 }
-.tcs-300x250-ad iframe {
+.tcs-ad-popup__slot--300 {
+  width: min(300px, calc(100vw - 48px));
+  min-height: 250px;
+}
+.tcs-ad-popup__slot--300 iframe {
   display: block;
   width: 300px;
   max-width: 100%;
   height: 250px;
   border: 0;
 }
-@media (max-width: 520px) {
-  .tcs-ad-banner-row {
-    flex-direction: column;
-    gap: 16px;
-    margin-block: 14px;
+.tcs-ad-popup__slot--468 {
+  width: min(468px, calc(100vw - 48px));
+  min-height: 60px;
+}
+.tcs-ad-popup__slot--468 iframe {
+  display: block;
+  width: 468px;
+  max-width: 100%;
+  height: 60px;
+  border: 0;
+}
+@media (max-width: 760px) {
+  .tcs-ad-popup {
+    padding: 12px;
+  }
+  .tcs-ad-popup__dialog {
+    width: min(500px, 100%);
+    padding: 13px 12px 18px;
+  }
+  .tcs-ad-popup__content {
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    gap: 18px;
+  }
+}
+@media (max-height: 520px) and (min-width: 761px) {
+  .tcs-ad-popup__content {
+    grid-template-columns: minmax(0, 300px) minmax(0, 468px);
+    gap: 12px;
+  }
+  .tcs-ad-popup__dialog {
+    padding-block: 10px;
+  }
+  .tcs-ad-popup__header {
+    margin-bottom: 9px;
+    padding-bottom: 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tcs-ad-popup,
+  .tcs-ad-popup__dialog,
+  .tcs-ad-popup__close {
+    transition-duration: .01ms !important;
   }
 }
