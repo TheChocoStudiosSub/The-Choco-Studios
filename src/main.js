@@ -503,15 +503,26 @@ if(workIndex&&workPreview&&!reducedMotion&&window.matchMedia("(hover: hover) and
  });
 }
 
-/* Delayed Jagoan Hosting banner. Its close control appears five seconds after entrance. */
+/* Recurring Jagoan Hosting banner: image-sized display and randomized 10–16 second cadence. */
 const hostingAffiliateBanner = document.querySelector("#tcs-hosting-affiliate-banner");
 if (hostingAffiliateBanner) {
  const hostingAffiliateLink = hostingAffiliateBanner.querySelector(".tcs-hosting-affiliate-banner__link");
  const hostingAffiliateImage = hostingAffiliateBanner.querySelector("img");
  const hostingAffiliateClose = hostingAffiliateBanner.querySelector(".tcs-hosting-affiliate-banner__dismiss");
- let hostingAffiliateDismissed = false;
 
- // Render the banner image 80 CSS pixels wider than its native width.
+ let hostingAffiliateVisible = false;
+ let hostingAffiliateNextTimer = 0;
+ let hostingAffiliateCloseTimer = 0;
+ let hostingAffiliateAutoHideTimer = 0;
+ let hostingAffiliateExitTimer = 0;
+ let hostingAffiliateNextShowAt = 0;
+
+ const hostingAffiliateEntranceDuration = reducedMotion ? 1 : 760;
+ const hostingAffiliateExitDuration = reducedMotion ? 1 : 700;
+ const hostingAffiliateVisibleDuration = 8000;
+ const hostingAffiliateCloseDelay = 5000;
+
+ // Keep the image enlarged by 80 CSS pixels; the wrapper now shrink-wraps this rendered image.
  const expandHostingAffiliateImage = () => {
   if (!hostingAffiliateImage?.naturalWidth) return;
   hostingAffiliateImage.style.width = `${hostingAffiliateImage.naturalWidth + 80}px`;
@@ -522,43 +533,71 @@ if (hostingAffiliateBanner) {
   hostingAffiliateImage?.addEventListener("load", expandHostingAffiliateImage, {once:true});
  }
 
- const hostingAffiliateShowDelay = 5000 + Math.floor(Math.random() * 3001);
- const hostingAffiliateEntranceDuration = reducedMotion ? 1 : 760;
- let hostingAffiliateCloseTimer = 0;
-
- const removeHostingAffiliateBanner = () => {
+ const clearHostingAffiliateTimers = () => {
   window.clearTimeout(hostingAffiliateCloseTimer);
-  hostingAffiliateBanner.remove();
+  window.clearTimeout(hostingAffiliateAutoHideTimer);
+  window.clearTimeout(hostingAffiliateExitTimer);
  };
 
- if (hostingAffiliateImage?.complete && hostingAffiliateImage.naturalWidth === 0) {
-  removeHostingAffiliateBanner();
- } else {
-  hostingAffiliateImage?.addEventListener("error", removeHostingAffiliateBanner, {once:true});
- }
+ const scheduleHostingAffiliateAppearance = delay => {
+  window.clearTimeout(hostingAffiliateNextTimer);
+  hostingAffiliateNextTimer = window.setTimeout(showHostingAffiliateBanner, Math.max(0, delay));
+ };
 
- window.setTimeout(() => {
-  if (hostingAffiliateDismissed || !hostingAffiliateBanner.isConnected) return;
+ const hideHostingAffiliateBanner = () => {
+  if (!hostingAffiliateVisible || !hostingAffiliateBanner.isConnected) return;
+  hostingAffiliateVisible = false;
+  window.clearTimeout(hostingAffiliateCloseTimer);
+  window.clearTimeout(hostingAffiliateAutoHideTimer);
 
-  hostingAffiliateBanner.classList.add("is-visible");
-  hostingAffiliateBanner.removeAttribute("aria-hidden");
-  hostingAffiliateLink?.removeAttribute("tabindex");
-
-  hostingAffiliateCloseTimer = window.setTimeout(() => {
-   if (hostingAffiliateDismissed || !hostingAffiliateBanner.isConnected) return;
-   hostingAffiliateBanner.classList.add("is-close-ready");
-   hostingAffiliateClose?.removeAttribute("tabindex");
-  }, hostingAffiliateEntranceDuration + 5000);
- }, hostingAffiliateShowDelay);
-
- hostingAffiliateClose?.addEventListener("click", () => {
-  if (hostingAffiliateDismissed) return;
-  hostingAffiliateDismissed = true;
   hostingAffiliateBanner.classList.remove("is-close-ready");
   hostingAffiliateBanner.classList.add("is-hiding");
   hostingAffiliateBanner.setAttribute("aria-hidden", "true");
   hostingAffiliateLink?.setAttribute("tabindex", "-1");
-  hostingAffiliateClose.setAttribute("tabindex", "-1");
-  window.setTimeout(removeHostingAffiliateBanner, reducedMotion ? 1 : 700);
- });
+  hostingAffiliateClose?.setAttribute("tabindex", "-1");
+
+  hostingAffiliateExitTimer = window.setTimeout(() => {
+   if (!hostingAffiliateBanner.isConnected) return;
+   hostingAffiliateBanner.classList.remove("is-visible", "is-hiding");
+   const waitUntilNextAppearance = hostingAffiliateNextShowAt - performance.now();
+   scheduleHostingAffiliateAppearance(waitUntilNextAppearance);
+  }, hostingAffiliateExitDuration);
+ };
+
+ function showHostingAffiliateBanner() {
+  if (!hostingAffiliateBanner.isConnected || !hostingAffiliateImage?.naturalWidth) return;
+  hostingAffiliateVisible = true;
+  hostingAffiliateNextShowAt = performance.now() + randomInteger(10000, 16000);
+
+  hostingAffiliateBanner.classList.remove("is-hiding");
+  hostingAffiliateBanner.classList.add("is-visible");
+  hostingAffiliateBanner.setAttribute("aria-hidden", "false");
+  hostingAffiliateLink?.removeAttribute("tabindex");
+
+  hostingAffiliateCloseTimer = window.setTimeout(() => {
+   if (!hostingAffiliateVisible || !hostingAffiliateBanner.isConnected) return;
+   hostingAffiliateBanner.classList.add("is-close-ready");
+   hostingAffiliateClose?.removeAttribute("tabindex");
+  }, hostingAffiliateCloseDelay);
+
+  hostingAffiliateAutoHideTimer = window.setTimeout(
+   hideHostingAffiliateBanner,
+   hostingAffiliateVisibleDuration
+  );
+ }
+
+ if (hostingAffiliateImage?.complete && hostingAffiliateImage.naturalWidth === 0) {
+  hostingAffiliateBanner.remove();
+ } else {
+  hostingAffiliateImage?.addEventListener("error", () => {
+   clearHostingAffiliateTimers();
+   window.clearTimeout(hostingAffiliateNextTimer);
+   hostingAffiliateBanner.remove();
+  }, {once:true});
+
+  // First appearance and every following appearance are spaced 10–16 seconds apart.
+  scheduleHostingAffiliateAppearance(randomInteger(10000, 16000));
+ }
+
+ hostingAffiliateClose?.addEventListener("click", hideHostingAffiliateBanner);
 }
