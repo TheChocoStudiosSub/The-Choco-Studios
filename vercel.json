@@ -51,11 +51,11 @@
   "rewrites": [
     {
       "source": "/recommended-tools/",
-      "destination": "https://tcs-recommended-tools.vercel.app/"
+      "destination": "https://tcs-recommended-tools-the-choco-corporation.vercel.app/"
     },
     {
       "source": "/recommended-tools/:path*",
-      "destination": "https://tcs-recommended-tools.vercel.app/:path*"
+      "destination": "https://tcs-recommended-tools-the-choco-corporation.vercel.app/:path*"
     }
   ]
 }
