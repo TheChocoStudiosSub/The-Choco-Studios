@@ -19,7 +19,7 @@
   align-items: center;
   justify-content: center;
   width: max-content;
-  max-width: min(calc(860px + 1.25cm), calc(100vw - 306px + 1.25cm));
+  max-width: min(calc(860px + 1.25cm + 80px), calc(100vw - 306px + 1.25cm + 80px));
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -103,7 +103,7 @@
 @media (max-width: 1000px) {
   .tcs-hosting-affiliate-banner {
     left: calc(82px + (100vw - 82px) / 2);
-    max-width: calc(100vw - 122px + 1.25cm);
+    max-width: min(calc(100vw - 82px), calc(100vw - 122px + 1.25cm + 80px));
   }
   .tcs-hosting-affiliate-banner__link img {
     max-height: min(24vh, 200px);
