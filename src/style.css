@@ -149,3 +149,28 @@
 .tcs-native-ad iframe {
   max-width: 100%;
 }
+
+ 
+/* Adsterra 468x60 banner in the Contact panel. */
+.tcs-468x60-ad {
+  display: flex;
+  width: 100%;
+  max-width: 468px;
+  min-height: 60px;
+  align-items: center;
+  justify-content: center;
+  margin: clamp(18px, 3vh, 28px) auto;
+  overflow: hidden;
+}
+.tcs-468x60-ad iframe {
+  display: block;
+  width: 468px;
+  max-width: 100%;
+  height: 60px;
+  border: 0;
+}
+@media (max-width: 520px) {
+  .tcs-468x60-ad {
+    margin-block: 14px;
+  }
+}
