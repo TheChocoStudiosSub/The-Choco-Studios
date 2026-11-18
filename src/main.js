@@ -520,7 +520,11 @@ if (hostingAffiliateBanner) {
   hostingAffiliateBanner.remove();
  };
 
- hostingAffiliateImage?.addEventListener("error", removeHostingAffiliateBanner, {once:true});
+ if (hostingAffiliateImage?.complete && hostingAffiliateImage.naturalWidth === 0) {
+  removeHostingAffiliateBanner();
+ } else {
+  hostingAffiliateImage?.addEventListener("error", removeHostingAffiliateBanner, {once:true});
+ }
 
  window.setTimeout(() => {
   if (hostingAffiliateDismissed || !hostingAffiliateBanner.isConnected) return;
