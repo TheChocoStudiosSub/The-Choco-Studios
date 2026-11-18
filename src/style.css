@@ -18,8 +18,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: max-content;
-  max-width: min(calc(860px + 1.25cm + 80px), calc(100vw - 306px + 1.25cm + 80px));
+  width: min(calc(860px + 1.25cm + 80px), calc(100vw - 306px));
+  max-width: calc(100vw - 306px);
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -38,7 +38,7 @@
 }
 .tcs-hosting-affiliate-banner__link {
   display: block;
-  width: fit-content;
+  width: 100%;
   max-width: 100%;
   overflow: hidden;
   border: 1px solid rgba(201, 174, 126, .48);
@@ -49,7 +49,7 @@
 }
 .tcs-hosting-affiliate-banner__link img {
   display: block;
-  width: auto;
+  width: 100%;
   height: auto;
   max-width: 100%;
   max-height: min(24vh, 210px);
@@ -103,7 +103,8 @@
 @media (max-width: 1000px) {
   .tcs-hosting-affiliate-banner {
     left: calc(82px + (100vw - 82px) / 2);
-    max-width: min(calc(100vw - 82px), calc(100vw - 122px + 1.25cm + 80px));
+    width: min(calc(860px + 1.25cm + 80px), calc(100vw - 122px));
+    max-width: calc(100vw - 122px);
   }
   .tcs-hosting-affiliate-banner__link img {
     max-height: min(24vh, 200px);
@@ -114,7 +115,8 @@
     top: auto;
     bottom: 0;
     left: calc(58px + (100vw - 58px) / 2);
-    max-width: min(calc(100vw - 58px), calc(100vw - 84px + 1.25cm));
+    width: min(calc(860px + 1.25cm + 80px), calc(100vw - 84px));
+    max-width: calc(100vw - 84px);
   }
   .tcs-hosting-affiliate-banner__link img {
     max-height: min(25vh, 176px);
