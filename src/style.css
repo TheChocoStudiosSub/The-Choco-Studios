@@ -8,7 +8,7 @@
 
 .sidebar-bottom a.choco-ai-cta{display:inline-flex;align-items:center;gap:8px;width:max-content;padding:0;border:0;border-radius:0;background:transparent;color:var(--gold-text);font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-decoration:none;transition:color .35s var(--ease-expo)}.sidebar-bottom a.choco-ai-cta::after{content:'↗';color:var(--muted);transition:transform .35s var(--ease-expo),color .35s var(--ease-expo)}.sidebar-bottom a.choco-ai-cta:hover{color:var(--gold-hot)}.sidebar-bottom a.choco-ai-cta:hover::after{color:var(--gold-hot);transform:translate(2px,-2px)}
 
-/* Jagoan Hosting affiliate banner: image-sized wrapper, responsive positioning and looping display. */
+/* Jagoan Hosting affiliate banner: the frame width is set to the rendered image width. */
 .tcs-hosting-affiliate-banner {
   position: fixed;
   z-index: 1200;
@@ -16,8 +16,11 @@
   bottom: 0;
   left: calc(258px + (100vw - 258px) / 2);
   display: block;
-  width: max-content;
-  max-width: min(calc(100vw - 306px), 1040px);
+  width: fit-content;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
@@ -36,9 +39,11 @@
 }
 .tcs-hosting-affiliate-banner__link {
   display: block;
-  width: fit-content;
-  max-width: 100%;
-  overflow: hidden;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
   border: 1px solid rgba(201, 174, 126, .48);
   border-radius: 8px;
   background: #090806;
@@ -47,11 +52,14 @@
 }
 .tcs-hosting-affiliate-banner__link img {
   display: block;
-  width: auto;
+  width: 100%;
   height: auto;
-  max-width: 100%;
-  max-height: min(24vh, 210px);
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
   object-fit: contain;
+  border-radius: 7px;
 }
 .tcs-hosting-affiliate-banner__dismiss {
   position: absolute;
@@ -101,10 +109,6 @@
 @media (max-width: 1000px) {
   .tcs-hosting-affiliate-banner {
     left: calc(82px + (100vw - 82px) / 2);
-    max-width: calc(100vw - 122px);
-  }
-  .tcs-hosting-affiliate-banner__link img {
-    max-height: min(24vh, 200px);
   }
 }
 @media (max-width: 650px) {
@@ -112,10 +116,6 @@
     top: auto;
     bottom: 0;
     left: calc(58px + (100vw - 58px) / 2);
-    max-width: calc(100vw - 84px);
-  }
-  .tcs-hosting-affiliate-banner__link img {
-    max-height: min(25vh, 176px);
   }
   .tcs-hosting-affiliate-banner__dismiss {
     right: 8px;
