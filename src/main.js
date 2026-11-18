@@ -503,7 +503,7 @@ if(workIndex&&workPreview&&!reducedMotion&&window.matchMedia("(hover: hover) and
  });
 }
 
-/* Recurring Jagoan Hosting banner: image-sized display and randomized 10–16 second cadence. */
+/* Recurring Jagoan Hosting banner: exact image/frame sizing and randomized 10–16 second cadence. */
 const hostingAffiliateBanner = document.querySelector("#tcs-hosting-affiliate-banner");
 if (hostingAffiliateBanner) {
  const hostingAffiliateLink = hostingAffiliateBanner.querySelector(".tcs-hosting-affiliate-banner__link");
@@ -522,16 +522,23 @@ if (hostingAffiliateBanner) {
  const hostingAffiliateVisibleDuration = 8000;
  const hostingAffiliateCloseDelay = 5000;
 
- // Keep the image enlarged by 80 CSS pixels; the wrapper now shrink-wraps this rendered image.
- const expandHostingAffiliateImage = () => {
+ // Set the outer frame to the exact rendered image width plus its 2px border.
+ const sizeHostingAffiliateBanner = () => {
   if (!hostingAffiliateImage?.naturalWidth) return;
-  hostingAffiliateImage.style.width = `${hostingAffiliateImage.naturalWidth + 80}px`;
+  const sidebarWidth = window.innerWidth <= 650 ? 58 : window.innerWidth <= 1000 ? 82 : 258;
+  const sideGap = sidebarWidth === 58 ? 26 : 40;
+  const availableImageWidth = Math.max(120, window.innerWidth - sidebarWidth - sideGap - 2);
+  const renderedImageWidth = Math.min(hostingAffiliateImage.naturalWidth + 80, availableImageWidth);
+  hostingAffiliateBanner.style.width = `${Math.round(renderedImageWidth + 2)}px`;
+  hostingAffiliateLink.style.width = "100%";
+  hostingAffiliateImage.style.width = "100%";
  };
- if (hostingAffiliateImage?.complete) {
-  expandHostingAffiliateImage();
+ if (hostingAffiliateImage?.complete && hostingAffiliateImage.naturalWidth) {
+  sizeHostingAffiliateBanner();
  } else {
-  hostingAffiliateImage?.addEventListener("load", expandHostingAffiliateImage, {once:true});
+  hostingAffiliateImage?.addEventListener("load", sizeHostingAffiliateBanner);
  }
+ window.addEventListener("resize", sizeHostingAffiliateBanner, {passive:true});
 
  const clearHostingAffiliateTimers = () => {
   window.clearTimeout(hostingAffiliateCloseTimer);
@@ -559,8 +566,7 @@ if (hostingAffiliateBanner) {
   hostingAffiliateExitTimer = window.setTimeout(() => {
    if (!hostingAffiliateBanner.isConnected) return;
    hostingAffiliateBanner.classList.remove("is-visible", "is-hiding");
-   const waitUntilNextAppearance = hostingAffiliateNextShowAt - performance.now();
-   scheduleHostingAffiliateAppearance(waitUntilNextAppearance);
+   scheduleHostingAffiliateAppearance(hostingAffiliateNextShowAt - performance.now());
   }, hostingAffiliateExitDuration);
  };
 
@@ -570,6 +576,7 @@ if (hostingAffiliateBanner) {
    scheduleHostingAffiliateAppearance(1000);
    return;
   }
+  sizeHostingAffiliateBanner();
   hostingAffiliateVisible = true;
   hostingAffiliateNextShowAt = performance.now() + randomInteger(10000, 16000);
 
@@ -599,7 +606,7 @@ if (hostingAffiliateBanner) {
    hostingAffiliateBanner.remove();
   }, {once:true});
 
-  // First appearance and every following appearance are spaced 10–16 seconds apart.
+  // First appearance and each next appearance start 10–16 seconds apart.
   scheduleHostingAffiliateAppearance(randomInteger(10000, 16000));
  }
 
