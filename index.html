@@ -86,33 +86,7 @@
 <section class="principles section view-panel" id="principles" data-panel="principles" aria-labelledby="principles-title"><div class="section-kicker"><svg class="registration-mark" viewBox="0 0 14 14" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1"><path d="M7 .5v13M.5 7h13"/></svg><span>PRINCIPLES</span></div><div class="principles-editorial"><h2 id="principles-title">Work guided<br>by principle.</h2><div class="principles-list"><article><div><h3>Open by intent</h3><p>Proyek yang ditetapkan open-source memiliki lisensi, dokumentasi, dan ruang kontribusi yang jelas.</p></div></article><article><div><h3>Integrity in practice</h3><p>Informasi, keputusan, dan publikasi disampaikan secara akurat serta bertanggung jawab.</p></div></article><article><div><h3>Respect and stewardship</h3><p>Privasi, keamanan, aksesibilitas, dan pemeliharaan berkelanjutan menjadi pertimbangan kerja.</p></div></article></div></div></section>
 
       
-<section class="footer-panel view-panel" id="footer" data-panel="footer" aria-labelledby="footer-title"><div class="footer-editorial"><h2 id="footer-title">THE CHOCO<br>STUDIOS<span>.</span></h2><nav class="footer-links" aria-label="Footer links"><a href="https://github.com/TheChocoStudiosSub" target="_blank" rel="noopener noreferrer">GITHUB <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/hasby-prasetya-tcs/" target="_blank" rel="noopener noreferrer">LINKEDIN <span aria-hidden="true">↗</span></a><a href="https://www.instagram.com/thechocostudios/" target="_blank" rel="noopener noreferrer">INSTAGRAM <span aria-hidden="true">↗</span></a><a href="mailto:thechocostudio@gmail.com">EMAIL <span aria-hidden="true">↗</span></a></nav><div class="tcs-ad-banner-row" aria-label="Unit iklan">
-<div class="tcs-300x250-ad" id="tcs-300x250-ad" aria-label="Banner iklan 300 x 250">
-<script>
-atOptions = {
-  'key' : '7dd4903806b187c5686704601ae47900',
-  'format' : 'iframe',
-  'height' : 250,
-  'width' : 300,
-  'params' : {}
-};
-</script>
-<script src="https://bicea.org/22/7dd4903806b187c5686704601ae47900"></script>
-</div>
-<div class="tcs-468x60-ad" id="tcs-468x60-ad" aria-label="Banner iklan 468 x 60">
-<script>
-atOptions = {
-  'key' : '42eabc2bd5e8bf7b85c5c38b4b98df08',
-  'format' : 'iframe',
-  'height' : 60,
-  'width' : 468,
-  'params' : {}
-};
-</script>
-<script src="https://bicea.org/22/42eabc2bd5e8bf7b85c5c38b4b98df08"></script>
-</div>
-</div>
-<div class="tcs-native-ad" id="tcs-native-ad" aria-label="Iklan"><div id="container-3ffcaf196b5158d1e2942129806f0583"></div></div><div class="footer-meta"><span>INDEPENDENT MULTISECTOR STUDIO</span><span>© <span id="footer-year"></span> THE CHOCO STUDIOS</span></div></div></section>
+<section class="footer-panel view-panel" id="footer" data-panel="footer" aria-labelledby="footer-title"><div class="footer-editorial"><h2 id="footer-title">THE CHOCO<br>STUDIOS<span>.</span></h2><nav class="footer-links" aria-label="Footer links"><a href="https://github.com/TheChocoStudiosSub" target="_blank" rel="noopener noreferrer">GITHUB <span aria-hidden="true">↗</span></a><a href="https://www.linkedin.com/in/hasby-prasetya-tcs/" target="_blank" rel="noopener noreferrer">LINKEDIN <span aria-hidden="true">↗</span></a><a href="https://www.instagram.com/thechocostudios/" target="_blank" rel="noopener noreferrer">INSTAGRAM <span aria-hidden="true">↗</span></a><a href="mailto:thechocostudio@gmail.com">EMAIL <span aria-hidden="true">↗</span></a></nav><div class="tcs-native-ad" id="tcs-native-ad" aria-label="Iklan"><div id="container-3ffcaf196b5158d1e2942129806f0583"></div></div><div class="footer-meta"><span>INDEPENDENT MULTISECTOR STUDIO</span><span>© <span id="footer-year"></span> THE CHOCO STUDIOS</span></div></div></section>
 <script>
 (()=> {
  const panel=document.getElementById("footer");
@@ -139,6 +113,85 @@ atOptions = {
 </main>
 
 </div>
+
+<div class="tcs-ad-popup" id="tcs-ad-popup" aria-hidden="true" hidden>
+  <div class="tcs-ad-popup__backdrop" data-ad-popup-close></div>
+  <section class="tcs-ad-popup__dialog" role="dialog" aria-modal="true" aria-labelledby="tcs-ad-popup-title">
+    <header class="tcs-ad-popup__header">
+      <p id="tcs-ad-popup-title">IKLAN / SPONSORED</p>
+      <button class="tcs-ad-popup__close" type="button" data-ad-popup-close aria-label="Tutup iklan">×</button>
+    </header>
+    <div class="tcs-ad-popup__content">
+      <div class="tcs-ad-popup__slot tcs-ad-popup__slot--300" id="tcs-300x250-ad" aria-label="Banner iklan 300 x 250">
+        <div id="tcs-ad-popup-mount-300"></div>
+      </div>
+      <div class="tcs-ad-popup__slot tcs-ad-popup__slot--468" id="tcs-468x60-ad" aria-label="Banner iklan 468 x 60">
+        <div id="tcs-ad-popup-mount-468"></div>
+      </div>
+    </div>
+  </section>
+</div>
+<script>
+(()=> {
+ const popup=document.getElementById("tcs-ad-popup");
+ if(!popup)return;
+ const closeButtons=popup.querySelectorAll("[data-ad-popup-close]");
+ const closeButton=popup.querySelector(".tcs-ad-popup__close");
+ const mount300=document.getElementById("tcs-ad-popup-mount-300");
+ const mount468=document.getElementById("tcs-ad-popup-mount-468");
+ const delay=20000;
+ let loaded=false;
+ let dismissed=false;
+ const wasDismissed=()=>{
+  try{return sessionStorage.getItem("tcs-ad-popup-dismissed")==="1";}
+  catch{return false;}
+ };
+ const rememberDismissal=()=>{
+  try{sessionStorage.setItem("tcs-ad-popup-dismissed","1");}
+  catch{}
+ };
+ const loadUnit=(mount,key,width,height)=>new Promise(resolve=>{
+  if(!mount){resolve();return;}
+  window.atOptions={key,format:"iframe",height,width,params:{}};
+  const script=document.createElement("script");
+  script.src="https://bicea.org/22/"+key;
+  script.async=true;
+  script.onload=resolve;
+  script.onerror=resolve;
+  mount.appendChild(script);
+ });
+ const loadAds=async()=>{
+  if(loaded)return;
+  loaded=true;
+  await loadUnit(mount300,"7dd4903806b187c5686704601ae47900",300,250);
+  await loadUnit(mount468,"42eabc2bd5e8bf7b85c5c38b4b98df08",468,60);
+ };
+ const open=()=>{
+  if(dismissed||wasDismissed())return;
+  popup.hidden=false;
+  popup.setAttribute("aria-hidden","false");
+  document.body.classList.add("tcs-ad-popup-open");
+  requestAnimationFrame(()=>popup.classList.add("is-open"));
+  loadAds();
+  window.setTimeout(()=>closeButton?.focus(),80);
+ };
+ const close=()=>{
+  if(popup.hidden||dismissed)return;
+  dismissed=true;
+  popup.classList.remove("is-open");
+  popup.setAttribute("aria-hidden","true");
+  document.body.classList.remove("tcs-ad-popup-open");
+  rememberDismissal();
+  window.setTimeout(()=>{popup.hidden=true;},240);
+ };
+ closeButtons.forEach(button=>button.addEventListener("click",close));
+ document.addEventListener("keydown",event=>{
+  if(event.key==="Escape"&&!popup.hidden)close();
+ });
+ if(!wasDismissed())window.setTimeout(open,delay);
+})();
+</script>
+
 <aside id="tcs-hosting-affiliate-banner" class="tcs-hosting-affiliate-banner" aria-label="Promosi layanan hosting Jagoan Hosting" aria-hidden="true">
   <a class="tcs-hosting-affiliate-banner__link" href="https://member.jagoanhosting.com/aff.php?aff=8378" target="_blank" rel="sponsored nofollow noopener noreferrer" tabindex="-1" aria-label="Lihat layanan hosting Jagoan Hosting">
     <img src="https://www.jagoanhosting.com/blog/wp-content/uploads/2023/08/Hosting-Murah-Middle-Post-1.png" alt="Banner layanan hosting Jagoan Hosting"  fetchpriority="low" decoding="async">
