@@ -33,6 +33,11 @@
   ],
   "redirects": [
     {
+      "source": "/recommended-tools",
+      "destination": "/recommended-tools/",
+      "permanent": true
+    },
+    {
       "source": "/ecosystem/sheeblink",
       "destination": "https://sheeblink.vercel.app/",
       "permanent": true
@@ -41,6 +46,16 @@
       "source": "/ecosystem/sheeblink/",
       "destination": "https://sheeblink.vercel.app/",
       "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/recommended-tools/",
+      "destination": "https://tcs-recommended-tools.vercel.app/"
+    },
+    {
+      "source": "/recommended-tools/:path*",
+      "destination": "https://tcs-recommended-tools.vercel.app/:path*"
     }
   ]
 }
