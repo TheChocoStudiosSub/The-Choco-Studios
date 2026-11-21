@@ -14,7 +14,7 @@ Sheeblink is an integrated handmade initiative within the TCS ecosystem that bro
 - Sheeblink website: https://sheeblink.vercel.app/
 - Information site: https://the-choco-studios-information.vercel.app/
 - Contribution guide: https://the-choco-studios-official.vercel.app/bergabung/
-- Contact: thechocostudio@gmail.com
+- Contact: thechocostudios@gmail.com
 
 The historical catalog of 16 apps/kits is no longer the public portfolio. Apps may still be developed, but they are not the center of the current strategy.
 
