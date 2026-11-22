@@ -8,12 +8,12 @@ The Choco Studios is an independent, multisector creative studio founded, owned,
 Sheeblink is an integrated handmade initiative within the TCS ecosystem that broadens its activities beyond technology while retaining its creative identity. **TCS LinkGuard** is the initial TCS project, formerly named Chocobot Guardian.
 
 ## Public sites
-- Official website: https://the-choco-studios-official.vercel.app/
-- Founder profile: https://the-choco-studios-official.vercel.app/about/hasby-prasetya-saprudin/
-- About The Choco Studios: https://the-choco-studios-official.vercel.app/about/the-choco-studios/
-- Sheeblink website: https://sheeblink.vercel.app/
-- Information site: https://the-choco-studios-information.vercel.app/
-- Contribution guide: https://the-choco-studios-official.vercel.app/bergabung/
+- Official website: https://thechocostudios.bond/
+- Founder profile: https://thechocostudios.bond/about/hasby-prasetya-saprudin/
+- About The Choco Studios: https://thechocostudios.bond/about/the-choco-studios/
+- Sheeblink website: https://sheeblink.thechocostudios.bond/
+- Information site: https://information.thechocostudios.bond/
+- Contribution guide: https://thechocostudios.bond/bergabung/
 - Contact: thechocostudios@gmail.com
 
 The historical catalog of 16 apps/kits is no longer the public portfolio. Apps may still be developed, but they are not the center of the current strategy.

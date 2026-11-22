@@ -1,6 +1,6 @@
 (() => {
   "use strict";
-  const endpoint = "https://choco-ai-independent-seven.vercel.app/api/license?feature=tcs-public";
+  const endpoint = "https://chocoai.thechocostudios.bond/api/license?feature=tcs-public";
   const site = document.currentScript?.dataset.site || "tcs-website";
   const sessionId = (key) => {
     try {
