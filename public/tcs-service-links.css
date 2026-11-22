@@ -9,6 +9,9 @@
   padding-top:0;
   border:0;
 }
+/* Hindari garis ganda di area tautan layanan pada footer. */
+footer:has(.tcs-service-links) { border-top:0 !important; }
+
 .tcs-service-links a {
   display:inline-flex;
   align-items:center;
