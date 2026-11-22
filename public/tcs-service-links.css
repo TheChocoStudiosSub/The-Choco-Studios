@@ -5,9 +5,9 @@
   justify-content:flex-start;
   gap:10px;
   width:100%;
-  margin-top:18px;
-  padding-top:18px;
-  border-top:1px solid var(--line, rgba(201,174,126,.22));
+  margin-top:0;
+  padding-top:0;
+  border:0;
 }
 .tcs-service-links a {
   display:inline-flex;
@@ -34,7 +34,7 @@
 }
 .tcs-service-links a:focus-visible {outline:2px solid currentColor;outline-offset:3px}
 @media(max-width:600px){
-  .tcs-service-links {gap:8px;margin-top:15px;padding-top:15px}
+  .tcs-service-links {gap:8px;margin-top:0;padding-top:0;border:0}
   .tcs-service-links a {flex:1 1 100%;min-height:44px;font-size:10px}
 }
 @media(prefers-reduced-motion:reduce){
