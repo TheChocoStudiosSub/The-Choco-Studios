@@ -1,0 +1,42 @@
+.tcs-service-links {
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:flex-start;
+  gap:10px;
+  width:100%;
+  margin-top:18px;
+  padding-top:18px;
+  border-top:1px solid var(--line, rgba(201,174,126,.22));
+}
+.tcs-service-links a {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  min-height:42px;
+  padding:10px 14px;
+  border:1px solid var(--service-border, rgba(201,174,126,.34));
+  border-radius:999px;
+  color:var(--service-text, #d7bd8c);
+  background:var(--service-bg, transparent);
+  font:600 10px/1.2 var(--font-mono, "IBM Plex Mono", monospace);
+  letter-spacing:.08em;
+  text-decoration:none;
+  transition:background .16s ease, border-color .16s ease, color .16s ease;
+}
+.tcs-service-links a span {font-size:14px;line-height:1}
+.tcs-service-links a:hover,
+.tcs-service-links a:focus-visible {
+  border-color:var(--service-hover-border, #d7bd8c);
+  color:var(--service-hover, #f0dfb6);
+  background:rgba(201,174,126,.07);
+}
+.tcs-service-links a:focus-visible {outline:2px solid currentColor;outline-offset:3px}
+@media(max-width:600px){
+  .tcs-service-links {gap:8px;margin-top:15px;padding-top:15px}
+  .tcs-service-links a {flex:1 1 100%;min-height:44px;font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){
+  .tcs-service-links a {transition:none}
+}

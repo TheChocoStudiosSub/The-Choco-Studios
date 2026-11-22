@@ -47,6 +47,25 @@ panels.forEach(panel=>{
  panel.appendChild(layer);
 });
 const links=[...document.querySelectorAll("[data-panel-link]")];
+
+const menuToggle=document.querySelector("#tcs-menu-toggle");
+const menuBackdrop=document.querySelector("#tcs-menu-backdrop");
+const sidebar=document.querySelector("#tcs-sidebar");
+function setMobileMenu(open){
+ if(!menuToggle||!sidebar||!menuBackdrop)return;
+ const visible=Boolean(open)&&isMobileViewport();
+ document.body.classList.toggle("tcs-menu-open",visible);
+ menuToggle.setAttribute("aria-expanded",String(visible));
+ menuToggle.setAttribute("aria-label",visible?"Tutup menu":"Buka menu");
+ menuToggle.innerHTML=visible?'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>':'<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
+ menuBackdrop.hidden=!visible;
+}
+menuToggle?.addEventListener("click",()=>setMobileMenu(menuToggle.getAttribute("aria-expanded")!=="true"));
+menuBackdrop?.addEventListener("click",()=>setMobileMenu(false));
+sidebar?.querySelectorAll("a").forEach(link=>link.addEventListener("click",()=>setMobileMenu(false)));
+document.addEventListener("keydown",event=>{if(event.key==="Escape")setMobileMenu(false);});
+window.addEventListener("resize",()=>{if(!isMobileViewport())setMobileMenu(false);},{passive:true});
+
 const year=document.querySelector("#year");
 const footerYear=document.querySelector("#footer-year");
 const currentYear=new Date().getFullYear();
@@ -54,12 +73,13 @@ if(year)year.textContent=currentYear;
 if(footerYear)footerYear.textContent=currentYear;
 
 const reducedMotion=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const isMobileViewport=()=>window.matchMedia("(max-width: 850px)").matches;
 
 let spaceBackground = null;
 let spaceBackgroundPromise = null;
 
 function setSpaceBackground(active) {
- if(!active) {
+ if(!active||isMobileViewport()||reducedMotion) {
   spaceBackground?.setActive(false);
   return;
  }
@@ -163,6 +183,14 @@ function launchMeteorShower(panel){
 function startMeteorCanvas(panel){
  window.clearTimeout(meteorTimer);
  meteorPanel=panel;
+ if(isMobileViewport()||reducedMotion||document.hidden){
+  if(meteorFrame)cancelAnimationFrame(meteorFrame);
+  meteorFrame=0;
+  meteorShower=[];
+  meteorDust=[];
+  meteorCanvas.remove();
+  return;
+ }
  if(!meteorContext||!document.body)return;
  if(meteorCanvas.parentNode!==document.body)document.body.appendChild(meteorCanvas);
  resizeMeteorCanvas();
@@ -340,6 +368,11 @@ function animateMeteorCanvas(now){
 }
 
 window.addEventListener("resize",resizeMeteorCanvas,{passive:true});
+window.addEventListener("resize",()=>{
+ if(meteorPanel?.classList.contains("is-active"))startMeteorCanvas(meteorPanel);
+ if(isMobileViewport())spaceBackground?.setActive(false);
+ else if(meteorPanel?.classList.contains("is-active"))setSpaceBackground(!isMobileViewport());
+},{passive:true});
 document.addEventListener("visibilitychange",()=>{
  if(document.hidden){
   window.clearTimeout(meteorTimer);
@@ -355,7 +388,7 @@ const loaderStarted=performance.now();
 
 function dismissLoader(){
  if(!loader||loader.classList.contains("is-dismissed"))return;
- const minimum=reducedMotion?180:1050;
+ const minimum=reducedMotion?180:(isMobileViewport()?260:1050);
  window.setTimeout(()=>{
   loader.classList.add("is-dismissed");
   loader.setAttribute("aria-hidden","true");
@@ -501,94 +534,4 @@ if(workIndex&&workPreview&&!reducedMotion&&window.matchMedia("(hover: hover) and
   row.addEventListener("focus",()=>enterRow(row));
   row.addEventListener("blur",leaveRow);
  });
-}
-
-/* Recurring Jagoan Hosting banner: exact image/frame sizing and randomized 10–16 second cadence. */
-const hostingAffiliateBanner = document.querySelector("#tcs-hosting-affiliate-banner");
-if (hostingAffiliateBanner) {
- const hostingAffiliateLink = hostingAffiliateBanner.querySelector(".tcs-hosting-affiliate-banner__link");
- const hostingAffiliateImage = hostingAffiliateBanner.querySelector("img");
- const hostingAffiliateClose = hostingAffiliateBanner.querySelector(".tcs-hosting-affiliate-banner__dismiss");
-
- let hostingAffiliateVisible = false;
- let hostingAffiliateNextTimer = 0;
- let hostingAffiliateCloseTimer = 0;
- let hostingAffiliateAutoHideTimer = 0;
- let hostingAffiliateExitTimer = 0;
- let hostingAffiliateNextShowAt = 0;
-
- const hostingAffiliateExitDuration = reducedMotion ? 1 : 1000;
- const hostingAffiliateVisibleDuration = 8000;
- const hostingAffiliateCloseDelay = 5000;
-
- const clearHostingAffiliateTimers = () => {
-  window.clearTimeout(hostingAffiliateCloseTimer);
-  window.clearTimeout(hostingAffiliateAutoHideTimer);
-  window.clearTimeout(hostingAffiliateExitTimer);
- };
-
- const scheduleHostingAffiliateAppearance = delay => {
-  window.clearTimeout(hostingAffiliateNextTimer);
-  hostingAffiliateNextTimer = window.setTimeout(showHostingAffiliateBanner, Math.max(0, delay));
- };
-
- const hideHostingAffiliateBanner = () => {
-  if (!hostingAffiliateVisible || !hostingAffiliateBanner.isConnected) return;
-  hostingAffiliateVisible = false;
-  window.clearTimeout(hostingAffiliateCloseTimer);
-  window.clearTimeout(hostingAffiliateAutoHideTimer);
-
-  hostingAffiliateBanner.classList.remove("is-close-ready");
-  hostingAffiliateBanner.classList.add("is-hiding");
-  hostingAffiliateBanner.setAttribute("aria-hidden", "true");
-  hostingAffiliateLink?.setAttribute("tabindex", "-1");
-  hostingAffiliateClose?.setAttribute("tabindex", "-1");
-
-  hostingAffiliateExitTimer = window.setTimeout(() => {
-   if (!hostingAffiliateBanner.isConnected) return;
-   hostingAffiliateBanner.classList.remove("is-visible", "is-hiding");
-   scheduleHostingAffiliateAppearance(hostingAffiliateNextShowAt - performance.now());
-  }, hostingAffiliateExitDuration);
- };
-
- function showHostingAffiliateBanner() {
-  if (!hostingAffiliateBanner.isConnected) return;
-  if (!hostingAffiliateImage?.naturalWidth) {
-   scheduleHostingAffiliateAppearance(1000);
-   return;
-  }
-  hostingAffiliateVisible = true;
-  hostingAffiliateNextShowAt = performance.now() + randomInteger(10000, 16000);
-
-  hostingAffiliateBanner.classList.remove("is-hiding");
-  hostingAffiliateBanner.classList.add("is-visible");
-  hostingAffiliateBanner.setAttribute("aria-hidden", "false");
-  hostingAffiliateLink?.removeAttribute("tabindex");
-
-  hostingAffiliateCloseTimer = window.setTimeout(() => {
-   if (!hostingAffiliateVisible || !hostingAffiliateBanner.isConnected) return;
-   hostingAffiliateBanner.classList.add("is-close-ready");
-   hostingAffiliateClose?.removeAttribute("tabindex");
-  }, hostingAffiliateCloseDelay);
-
-  hostingAffiliateAutoHideTimer = window.setTimeout(
-   hideHostingAffiliateBanner,
-   hostingAffiliateVisibleDuration
-  );
- }
-
- if (hostingAffiliateImage?.complete && hostingAffiliateImage.naturalWidth === 0) {
-  hostingAffiliateBanner.remove();
- } else {
-  hostingAffiliateImage?.addEventListener("error", () => {
-   clearHostingAffiliateTimers();
-   window.clearTimeout(hostingAffiliateNextTimer);
-   hostingAffiliateBanner.remove();
-  }, {once:true});
-
-  // First appearance and each next appearance start 10–16 seconds apart.
-  scheduleHostingAffiliateAppearance(randomInteger(10000, 16000));
- }
-
- hostingAffiliateClose?.addEventListener("click", hideHostingAffiliateBanner);
 }

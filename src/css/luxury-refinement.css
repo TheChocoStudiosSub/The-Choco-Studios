@@ -1553,3 +1553,12 @@ body {
     opacity: .59 !important;
   }
 }
+
+
+/* Mobile performance: keep the composition, remove costly continuous effects. */
+@media (max-width: 850px) {
+  #home > .view-panel:not(.hero) { background-image: none !important; }
+  #home > .hero.view-panel::before,
+  #home > .hero.view-panel::after { filter: none !important; animation: none !important; }
+  #home > .view-panel .tcs-ornament { filter: none !important; box-shadow: none !important; }
+}
