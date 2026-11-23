@@ -33,6 +33,39 @@
   ],
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "the-choco-studios-official.vercel.app"
+        }
+      ],
+      "destination": "https://thechocostudios.bond/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "the-choco-studios-officials.vercel.app"
+        }
+      ],
+      "destination": "https://thechocostudios.bond/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "the-choco-studios-official-lime.vercel.app"
+        }
+      ],
+      "destination": "https://thechocostudios.bond/:path*",
+      "permanent": true
+    },
+    {
       "source": "/recommended-tools",
       "destination": "/recommended-tools/",
       "permanent": true
