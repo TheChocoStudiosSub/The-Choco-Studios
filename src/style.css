@@ -171,3 +171,12 @@
     animation: none !important;
   }
 }
+
+/* Navigasi profesional pada bagian Statement */
+.statement-actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-top:28px}
+.statement-action{display:inline-flex;align-items:center;justify-content:space-between;gap:22px;min-height:46px;padding:0 17px;border:1px solid rgba(201,174,126,.58);color:#ead9b7;background:linear-gradient(135deg,rgba(201,174,126,.10),rgba(201,174,126,.025));font:600 10px/1.2 "IBM Plex Mono",monospace;letter-spacing:.08em;text-decoration:none;transition:border-color .2s ease,background .2s ease,transform .2s ease}
+.statement-action:hover{border-color:#e6cc9b;background:rgba(201,174,126,.14);transform:translateY(-2px)}
+.statement-action--secondary{border-color:rgba(201,174,126,.22);color:#c9c0b2;background:transparent}
+.statement-action:focus-visible{outline:2px solid #e6cc9b;outline-offset:4px}
+@media(max-width:600px){.statement-actions{align-items:stretch;flex-direction:column;gap:9px}.statement-action{width:100%;min-height:48px}}
+@media(prefers-reduced-motion:reduce){.statement-action{transition:none}}
