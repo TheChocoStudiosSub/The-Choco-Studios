@@ -37,6 +37,17 @@
       "has": [
         {
           "type": "host",
+          "value": "tcs-recommended-tools.vercel.app"
+        }
+      ],
+      "destination": "https://thechocostudios.bond/recommended-tools/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
           "value": "the-choco-studios-official.vercel.app"
         }
       ],
