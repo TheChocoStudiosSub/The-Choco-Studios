@@ -156,8 +156,9 @@ const previewImage = workPreview?.querySelector("img");
 function selectWorkPreview(row) {
   if (!row || !previewImage || !workPreview) return;
   const source = row.dataset.preview;
-  if (!source || previewImage.getAttribute("src") === source) return;
+  if (!source) return;
   workRows.forEach((item) => item.classList.toggle("is-preview-active", item === row));
+  if (previewImage.getAttribute("src") === source) return;
   workPreview.classList.add("is-changing");
   const image = new Image();
   image.onload = () => {
@@ -177,6 +178,19 @@ workRows.forEach((row) => {
   row.addEventListener("focus", () => selectWorkPreview(row));
 });
 if (workRows.length) selectWorkPreview(workRows[0]);
+if (!reducedMotion && "IntersectionObserver" in window && workRows.length) {
+  const workFocusObserver = new IntersectionObserver((entries) => {
+    const focused = entries
+      .filter((entry) => entry.isIntersecting)
+      .sort((a, b) => {
+        const aCenter = Math.abs(a.boundingClientRect.top + a.boundingClientRect.height / 2 - window.innerHeight / 2);
+        const bCenter = Math.abs(b.boundingClientRect.top + b.boundingClientRect.height / 2 - window.innerHeight / 2);
+        return aCenter - bCenter;
+      });
+    if (focused[0]) selectWorkPreview(focused[0].target);
+  }, { root: null, rootMargin: "-36% 0px -44% 0px", threshold: 0 });
+  workRows.forEach((row) => workFocusObserver.observe(row));
+}
 
 /* Direct links remain normal anchors, including deep links and browser history. */
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
