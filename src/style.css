@@ -180,3 +180,5 @@
 .statement-action:focus-visible{outline:2px solid #e6cc9b;outline-offset:4px}
 @media(max-width:600px){.statement-actions{align-items:stretch;flex-direction:column;gap:9px}.statement-action{width:100%;min-height:48px}}
 @media(prefers-reduced-motion:reduce){.statement-action{transition:none}}
+
+@import "./css/editorial-scroll.css";
