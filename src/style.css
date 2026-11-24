@@ -3,7 +3,9 @@
 @import "./css/layout.css";
 @import "./css/components.css";
 @import "./css/luxury-refinement.css";
-@import "./css/space-background.css";#tcs-menu-toggle { display: none; }
+@import "./css/space-background.css";
+
+#tcs-menu-toggle { display: none; }
 
 @media (max-width: 850px) {
   .site-shell {
