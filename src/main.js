@@ -5,6 +5,81 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 gsap.ticker.lagSmoothing(0);
 
+
+function startIntroCurtain() {
+  const loader = document.querySelector("#tcs-intro-loader");
+  if (!loader || loader.hidden) return;
+
+  const counter = loader.querySelector("[data-intro-count]");
+  const progress = loader.querySelector("[data-intro-progress]");
+  const failSafe = window.__tcsIntroFailSafe;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let started = false;
+
+  const finish = () => {
+    if (typeof failSafe === "function") {
+      failSafe();
+    } else {
+      loader.classList.add("is-opening");
+      loader.hidden = true;
+      document.querySelector(".site-shell")?.removeAttribute("inert");
+    }
+  };
+
+  const animateCounter = () => {
+    if (started || loader.hidden) return;
+    started = true;
+
+    if (reducedMotion.matches) {
+      finish();
+      return;
+    }
+
+    const state = { value: 0 };
+
+    try {
+      gsap.to(state, {
+        value: 100,
+        duration: 1.28,
+        ease: "power2.out",
+        snap: { value: 1 },
+        onUpdate: () => {
+          const value = Math.min(100, Math.round(state.value));
+          if (counter) counter.textContent = String(value);
+          if (progress) {
+            progress.style.transform = "scaleX(" + value / 100 + ")";
+          }
+        },
+        onComplete: () => window.setTimeout(finish, 160)
+      });
+    } catch {
+      finish();
+    }
+  };
+
+  const waitForFonts = () => {
+    if (document.fonts?.ready) {
+      Promise.race([
+        document.fonts.ready,
+        new Promise((resolve) => window.setTimeout(resolve, 650))
+      ]).then(animateCounter, animateCounter);
+    } else {
+      animateCounter();
+    }
+  };
+
+  if (document.readyState === "complete") {
+    waitForFonts();
+  } else {
+    window.addEventListener("load", waitForFonts, { once: true });
+  }
+
+  // Independent guard in case a browser extension or runtime interrupts GSAP.
+  window.setTimeout(finish, 4900);
+}
+
+startIntroCurtain();
+
 const root = document.querySelector("#home");
 
 if (root) {
