@@ -3,6 +3,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
+gsap.ticker.lagSmoothing(0);
 
 const root = document.querySelector("#home");
 
@@ -138,7 +139,7 @@ if (root) {
             autoAlpha: 1,
             y: 0,
             duration: 0.68,
-            delay: Math.min(index, 6) * 0.045,
+            delay: Math.min(index, 6) * 0.06,
             ease: "power3.out",
             clearProps: "transform,opacity,visibility",
             scrollTrigger: {
