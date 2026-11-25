@@ -18,7 +18,7 @@ function startIntroCurtain() {
 
   const finish = () => {
     if (typeof failSafe === "function") {
-      failSafe();
+      failSafe(reducedMotion.matches);
     } else {
       loader.classList.add("is-complete");
       const open = () => {
