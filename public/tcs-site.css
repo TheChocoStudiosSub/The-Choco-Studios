@@ -762,25 +762,7 @@ h1, h2, h3, p { overflow-wrap: anywhere; }
   padding: 7px 0 clamp(40px, 5.4vw, 62px);
 }
 
-.about-kicker,
-.profile-kicker {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  margin: 0 0 19px;
-  color: var(--brass);
-  font: 500 8px/1.5 var(--mono);
-  letter-spacing: .15em;
-}
 
-.about-kicker::before,
-.profile-kicker::before {
-  display: block;
-  width: 18px;
-  height: 1px;
-  background: currentColor;
-  content: "";
-}
 
 .about-hero h1,
 .profile-hero h1 {
@@ -806,13 +788,7 @@ h1, h2, h3, p { overflow-wrap: anywhere; }
   line-height: 1.95;
 }
 
-.about-meta,
-.profile-meta {
-  margin-top: 19px;
-  color: var(--muted-light);
-  font: 500 7px/1.7 var(--mono);
-  letter-spacing: .12em;
-}
+
 
 .about-actions,
 .profile-actions {
@@ -853,19 +829,9 @@ h1, h2, h3, p { overflow-wrap: anywhere; }
 
 .about-section,
 .profile-section {
-  display: grid;
-  grid-template-columns: minmax(125px, .4fr) minmax(0, 1.6fr);
-  gap: clamp(23px, 4.5vw, 64px);
+  display: block;
   padding: 29px 0;
   border-top: 1px solid var(--line);
-}
-
-.about-section-label,
-.profile-section-label {
-  padding-top: 4px;
-  color: var(--brass);
-  font: 500 8px/1.6 var(--mono);
-  letter-spacing: .12em;
 }
 
 .about-section-copy,
@@ -939,10 +905,8 @@ h1, h2, h3, p { overflow-wrap: anywhere; }
 }
 
 .profile-identity {
-  display: grid;
-  grid-template-columns: 112px minmax(0, 1fr);
-  align-items: center;
-  gap: 24px;
+  display: block;
+  width: 104px;
   margin-top: 25px;
 }
 
@@ -955,11 +919,7 @@ h1, h2, h3, p { overflow-wrap: anywhere; }
   object-fit: cover;
 }
 
-.profile-identity figcaption {
-  color: var(--muted-light);
-  font: 500 7px/1.8 var(--mono);
-  letter-spacing: .08em;
-}
+
 
 .about-footer,
 .profile-footer {
@@ -1113,12 +1073,8 @@ h1, h2, h3, p { overflow-wrap: anywhere; }
   .profile-hero h1 { font-size: clamp(2.7rem, 8.8vw, 4.1rem); }
   .about-section,
   .profile-section {
-    grid-template-columns: 1fr;
-    gap: 8px;
     padding: 22px 0;
   }
-  .about-section-label,
-  .profile-section-label { padding-top: 0; }
 }
 
 @media (max-width: 560px) {
@@ -1152,7 +1108,7 @@ h1, h2, h3, p { overflow-wrap: anywhere; }
   }
   .about-facts,
   .profile-facts { grid-template-columns: 1fr; }
-  .profile-identity { grid-template-columns: 76px minmax(0, 1fr); gap: 15px; }
+  .profile-identity { width: 72px; }
   .profile-identity img { width: 72px; height: 72px; }
   .about-footer,
   .profile-footer {
