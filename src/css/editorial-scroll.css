@@ -764,3 +764,32 @@ body { overflow-y: auto; }
   text-shadow: none;
 }
 #luxury-loader.is-dismissed { pointer-events: none !important; }
+
+
+/* Final cascade guard: retire the former one-panel-at-a-time layout. */
+.site-shell #home > .view-panel { display: flex !important; }
+.site-shell #home > .work.section.view-panel,
+.site-shell #home > .principles.section.view-panel { display: grid !important; }
+#home > .intro .statement-heading.scroll-reveal,
+#home > .intro .statement-heading.scroll-reveal.is-visible,
+#home > .intro .statement-detail.scroll-reveal,
+#home > .intro .statement-detail.scroll-reveal.is-visible {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  animation: none !important;
+  transition: none !important;
+}
+#home > .intro .statement-mask > span {
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+  animation: none !important;
+}
+#home a,
+#home button,
+.sidebar a,
+#tcs-menu-toggle {
+  pointer-events: auto !important;
+}
+#tcs-menu-backdrop[hidden] { pointer-events: none !important; }
