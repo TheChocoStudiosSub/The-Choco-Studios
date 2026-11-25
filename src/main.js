@@ -20,9 +20,13 @@ function startIntroCurtain() {
     if (typeof failSafe === "function") {
       failSafe();
     } else {
-      loader.classList.add("is-opening");
-      loader.hidden = true;
-      document.querySelector(".site-shell")?.removeAttribute("inert");
+      loader.classList.add("is-complete");
+      const open = () => {
+        loader.classList.add("is-opening");
+        document.querySelector(".site-shell")?.removeAttribute("inert");
+        window.setTimeout(() => { loader.hidden = true; }, 1120);
+      };
+      if (reducedMotion.matches) open(); else window.setTimeout(open, 520);
     }
   };
 
@@ -40,8 +44,8 @@ function startIntroCurtain() {
     try {
       gsap.to(state, {
         value: 100,
-        duration: 1.28,
-        ease: "power2.out",
+        duration: 2.85,
+        ease: "none",
         snap: { value: 1 },
         onUpdate: () => {
           const value = Math.min(100, Math.round(state.value));
@@ -50,7 +54,7 @@ function startIntroCurtain() {
             progress.style.transform = "scaleX(" + value / 100 + ")";
           }
         },
-        onComplete: () => window.setTimeout(finish, 160)
+        onComplete: finish
       });
     } catch {
       finish();
@@ -75,7 +79,7 @@ function startIntroCurtain() {
   }
 
   // Independent guard in case a browser extension or runtime interrupts GSAP.
-  window.setTimeout(finish, 4900);
+  window.setTimeout(finish, 5600);
 }
 
 startIntroCurtain();
@@ -131,7 +135,6 @@ if (root) {
     "founder-profile": [".founder-portrait", ".founder-copy"],
     work: [".work-heading", ".work-index-row"],
     principles: [
-      ".section-kicker",
       ".principles-editorial > h2",
       ".principles-list article"
     ],
