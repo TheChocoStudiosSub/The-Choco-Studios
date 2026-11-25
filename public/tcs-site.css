@@ -1240,3 +1240,99 @@ h1, h2, h3, p { overflow-wrap: anywhere; }
     transform: none;
   }
 }
+
+/* Motion system: each panel owns its scroll area and Lenis content wrapper. */
+#home > .view-panel.is-active,
+#home > .work.section.view-panel.is-active {
+  display: block;
+}
+
+#home > .view-panel > .panel-scroll-content {
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+  flex: 1 0 auto;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: center;
+}
+
+#home > .work > .panel-scroll-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(14px, 2.8vh, 24px) 0;
+}
+
+#home > .work > .panel-scroll-content > .work-heading {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+#home > .work > .panel-scroll-content > .work-index {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+#home > .view-panel.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+#home > .view-panel.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+#home > .view-panel.lenis [data-lenis-prevent],
+#home > .view-panel.lenis [data-lenis-prevent-wheel],
+#home > .view-panel.lenis [data-lenis-prevent-touch],
+#home > .view-panel.lenis [data-lenis-prevent-vertical],
+#home > .view-panel.lenis [data-lenis-prevent-horizontal] {
+  overscroll-behavior: contain;
+}
+
+/* Restrained micro-interactions; all movement stays on composited properties. */
+.hero-cta,
+.statement-action {
+  transition:
+    color 220ms cubic-bezier(.22, 1, .36, 1),
+    background-color 220ms cubic-bezier(.22, 1, .36, 1),
+    border-color 220ms cubic-bezier(.22, 1, .36, 1),
+    transform 320ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.hero-cta:hover,
+.statement-action:hover {
+  transform: translateY(-2px);
+}
+
+#home > .work .work-index-row {
+  transition:
+    color 260ms cubic-bezier(.22, 1, .36, 1),
+    background-color 260ms cubic-bezier(.22, 1, .36, 1),
+    transform 360ms cubic-bezier(.22, 1, .36, 1);
+}
+
+#home > .work .work-index-row:hover,
+#home > .work .work-index-row:focus-visible {
+  transform: translateX(4px);
+}
+
+.side-nav a,
+#home > .footer-panel .footer-links a {
+  transition-timing-function: cubic-bezier(.22, 1, .36, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #home > .view-panel > .panel-scroll-content {
+    transform: none !important;
+  }
+
+  #home > .work .work-index-row:hover,
+  #home > .work .work-index-row:focus-visible,
+  .hero-cta:hover,
+  .statement-action:hover {
+    transform: none !important;
+  }
+}
+
