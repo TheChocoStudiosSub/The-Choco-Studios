@@ -726,3 +726,41 @@ html.motion-ready .hero-title-line>span{transform:translateY(112%)}
   .motion-enabled .scroll-reveal{opacity:1!important;transform:none!important}
   .hero-title-line>span,.hero-guilloche path{transform:none!important;stroke-dashoffset:0!important}
 }
+
+
+/* Stable editorial flow: the document, not an inner panel, owns scrolling. */
+html, body { overflow-x: clip; }
+body { overflow-y: auto; }
+.site-shell #home {
+  position: relative !important;
+  display: block !important;
+  height: auto !important;
+  min-height: 100vh !important;
+  max-height: none !important;
+  overflow: visible !important;
+  isolation: isolate;
+}
+.site-shell #home > .view-panel {
+  position: relative !important;
+  inset: auto !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  pointer-events: auto !important;
+  scroll-margin-top: 26px;
+}
+.site-shell #home > .hero.view-panel { min-height: 100svh !important; }
+.site-shell #home > .intro.section.view-panel { min-height: 64svh !important; }
+#home > .intro .statement-heading,
+#home > .intro .statement-detail,
+#home > .intro .statement,
+#home > .intro .statement-mask,
+#home > .intro .statement-mask > span {
+  backface-visibility: hidden;
+}
+#home > .intro .statement-mask > span {
+  filter: none;
+  text-shadow: none;
+}
+#luxury-loader.is-dismissed { pointer-events: none !important; }

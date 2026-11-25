@@ -192,13 +192,55 @@ if (!reducedMotion && "IntersectionObserver" in window && workRows.length) {
   workRows.forEach((row) => workFocusObserver.observe(row));
 }
 
-/* Direct links remain normal anchors, including deep links and browser history. */
+/* Same-page navigation must scroll the document, not a legacy inner panel. */
+function getHashTarget(hash) {
+  if (!hash || hash === "#") return null;
+  let id = hash.slice(1);
+  try { id = decodeURIComponent(id); } catch { return null; }
+  return document.getElementById(id);
+}
+
+function scrollToHashTarget(hash, behavior = "auto") {
+  const target = getHashTarget(hash);
+  if (!target) return;
+  window.requestAnimationFrame(() => {
+    target.scrollIntoView({
+      behavior: reducedMotion ? "auto" : behavior,
+      block: "start"
+    });
+    if (target.dataset.panel) setCurrentSection(target.dataset.panel);
+  });
+}
+
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener("click", (event) => {
-    const id = link.getAttribute("href").slice(1);
-    if (!id) return;
-    const target = document.getElementById(id);
+    const destination = new URL(link.href, window.location.href);
+    if (destination.origin !== window.location.origin ||
+        destination.pathname !== window.location.pathname ||
+        !destination.hash) return;
+    const target = getHashTarget(destination.hash);
     if (!target) return;
+
+    event.preventDefault();
+    if (window.location.hash !== destination.hash) {
+      window.history.pushState({ tcsAnchor: true }, "", destination.hash);
+    }
+    scrollToHashTarget(destination.hash, "smooth");
     if (mobileQuery.matches) setMobileMenu(false);
   });
 });
+
+window.addEventListener("hashchange", () => {
+  scrollToHashTarget(window.location.hash, "smooth");
+});
+window.addEventListener("popstate", () => {
+  scrollToHashTarget(window.location.hash, "auto");
+});
+function restoreInitialHashPosition() {
+  if (window.location.hash) scrollToHashTarget(window.location.hash, "auto");
+}
+if (document.readyState === "complete") {
+  window.setTimeout(restoreInitialHashPosition, 80);
+} else {
+  window.addEventListener("load", () => window.setTimeout(restoreInitialHashPosition, 80), { once: true });
+}
