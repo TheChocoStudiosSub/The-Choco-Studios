@@ -85,31 +85,158 @@ if (root) {
     node.textContent = year;
   });
 
-  // The preview is decorative; project links remain usable without it.
-  const workRows = [...document.querySelectorAll("#work .work-index-row[data-preview]")];
-  const preview = document.querySelector("#work .work-preview img");
+  // Floating Selected Work preview. Kept outside the panel so it never
+  // consumes layout space or gets clipped by the panel's own scrolling.
+  const workIndex = document.querySelector("#work .work-index");
+  const cursorPreview = document.querySelector("#work-cursor-preview");
+  const previewTitle = document.querySelector("#work-cursor-preview-title");
+  const previewImages = [
+    document.querySelector("#work-cursor-preview-image-a"),
+    document.querySelector("#work-cursor-preview-image-b")
+  ];
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
+  const compactViewport = window.matchMedia("(max-width: 850px)");
 
-  function updateWorkPreview(row) {
-    if (!row || !preview) return;
-    const source = row.dataset.preview;
-    if (!source || preview.getAttribute("src") === source) return;
+  if (workIndex && cursorPreview && previewTitle && previewImages.every(Boolean)) {
+    let activeRow = null;
+    let pointerX = 0;
+    let pointerY = 0;
+    let animationFrame = 0;
+    let imageRequest = 0;
+    let currentImageIndex = 0;
 
-    const image = new Image();
-    image.onload = () => {
-      preview.src = source;
-      preview.alt = row.dataset.previewAlt || "";
-    };
-    image.onerror = () => {
-      preview.removeAttribute("src");
-      preview.alt = "";
-    };
-    image.src = source;
+    function placePreview() {
+      animationFrame = 0;
+      const bounds = cursorPreview.getBoundingClientRect();
+      const gap = 22;
+      const edge = 14;
+      let x = pointerX + gap;
+      let y = pointerY + 18;
+
+      if (x + bounds.width > window.innerWidth - edge) {
+        x = pointerX - bounds.width - gap;
+      }
+      if (y + bounds.height > window.innerHeight - edge) {
+        y = pointerY - bounds.height - 18;
+      }
+
+      x = Math.max(edge, Math.min(x, window.innerWidth - bounds.width - edge));
+      y = Math.max(edge, Math.min(y, window.innerHeight - bounds.height - edge));
+
+      cursorPreview.style.left = Math.round(x) + "px";
+      cursorPreview.style.top = Math.round(y) + "px";
+    }
+
+    function schedulePosition() {
+      if (!animationFrame) {
+        animationFrame = window.requestAnimationFrame(placePreview);
+      }
+    }
+
+    function hideCursorPreview() {
+      activeRow = null;
+      imageRequest += 1;
+      cursorPreview.classList.remove("is-visible");
+    }
+
+    function showCursorPreview(row, x, y) {
+      if (!row || compactViewport.matches || !finePointer.matches) {
+        hideCursorPreview();
+        return;
+      }
+
+      activeRow = row;
+      pointerX = x;
+      pointerY = y;
+      previewTitle.textContent =
+        row.querySelector(".work-index-title")?.textContent.trim() || "";
+      schedulePosition();
+
+      const source = row.dataset.preview;
+      const alt = row.dataset.previewAlt || "";
+      if (!source) {
+        hideCursorPreview();
+        return;
+      }
+
+      const request = ++imageRequest;
+      const alreadyLoaded = previewImages.find((image) =>
+        image.classList.contains("is-current") &&
+        image.dataset.source === source
+      );
+
+      if (alreadyLoaded) {
+        cursorPreview.classList.add("is-visible");
+        return;
+      }
+
+      const preload = new Image();
+      preload.onload = () => {
+        if (request !== imageRequest || activeRow !== row) return;
+
+        const nextIndex = currentImageIndex === 0 ? 1 : 0;
+        const nextImage = previewImages[nextIndex];
+        nextImage.src = source;
+        nextImage.alt = alt;
+        nextImage.dataset.source = source;
+
+        previewImages[currentImageIndex].classList.remove("is-current");
+        nextImage.classList.add("is-current");
+        currentImageIndex = nextIndex;
+
+        schedulePosition();
+        cursorPreview.classList.add("is-visible");
+      };
+      preload.onerror = () => {
+        if (request === imageRequest && activeRow === row) {
+          cursorPreview.classList.remove("is-visible");
+        }
+      };
+      preload.src = source;
+    }
+
+    workIndex.addEventListener("pointerover", (event) => {
+      if (event.pointerType === "touch") return;
+      const row = event.target.closest(".work-index-row[data-preview]");
+      if (!row || !workIndex.contains(row)) return;
+      if (row === activeRow) return;
+      showCursorPreview(row, event.clientX, event.clientY);
+    });
+
+    workIndex.addEventListener("pointermove", (event) => {
+      if (event.pointerType === "touch" || !activeRow) return;
+      pointerX = event.clientX;
+      pointerY = event.clientY;
+      schedulePosition();
+    });
+
+    workIndex.addEventListener("pointerleave", hideCursorPreview);
+
+    workIndex.addEventListener("focusin", (event) => {
+      const row = event.target.closest(".work-index-row[data-preview]");
+      if (!row) return;
+      const rect = row.getBoundingClientRect();
+      showCursorPreview(
+        row,
+        Math.min(rect.right + 16, window.innerWidth - 16),
+        rect.top + rect.height / 2
+      );
+    });
+
+    workIndex.addEventListener("focusout", (event) => {
+      if (!workIndex.contains(event.relatedTarget)) hideCursorPreview();
+    });
+
+    workIndex.addEventListener("click", hideCursorPreview);
+    window.addEventListener("blur", hideCursorPreview);
+
+    const handleViewportChange = () => hideCursorPreview();
+    if (typeof compactViewport.addEventListener === "function") {
+      compactViewport.addEventListener("change", handleViewportChange);
+      finePointer.addEventListener("change", handleViewportChange);
+    } else {
+      compactViewport.addListener(handleViewportChange);
+      finePointer.addListener(handleViewportChange);
+    }
   }
-
-  workRows.forEach((row) => {
-    row.addEventListener("pointerenter", () => updateWorkPreview(row));
-    row.addEventListener("focus", () => updateWorkPreview(row));
-  });
-
-  if (workRows.length) updateWorkPreview(workRows[0]);
 }
