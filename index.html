@@ -19,6 +19,16 @@
 </head>
 <body>
 
+<div class="tcs-intro-loader" id="tcs-intro-loader" aria-hidden="true">
+  <div class="tcs-intro-loader__curtain tcs-intro-loader__curtain--top"></div>
+  <div class="tcs-intro-loader__curtain tcs-intro-loader__curtain--bottom"></div>
+  <div class="tcs-intro-loader__content">
+    <img class="tcs-intro-loader__logo" src="/the-choco-studios-logo.png?v=5" alt="" width="48" height="48" fetchpriority="high">
+    <div class="tcs-intro-loader__counter"><span data-intro-count>0</span><span aria-hidden="true">%</span></div>
+    <div class="tcs-intro-loader__track"><span data-intro-progress></span></div>
+  </div>
+</div>
+
 <div class="site-shell">
 <button id="tcs-menu-toggle" class="tcs-menu-toggle" type="button" aria-label="Buka navigasi" aria-expanded="false" aria-controls="tcs-sidebar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="5" cy="12" r="1.55" fill="currentColor"/><circle cx="12" cy="12" r="1.55" fill="currentColor"/><circle cx="19" cy="12" r="1.55" fill="currentColor"/></svg></button>
 <aside id="tcs-sidebar" class="sidebar" aria-label="Navigasi utama">
@@ -92,6 +102,36 @@
   </div>
   <div class="work-cursor-preview-foot"><span class="work-cursor-preview-title" id="work-cursor-preview-title"></span><span class="work-cursor-preview-arrow" aria-hidden="true">↗</span></div>
 </div>
+
+<script>
+(() => {
+  const loader = document.querySelector("#tcs-intro-loader");
+  if (!loader) return;
+
+  const shell = document.querySelector(".site-shell");
+  const counter = loader.querySelector("[data-intro-count]");
+  const progress = loader.querySelector("[data-intro-progress]");
+  let completed = false;
+
+  const finish = () => {
+    if (completed) return;
+    completed = true;
+
+    if (counter) counter.textContent = "100";
+    if (progress) progress.style.transform = "scaleX(1)";
+    shell?.removeAttribute("inert");
+    loader.classList.add("is-opening");
+
+    window.setTimeout(() => {
+      loader.hidden = true;
+    }, 1080);
+  };
+
+  shell?.setAttribute("inert", "");
+  window.__tcsIntroFailSafe = finish;
+  window.setTimeout(finish, 5500);
+})();
+</script>
 
 <script defer src="/tcs-analytics.js" data-site="tcs-official"></script>
 <script defer src="/tcs-shell.js?v=20261125-clean"></script>
