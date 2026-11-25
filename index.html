@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/src/style.css">
-<link rel="stylesheet" href="/src/css/editorial-scroll.css?v=20261125-flowfix">
+<link rel="stylesheet" href="/tcs-panel-experience.css?v=20261125-panel-ui">
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://thechocostudios.bond/#organization","name":"The Choco Studios","alternateName":["TCS","The Choco Studios (TCS)"],"url":"https://thechocostudios.bond/","description":"Studio kreatif independen multisektor yang didirikan, dimiliki, dan dikelola secara mandiri oleh Hasby Prasetya Saprudin. TCS berfokus pada open-source, teknologi terapan, dokumentasi, pemeliharaan proyek, dan kolaborasi lintas bidang.","logo":"https://thechocostudios.bond/the-choco-studios-logo.png?v=5","foundingDate":"2023-12-12","founder":{"@id":"https://thechocostudios.bond/#founder"},"email":"thechocostudios@gmail.com","sameAs":["https://www.instagram.com/thechocostudios/","https://www.facebook.com/profile.php?id=61595874702628","https://github.com/TheChocoStudiosSub"]},{"@type":"Person","@id":"https://thechocostudios.bond/#founder","name":"Hasby Prasetya Saprudin","url":"https://thechocostudios.bond/about/hasby-prasetya-saprudin/","description":"Pendiri, pemilik, dan pengelola The Choco Studios (TCS), studio independen multisektor dari Indonesia.","sameAs":["https://www.linkedin.com/in/hasby-prasetya-tcs/"],"jobTitle":"Founder and Owner","owns":{"@id":"https://thechocostudios.bond/#organization"},"foundingOrganization":{"@id":"https://thechocostudios.bond/#organization"},"worksFor":{"@id":"https://thechocostudios.bond/#organization"}},{"@type":"WebSite","@id":"https://thechocostudios.bond/#website","url":"https://thechocostudios.bond/","name":"The Choco Studios","inLanguage":"id-ID","publisher":{"@id":"https://thechocostudios.bond/#organization"}},{"@type":"WebPage","@id":"https://thechocostudios.bond/#webpage","url":"https://thechocostudios.bond/","name":"The Choco Studios (TCS) — Studio Kreatif Independen Multisektor","isPartOf":{"@id":"https://thechocostudios.bond/#website"},"about":{"@id":"https://thechocostudios.bond/#organization"},"inLanguage":"id-ID"}]}</script>
   
 </head>
@@ -37,7 +37,7 @@
  </div>
 </template>
 <div class="site-shell">
-<button id="tcs-menu-toggle" class="tcs-menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="tcs-sidebar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+<button id="tcs-menu-toggle" class="tcs-menu-toggle" type="button" aria-label="Buka navigasi" aria-expanded="false" aria-controls="tcs-sidebar"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="5" cy="12" r="1.55" fill="currentColor"/><circle cx="12" cy="12" r="1.55" fill="currentColor"/><circle cx="19" cy="12" r="1.55" fill="currentColor"/></svg></button>
 <aside id="tcs-sidebar" class="sidebar" aria-label="Navigasi utama">
 <a class="sidebar-brand" href="#home" data-panel-link="home"><img src="/the-choco-studios-logo.png?v=5" alt="Logo resmi The Choco Studios" width="48" height="48"><span><strong>THE CHOCO STUDIOS</strong><small>INDEPENDENT MULTISECTOR STUDIO</small></span></a>
 <div class="sidebar-caption">NAVIGATION</div><nav class="side-nav" aria-label="Main navigation">
@@ -51,7 +51,7 @@
 <div class="sidebar-bottom">
 <span>© <span id="year"></span> THE CHOCO STUDIOS</span></div></aside>
 <button id="tcs-menu-backdrop" class="tcs-menu-backdrop" type="button" aria-label="Tutup menu" hidden></button>
-<main id="home">
+<main id="home" aria-label="Konten The Choco Studios">
 <!-- TCS_HERO_COMPONENT -->
 <section class="intro section view-panel" id="studio" data-panel="studio" aria-labelledby="statement-title">
   <div class="statement-layout">
@@ -101,6 +101,7 @@
 
 </div>
 
+<script defer src="/tcs-shell.js?v=20261125-panel-ui"></script>
 <script defer src="/tcs-analytics.js" data-site="tcs-official"></script>
-<script type="module" src="/src/main.js?v=20261125-flowfix"></script>
+<script type="module" src="/src/main.js?v=20261125-panel-ui"></script>
 </body></html>
