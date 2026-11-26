@@ -1153,7 +1153,6 @@ h1, h2, h3, p { overflow-wrap: anywhere; }
   transition-delay: 0s;
 }
 
-.work-cursor-preview-head,
 .work-cursor-preview-foot {
   display: flex;
   min-width: 0;
