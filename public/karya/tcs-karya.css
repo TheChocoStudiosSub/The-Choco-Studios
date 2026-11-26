@@ -29,8 +29,7 @@
 .karya-main .work-card{position:relative;display:flex;min-width:0;min-height:302px;flex-direction:column;padding:21px;border:1px solid rgba(130,100,73,.23);background:linear-gradient(145deg,rgba(255,252,244,.73),rgba(231,220,202,.46));box-shadow:0 10px 30px rgba(68,50,33,.035);transition:border-color 220ms ease,transform 220ms ease,box-shadow 220ms ease}
 .karya-main .work-card:hover{transform:translateY(-3px);border-color:rgba(146,90,66,.44);box-shadow:0 17px 36px rgba(68,50,33,.08)}
 .karya-main .work-card[hidden]{display:none}
-.karya-main .card-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
-.karya-main .card-type{color:var(--brass);font:500 8px/1.5 var(--mono);letter-spacing:.09em}
+.karya-main .card-top{display:flex;align-items:center;justify-content:flex-end;gap:12px}
 .karya-main .mark{display:grid;width:43px;height:43px;flex:0 0 43px;place-items:center;border:1px solid rgba(143,112,75,.24);background:rgba(224,209,186,.36);color:var(--accent);font:500 19px/1 var(--display)}
 .karya-main .mark img{width:28px;height:28px;object-fit:contain}
 .karya-main .status{margin-top:21px;color:var(--muted-light);font:500 7px/1.5 var(--mono);letter-spacing:.1em}
