@@ -422,18 +422,6 @@ h1, h2, h3, p { overflow-wrap: anywhere; }
   font-weight: 750;
 }
 
-.statement-signature {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 9px 20px;
-  margin-top: 23px;
-  padding-top: 15px;
-  border-top: 1px solid var(--line);
-  color: var(--brass);
-  font: 500 7px/1.5 var(--mono);
-  letter-spacing: .12em;
-}
-
 .statement-actions {
   display: flex;
   flex-wrap: wrap;
