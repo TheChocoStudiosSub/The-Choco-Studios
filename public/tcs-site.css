@@ -559,16 +559,6 @@ h1, h2, h3, p { overflow-wrap: anywhere; }
   letter-spacing: -.035em;
 }
 
-#home > .work .section-double-rule {
-  display: block;
-  width: 114px;
-  height: 1px;
-  margin: 17px 0;
-  background: var(--accent);
-}
-
-#home > .work .section-double-rule span { display: none; }
-
 #home > .work .work-intro {
   max-width: 480px;
   margin: 0;
@@ -1170,13 +1160,6 @@ h1, h2, h3, p { overflow-wrap: anywhere; }
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-}
-
-.work-cursor-preview-head {
-  min-height: 17px;
-  color: var(--muted-light);
-  font: 500 7px/1.4 var(--mono);
-  letter-spacing: .12em;
 }
 
 .work-cursor-preview-index {
