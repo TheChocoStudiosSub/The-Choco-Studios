@@ -1,13 +1,98 @@
 (() => {
 'use strict';
-const KEY='tcs-site-language-v1',MAP={"Home":{"id":"Beranda","en":"Home","zh":"首页"},"Beranda":{"id":"Beranda","en":"Home","zh":"首页"},"Statement":{"id":"Pernyataan","en":"Statement","zh":"理念"},"Work index":{"id":"Indeks karya","en":"Work index","zh":"作品索引"},"Tentang TCS":{"id":"Tentang TCS","en":"About TCS","zh":"关于 TCS"},"Founder":{"id":"Pendiri","en":"Founder","zh":"创办人"},"Principles":{"id":"Prinsip","en":"Principles","zh":"原则"},"Contact":{"id":"Kontak","en":"Contact","zh":"联系"},"NAVIGATION":{"id":"NAVIGASI","en":"NAVIGATION","zh":"导航"},"INDEPENDENT MULTISECTOR STUDIO":{"id":"STUDIO INDEPENDEN MULTISEKTOR","en":"INDEPENDENT MULTISECTOR STUDIO","zh":"独立多领域工作室"},"Kami membangun hal yang":{"id":"Kami membangun hal yang","en":"We build what","zh":"我们打造有"},"berarti.":{"id":"berarti.","en":"matters.","zh":"意义的作品。"},"The Choco Studios adalah studio independen yang dipimpin langsung oleh pendirinya. Kami berangkat dari keyakinan bahwa teknologi dan kreativitas seharusnya memberi manfaat nyata, dapat dipahami, dan bisa terus dikembangkan.":{"id":"The Choco Studios adalah studio independen yang dipimpin langsung oleh pendirinya. Kami berangkat dari keyakinan bahwa teknologi dan kreativitas seharusnya memberi manfaat nyata, dapat dipahami, dan bisa terus dikembangkan.","en":"The Choco Studios is an independent studio led directly by its founder. We believe technology and creativity should deliver practical value, remain understandable, and keep evolving.","zh":"The Choco Studios 是一家由创办人直接领导的独立工作室。我们相信，技术与创意应带来实际价值、易于理解，并能够持续发展。"},"Kami menempatkan":{"id":"Kami menempatkan","en":"We place","zh":"我们将"},"sebagai arah utama: berbagi kode, membuka ruang kontribusi, dan membangun karya yang dapat dipelajari serta dikembangkan bersama. Di saat yang sama, TCS tetap mengerjakan teknologi terapan dan karya lintas bidang sesuai kebutuhan dan kemampuan yang dimiliki.":{"id":"sebagai arah utama: berbagi kode, membuka ruang kontribusi, dan membangun karya yang dapat dipelajari serta dikembangkan bersama. Di saat yang sama, TCS tetap mengerjakan teknologi terapan dan karya lintas bidang sesuai kebutuhan dan kemampuan yang dimiliki.","en":"open source at the centre of our direction: sharing code, welcoming contributions, and building work that can be studied and improved together. TCS also develops applied technology and cross-disciplinary work according to its needs and capabilities.","zh":"开源是我们的核心方向：共享代码、开放贡献空间，并打造可供学习与共同改进的作品。同时，TCS 也根据自身需求与能力开发应用技术及跨领域作品。"},"Setiap karya dikelola secara mandiri dengan perhatian pada kegunaan, kualitas, keberlanjutan, dan tanggung jawab. Kami tumbuh melalui proses yang terbuka, keputusan yang terukur, serta kolaborasi yang menghormati identitas dan kontribusi setiap pihak.":{"id":"Setiap karya dikelola secara mandiri dengan perhatian pada kegunaan, kualitas, keberlanjutan, dan tanggung jawab. Kami tumbuh melalui proses yang terbuka, keputusan yang terukur, serta kolaborasi yang menghormati identitas dan kontribusi setiap pihak.","en":"Every project is independently managed with attention to usefulness, quality, sustainability, and responsibility. We grow through open processes, measured decisions, and collaboration that respects each party's identity and contribution.","zh":"每项作品均独立管理，并重视实用性、质量、可持续性与责任。我们通过开放流程、审慎决策，以及尊重各方身份与贡献的合作不断成长。"},"Pusat Informasi":{"id":"Pusat Informasi","en":"Information Centre","zh":"信息中心"},"Jelajahi Karya TCS":{"id":"Jelajahi Karya TCS","en":"Explore TCS Work","zh":"探索 TCS 作品"},"An independent practice,":{"id":"Praktik independen,","en":"An independent practice,","zh":"独立实践，"},"led by its founder.":{"id":"dipimpin oleh pendirinya.","en":"led by its founder.","zh":"由创办人领导。"},"Selected work.":{"id":"Karya pilihan.","en":"Selected work.","zh":"精选作品。"},"Karya dan identitas dengan fokus berbeda, berkembang dalam ekosistem yang terhubung.":{"id":"Karya dan identitas dengan fokus berbeda, berkembang dalam ekosistem yang terhubung.","en":"Distinct work and identities with different focuses, growing within a connected ecosystem.","zh":"不同方向与身份的作品，在相互连接的生态系统中共同发展。"},"Open by intent":{"id":"Terbuka dengan tujuan","en":"Open by intent","zh":"以明确目标开放"},"Proyek yang ditetapkan open-source memiliki lisensi, dokumentasi, dan ruang kontribusi yang jelas.":{"id":"Proyek yang ditetapkan open-source memiliki lisensi, dokumentasi, dan ruang kontribusi yang jelas.","en":"Projects designated as open source have clear licences, documentation, and contribution pathways.","zh":"被指定为开源的项目均具有明确的许可证、文档与贡献渠道。"},"Integrity in practice":{"id":"Integritas dalam praktik","en":"Integrity in practice","zh":"践行诚信"},"Respect and stewardship":{"id":"Menghormati dan menjaga","en":"Respect and stewardship","zh":"尊重与维护"},"Karya TCS":{"id":"Karya TCS","en":"TCS Work","zh":"TCS 作品"},"Kontak":{"id":"Kontak","en":"Contact","zh":"联系"},"Tentang The Choco Studios":{"id":"Tentang The Choco Studios","en":"About The Choco Studios","zh":"关于 The Choco Studios"},"Identitas yang jelas.":{"id":"Identitas yang jelas.","en":"A clear identity.","zh":"清晰的身份。"},"Pengelolaan yang bertanggung jawab.":{"id":"Pengelolaan yang bertanggung jawab.","en":"Responsible stewardship.","zh":"负责任的管理。"},"Jelajahi koleksi":{"id":"Jelajahi koleksi","en":"Explore the collection","zh":"浏览作品集"},"Pendiri":{"id":"Pendiri","en":"Founder","zh":"创办人"},"Nama The Choco Studios dan singkatan TCS merujuk pada studio independen yang sama.":{"id":"Nama The Choco Studios dan singkatan TCS merujuk pada studio independen yang sama.","en":"The name The Choco Studios and the abbreviation TCS refer to the same independent studio.","zh":"The Choco Studios 与 TCS 这一简称指的是同一家独立工作室。"},"The Choco Studios":{"id":"The Choco Studios","en":"The Choco Studios","zh":"The Choco Studios"},"© 2026 THE CHOCO STUDIOS":{"id":"© 2026 THE CHOCO STUDIOS","en":"© 2026 THE CHOCO STUDIOS","zh":"© 2026 THE CHOCO STUDIOS"}};
-const src=new WeakMap(),last=new WeakMap(),attrs=new WeakMap(),attrLast=new WeakMap();let lang='id';
-const norm=s=>String(s||'').replace(/\s+/g,' ').trim();
-function skip(n){const p=n.parentElement;return !p||p.closest('script,style,noscript,textarea,input,select,option,code,pre,svg,[data-no-translate],#tcs-global-language');}
-function translate(n){const cur=n.nodeValue||'';if(last.has(n)&&last.get(n)===cur)return;if(last.has(n)&&last.get(n)!==cur)src.set(n,cur);if(!src.has(n))src.set(n,cur);const raw=src.get(n),value=MAP[norm(raw)]?.[lang]||norm(raw);n.nodeValue=(raw.match(/^\s*/)||[''])[0]+value+(raw.match(/\s*$/)||[''])[0];last.set(n,n.nodeValue);}
-function attribute(el,a){const cur=el.getAttribute(a);if(cur===null)return;let s=attrs.get(el)||{},l=attrLast.get(el)||{};if(Object.hasOwn(l,a)&&l[a]!==cur)s[a]=cur;if(!Object.hasOwn(s,a))s[a]=cur;attrs.set(el,s);const v=MAP[norm(s[a])]?.[lang]||norm(s[a]);el.setAttribute(a,v);l[a]=v;attrLast.set(el,l);}
-function scan(root=document.body){const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode())if(!skip(n))translate(n);root.querySelectorAll?.('[placeholder],[aria-label],[title],[alt]').forEach(e=>['placeholder','aria-label','title','alt'].forEach(a=>attribute(e,a)));}
-function set(code){lang=['id','en','zh'].includes(code)?code:'id';try{localStorage.setItem(KEY,lang)}catch{}document.documentElement.lang=lang==='zh'?'zh-CN':lang;const s=document.getElementById('tcs-site-language');if(s)s.value=lang;scan();}
-function init(){if(document.getElementById('tcs-global-language'))return;const box=document.createElement('div');box.id='tcs-global-language';box.innerHTML='<label for="tcs-site-language">Bahasa</label><select id="tcs-site-language" aria-label="Pilih bahasa"><option value="id">ID · Indonesia</option><option value="en">EN · English</option><option value="zh">中文 · Mandarin</option></select>';const style=document.createElement('style');style.textContent='#tcs-global-language{position:fixed;top:15px;right:16px;z-index:99999;display:flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid rgba(135,122,97,.35);border-radius:999px;background:rgba(247,244,237,.96);color:#28251f;box-shadow:0 8px 25px rgba(0,0,0,.14);font:600 11px/1.2 system-ui,sans-serif;backdrop-filter:blur(12px)}#tcs-global-language select{max-width:140px;border:0;outline:0;background:transparent;color:inherit;font:inherit;cursor:pointer}#tcs-global-language option{background:#f7f4ed;color:#28251f}@media(max-width:640px){#tcs-global-language{top:8px;right:8px;padding:6px 8px}#tcs-global-language label{display:none}}';document.head.append(style);document.body.append(box);box.querySelector('select').addEventListener('change',e=>set(e.target.value));let saved='id';try{const v=localStorage.getItem(KEY);if(['id','en','zh'].includes(v))saved=v}catch{}set(saved);new MutationObserver(rs=>rs.forEach(r=>{if(r.type==='characterData'){if(!skip(r.target))translate(r.target)}else if(r.type==='attributes')attribute(r.target,r.attributeName);else r.addedNodes.forEach(n=>{if(n.nodeType===Node.TEXT_NODE){if(!src.has(n))src.set(n,n.nodeValue||'');if(!skip(n))translate(n)}else if(n.nodeType===Node.ELEMENT_NODE)scan(n)})})).observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['placeholder','aria-label','title','alt']});}
+const KEY='tcs-site-language-v1',MAP={
+'Kembali ke situs utama':{id:'Kembali ke situs utama',en:'Back to main site',zh:'返回主页'},
+'OPEN-SOURCE CONTRIBUTION · TCS':{id:'KONTRIBUSI OPEN-SOURCE · TCS',en:'OPEN-SOURCE CONTRIBUTION · TCS',zh:'开源贡献 · TCS'},
+'Berkarya bersama.':{id:'Berkarya bersama.',en:'Build together.',zh:'共同创作。'},
+'Tetap independen.':{id:'Tetap independen.',en:'Stay independent.',zh:'保持独立。'},
+'Proses kontribusi':{id:'Proses kontribusi',en:'Contribution process',zh:'贡献流程'},
+'Ketentuan kontribusi':{id:'Ketentuan kontribusi',en:'Contribution terms',zh:'贡献条款'},
+'Ajukan kontribusi melalui email':{id:'Ajukan kontribusi melalui email',en:'Propose a contribution by email',zh:'通过电子邮件提交贡献建议'},
+'Repositori TCS':{id:'Repositori TCS',en:'TCS repositories',zh:'TCS 代码仓库'},
+'Beranda TCS':{id:'Beranda TCS',en:'TCS Home',zh:'TCS 首页'},
+'Karya TCS':{id:'Karya TCS',en:'TCS Work',zh:'TCS 作品'},
+'Pendiri TCS':{id:'Pendiri TCS',en:'TCS Founder',zh:'TCS 创办人'},
+'Instagram Sheeblink':{id:'Instagram Sheeblink',en:'Sheeblink Instagram',zh:'Sheeblink Instagram'},
+'SITUS RESMI EJI DESIGN':{id:'SITUS RESMI EJI DESIGN',en:'OFFICIAL EJI DESIGN WEBSITE',zh:'EJI DESIGN 官方网站'},
+'CONNECTED INITIATIVE · VISUAL DESIGN':{id:'INISIATIF TERHUBUNG · DESAIN VISUAL',en:'CONNECTED INITIATIVE · VISUAL DESIGN',zh:'关联项目 · 视觉设计'},
+'Eji Design.':{id:'Eji Design.',en:'Eji Design.',zh:'Eji Design。'},
+'Visual with purpose.':{id:'Visual dengan tujuan.',en:'Visual with purpose.',zh:'有目的的视觉设计。'},
+'Kebutuhan visual, satu identitas.':{id:'Kebutuhan visual, satu identitas.',en:'Visual needs, one identity.',zh:'视觉需求，一个品牌身份。'},
+'BAGIAN DARI EKOSISTEM TCS':{id:'BAGIAN DARI EKOSISTEM TCS',en:'PART OF THE TCS ECOSYSTEM',zh:'TCS 生态系统的一部分'},
+'Terhubung, tetap mandiri.':{id:'Terhubung, tetap mandiri.',en:'Connected, yet independent.',zh:'彼此连接，保持独立。'},
+'BUKA EJI DESIGN':{id:'BUKA EJI DESIGN',en:'VISIT EJI DESIGN',zh:'访问 EJI DESIGN'},
+'KEMBALI KE KARYA TCS':{id:'KEMBALI KE KARYA TCS',en:'BACK TO TCS WORK',zh:'返回 TCS 作品'},
+'Kenali':{id:'Kenali',en:'Discover',zh:'了解'},
+'Sheeblink.':{id:'Sheeblink.',en:'Sheeblink.',zh:'Sheeblink。'},
+'01 — TENTANG SHEEBLINK':{id:'01 — TENTANG SHEEBLINK',en:'01 — ABOUT SHEEBLINK',zh:'01 — 关于 SHEEBLINK'},
+'Sentuhan kecil yang membawa arti.':{id:'Sentuhan kecil yang membawa arti.',en:'Small touches that carry meaning.',zh:'承载意义的小小细节。'},
+'02 — VISI':{id:'02 — VISI',en:'02 — VISION',zh:'02 — 愿景'},
+'Visi Sheeblink':{id:'Visi Sheeblink',en:'Sheeblink vision',zh:'Sheeblink 愿景'},
+'03 — MISI':{id:'03 — MISI',en:'03 — MISSION',zh:'03 — 使命'},
+'Misi Sheeblink':{id:'Misi Sheeblink',en:'Sheeblink mission',zh:'Sheeblink 使命'},
+'04 — PENDIRI':{id:'04 — PENDIRI',en:'04 — FOUNDER',zh:'04 — 创办人'},
+'05 — PRODUK DAN PEMESANAN':{id:'05 — PRODUK DAN PEMESANAN',en:'05 — PRODUCTS AND ORDERS',zh:'05 — 产品与订购'},
+'Contoh karya, dibuat berdasarkan pesanan.':{id:'Contoh karya, dibuat berdasarkan pesanan.',en:'Examples of work, made to order.',zh:'作品示例，按订单制作。'},
+'Informasi penting:':{id:'Informasi penting:',en:'Important information:',zh:'重要信息：'},
+'06 — BAGIAN DARI EKOSISTEM TCS':{id:'06 — BAGIAN DARI EKOSISTEM TCS',en:'06 — PART OF THE TCS ECOSYSTEM',zh:'06 — TCS 生态系统的一部分'},
+'Satu ekosistem, identitas yang tetap terjaga.':{id:'Satu ekosistem, identitas yang tetap terjaga.',en:'One ecosystem, distinct identities preserved.',zh:'同一生态系统，保留各自身份。'},
+'07 — KANAL RESMI':{id:'07 — KANAL RESMI',en:'07 — OFFICIAL CHANNEL',zh:'07 — 官方渠道'},
+'Temukan dan hubungi Sheeblink':{id:'Temukan dan hubungi Sheeblink',en:'Find and contact Sheeblink',zh:'查找并联系 Sheeblink'},
+'Kunjungi Instagram @sheeblink':{id:'Kunjungi Instagram @sheeblink',en:'Visit @sheeblink on Instagram',zh:'访问 Instagram @sheeblink'},
+'Ruang lingkup':{id:'Ruang lingkup',en:'Scope',zh:'业务范围'},
+'JELAJAHI KARYA TCS':{id:'JELAJAHI KARYA TCS',en:'EXPLORE TCS WORK',zh:'探索 TCS 作品'},
+'HUBUNGI STUDIO':{id:'HUBUNGI STUDIO',en:'CONTACT THE STUDIO',zh:'联系工作室'},
+'ESTABLISHED 2023 · INDONESIA':{id:'DIDIRIKAN 2023 · INDONESIA',en:'ESTABLISHED 2023 · INDONESIA',zh:'成立于 2023 年 · 印度尼西亚'},
+'01 / INDEPENDENT STEWARDSHIP':{id:'01 / PENGELOLAAN INDEPENDEN',en:'01 / INDEPENDENT STEWARDSHIP',zh:'01 / 独立管理'},
+'Mandiri dalam arah dan tanggung jawab':{id:'Mandiri dalam arah dan tanggung jawab',en:'Independent in direction and responsibility',zh:'在方向与责任上保持独立'},
+'02 / OPEN KNOWLEDGE':{id:'02 / PENGETAHUAN TERBUKA',en:'02 / OPEN KNOWLEDGE',zh:'02 / 开放知识'},
+'Keterbukaan yang dikelola secara cermat':{id:'Keterbukaan yang dikelola secara cermat',en:'Openness managed with care',zh:'审慎管理开放协作'},
+'03 / LONG-TERM PRACTICE':{id:'03 / PRAKTIK JANGKA PANJANG',en:'03 / LONG-TERM PRACTICE',zh:'03 / 长期实践'},
+'Berorientasi pada mutu dan keberlanjutan':{id:'Berorientasi pada mutu dan keberlanjutan',en:'Focused on quality and sustainability',zh:'注重质量与可持续性'},
+'A PRACTICE BUILT OVER TIME':{id:'PRAKTIK YANG DIBANGUN SEIRING WAKTU',en:'A PRACTICE BUILT OVER TIME',zh:'历经时间积累的实践'},
+'Ruang lingkup yang terus berkembang.':{id:'Ruang lingkup yang terus berkembang.',en:'A continually evolving scope.',zh:'不断发展的领域。'},
+'01 · OPEN SOURCE':{id:'01 · OPEN SOURCE',en:'01 · OPEN SOURCE',zh:'01 · 开源'},
+'Perangkat lunak terbuka':{id:'Perangkat lunak terbuka',en:'Open software',zh:'开放软件'},
+'02 · APPLIED TECHNOLOGY':{id:'02 · TEKNOLOGI TERAPAN',en:'02 · APPLIED TECHNOLOGY',zh:'02 · 应用技术'},
+'Teknologi terapan':{id:'Teknologi terapan',en:'Applied technology',zh:'应用技术'},
+'03 · CREATIVE INITIATIVES':{id:'03 · INISIATIF KREATIF',en:'03 · CREATIVE INITIATIVES',zh:'03 · 创意项目'},
+'Karya lintas bidang':{id:'Karya lintas bidang',en:'Cross-disciplinary work',zh:'跨领域作品'},
+'THE STUDIO':{id:'STUDIO',en:'THE STUDIO',zh:'工作室'},
+'Dibangun dengan arah yang jelas.':{id:'Dibangun dengan arah yang jelas.',en:'Built with a clear direction.',zh:'以清晰方向建立。'},
+'CONNECTED INITIATIVES':{id:'INISIATIF TERHUBUNG',en:'CONNECTED INITIATIVES',zh:'关联项目'},
+'Identitas yang berbeda, terhubung dalam satu perjalanan.':{id:'Identitas yang berbeda, terhubung dalam satu perjalanan.',en:'Distinct identities, connected along one journey.',zh:'不同身份，在同一发展道路上相连。'},
+'Vornika+-':{id:'Vornika+-',en:'Vornika+-',zh:'Vornika+-'},
+'Unit pengembangan game TCS':{id:'Unit pengembangan game TCS',en:'TCS game development unit',zh:'TCS 游戏开发部门'},
+'Inisiatif handmade dalam ekosistem TCS':{id:'Inisiatif handmade dalam ekosistem TCS',en:'Handmade initiative in the TCS ecosystem',zh:'TCS 生态系统中的手作项目'},
+'Brand desain visual yang dikelola mandiri oleh Eji':{id:'Brand desain visual yang dikelola mandiri oleh Eji',en:'Visual design brand independently managed by Eji',zh:'由 Eji 独立管理的视觉设计品牌'},
+'Temukan karya yang sedang kami':{id:'Temukan karya yang sedang kami',en:'Discover what we are',zh:'探索我们正在'},
+'kembangkan.':{id:'kembangkan.',en:'developing.',zh:'开发的作品。'},
+'LIHAT SELURUH KARYA':{id:'LIHAT SELURUH KARYA',en:'VIEW ALL WORK',zh:'查看全部作品'},
+'Kembali ke TCS':{id:'Kembali ke TCS',en:'Back to TCS',zh:'返回 TCS'},
+'Kembali ke atas ↑':{id:'Kembali ke atas ↑',en:'Back to top ↑',zh:'返回顶部 ↑'},
+'KUNJUNGI SITUS EJI DESIGN':{id:'KUNJUNGI SITUS EJI DESIGN',en:'VISIT THE EJI DESIGN WEBSITE',zh:'访问 EJI DESIGN 网站'},
+'KUNJUNGI INSTAGRAM SHEEBLINK':{id:'KUNJUNGI INSTAGRAM SHEEBLINK',en:'VISIT SHEEBLINK ON INSTAGRAM',zh:'访问 SHEEBLINK 的 INSTAGRAM'},
+'Kembali ke situs TCS':{id:'Kembali ke situs TCS',en:'Back to TCS website',zh:'返回 TCS 网站'},
+'TCS DEVELOPER TOOLS':{id:'TCS DEVELOPER TOOLS',en:'TCS DEVELOPER TOOLS',zh:'TCS 开发者工具'},
+'FUNGSI UTAMA':{id:'FUNGSI UTAMA',en:'KEY FUNCTIONS',zh:'主要功能'},
+'Pemeriksaan website yang terarah':{id:'Pemeriksaan website yang terarah',en:'Focused website inspection',zh:'针对性网站检查'},
+'Kesehatan tautan dan sumber daya':{id:'Kesehatan tautan dan sumber daya',en:'Link and resource health',zh:'链接与资源状态'},
+'Sinyal kualitas halaman':{id:'Sinyal kualitas halaman',en:'Page quality signals',zh:'页面质量信号'},
+'Ekspor hasil':{id:'Ekspor hasil',en:'Export results',zh:'导出结果'},
+'Riwayat lokal':{id:'Riwayat lokal',en:'Local history',zh:'本地历史记录'},
+'BATAS SAAT INI':{id:'BATAS SAAT INI',en:'CURRENT LIMITS',zh:'当前限制'},
+'Cakupan pemindaian':{id:'Cakupan pemindaian',en:'Scan coverage',zh:'扫描范围'},
+'LISENSI DAN IDENTITAS':{id:'LISENSI DAN IDENTITAS',en:'LICENSING AND IDENTITY',zh:'许可与品牌身份'},
+'Kode dan merek memiliki perlindungan berbeda':{id:'Kode dan merek memiliki perlindungan berbeda',en:'Code and trademarks have different protections',zh:'代码与商标受到不同保护'},
+'HUBUNGI TCS':{id:'HUBUNGI TCS',en:'CONTACT TCS',zh:'联系 TCS'}
+};
+const originals=new WeakMap(),last=new WeakMap(),attrOriginal=new WeakMap(),attrLast=new WeakMap();let language='id';
+const norm=s=>String(s||'').replace(/\\s+/g,' ').trim();
+function excluded(n){const p=n.parentElement;return !p||p.closest('script,style,noscript,textarea,input,select,option,pre,code,svg,[data-no-translate],#tcs-global-language');}
+function translate(n){const cur=n.nodeValue||'';if(last.has(n)&&last.get(n)===cur)return;if(last.has(n)&&last.get(n)!==cur)originals.set(n,cur);if(!originals.has(n))originals.set(n,cur);const raw=originals.get(n),v=MAP[norm(raw)]?.[language]||norm(raw);n.nodeValue=(raw.match(/^\\s*/)||[''])[0]+v+(raw.match(/\\s*$/)||[''])[0];last.set(n,n.nodeValue);}
+function attr(el,a){const cur=el.getAttribute(a);if(cur===null)return;let o=attrOriginal.get(el)||{},l=attrLast.get(el)||{};if(Object.hasOwn(l,a)&&l[a]!==cur)o[a]=cur;if(!Object.hasOwn(o,a))o[a]=cur;attrOriginal.set(el,o);const v=MAP[norm(o[a])]?.[language]||norm(o[a]);el.setAttribute(a,v);l[a]=v;attrLast.set(el,l);}
+function scan(root=document.body){const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode())if(!excluded(n))translate(n);root.querySelectorAll?.('[placeholder],[aria-label],[title],[alt]').forEach(e=>['placeholder','aria-label','title','alt'].forEach(a=>attr(e,a)));}
+function set(code){language=['id','en','zh'].includes(code)?code:'id';try{localStorage.setItem(KEY,language)}catch{}document.documentElement.lang=language==='zh'?'zh-CN':language;const s=document.getElementById('tcs-site-language');if(s)s.value=language;scan();}
+function init(){if(document.getElementById('tcs-global-language'))return;const box=document.createElement('div');box.id='tcs-global-language';box.innerHTML='<label for="tcs-site-language">Bahasa</label><select id="tcs-site-language" aria-label="Pilih bahasa"><option value="id">ID · Indonesia</option><option value="en">EN · English</option><option value="zh">中文 · Mandarin</option></select>';const style=document.createElement('style');style.textContent='#tcs-global-language{position:fixed;top:15px;right:16px;z-index:99999;display:flex;align-items:center;gap:7px;padding:7px 10px;border:1px solid rgba(135,122,97,.35);border-radius:999px;background:rgba(247,244,237,.96);color:#28251f;box-shadow:0 8px 25px rgba(0,0,0,.14);font:600 11px/1.2 system-ui,sans-serif;backdrop-filter:blur(12px)}#tcs-global-language select{max-width:140px;border:0;outline:0;background:transparent;color:inherit;font:inherit;cursor:pointer}#tcs-global-language option{background:#f7f4ed;color:#28251f}@media(max-width:640px){#tcs-global-language{top:8px;right:8px;padding:6px 8px}#tcs-global-language label{display:none}}';document.head.append(style);document.body.append(box);box.querySelector('select').addEventListener('change',e=>set(e.target.value));let saved='id';try{const v=localStorage.getItem(KEY);if(['id','en','zh'].includes(v))saved=v}catch{}set(saved);new MutationObserver(rs=>rs.forEach(r=>{if(r.type==='characterData'){if(!excluded(r.target))translate(r.target)}else if(r.type==='attributes')attr(r.target,r.attributeName);else r.addedNodes.forEach(n=>{if(n.nodeType===Node.TEXT_NODE){if(!originals.has(n))originals.set(n,n.nodeValue||'');if(!excluded(n))translate(n)}else if(n.nodeType===Node.ELEMENT_NODE)scan(n)})})).observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['placeholder','aria-label','title','alt']});}
 if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init,{once:true});else init();
 })();
